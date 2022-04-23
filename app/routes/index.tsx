@@ -21,7 +21,7 @@ export default function Index() {
     <main className="relative min-h-screen flex-col bg-neutral-50 sm:flex sm:items-center sm:justify-center">
       <div className="relative sm:pb-16 sm:pt-8">
         <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
-          <h1 className="text-center text-6xl font-normal italic tracking-tight sm:text-8xl lg:text-9xl">
+          <h1 className="whitespace-nowrap text-center text-6xl font-normal italic tracking-tight sm:text-8xl lg:text-9xl">
             <span>link</span>
             <span className="inline-block translate-y-[0.06em] rotate-heading">
               drop
@@ -33,7 +33,7 @@ export default function Index() {
             <a
               href="https://sthom.kiwi"
               target="_blank"
-              rel="noreferrer noopener"
+              rel="noreferrer nofollow"
               className="text-neutral-600 underline decoration-1 hover:text-neutral-600 hover:no-underline active:bg-neutral-800"
             >
               Stuart Thomson
@@ -73,7 +73,7 @@ export default function Index() {
         <a
           href="https://github.com/s-thom/linkdrop"
           target="_blank"
-          rel="noreferrer noopener"
+          rel="noreferrer nofollow"
           className="py-1 px-2 text-center lowercase text-neutral-400 hover:text-neutral-600 active:text-neutral-800"
         >
           Source code

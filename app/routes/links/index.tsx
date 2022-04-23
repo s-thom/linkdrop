@@ -1,6 +1,7 @@
 import type { LoaderFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
+import LinkDisplay from "~/components/LinkDisplay";
 import { getUserLinksByTags } from "~/models/link.server";
 import { requireUserId } from "~/session.server";
 
@@ -26,15 +27,12 @@ export default function NoteIndexPage() {
   const data = useLoaderData<LoaderData>();
 
   return (
-    <>
-      hello world
-      <ul>
-        {data.links.map((link) => (
-          <li key={link.id}>
-            {link.url}: {link.tags.map((t) => t.name).join(",")}
-          </li>
-        ))}
-      </ul>
-    </>
+    <ul>
+      {data.links.map((link) => (
+        <li key={link.id}>
+          <LinkDisplay link={link} />
+        </li>
+      ))}
+    </ul>
   );
 }

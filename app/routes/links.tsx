@@ -78,15 +78,11 @@ export default function NotesPage() {
       <header className="flex items-center justify-between border-b p-4">
         <nav>
           <h1 className="text-3xl font-bold">
-            <Link to="/" className="font-normal italic">
+            <Link to="/" className="whitespace-nowrap font-normal italic">
               <span>link</span>
               <span className="inline-block translate-y-[0.06em] rotate-heading">
                 drop
               </span>
-            </Link>
-            {" > "}
-            <Link to="." className="font-normal">
-              links
             </Link>
           </h1>
         </nav>
@@ -95,7 +91,7 @@ export default function NotesPage() {
           method="post"
           className="flex items-center gap-4"
         >
-          <p>{user.email}</p>
+          <p className="hidden sm:block">{user.email}</p>
           <button
             type="submit"
             className="border border-black py-2 px-4 text-black hover:bg-neutral-200 active:bg-neutral-400"
@@ -105,7 +101,7 @@ export default function NotesPage() {
         </Form>
       </header>
 
-      <div className="flex h-full bg-white">
+      <div className="flex h-full">
         <aside className="h-full w-80 border-r bg-gray-50">
           <Link to="new" className="block p-4 text-xl text-blue-500">
             + New Note
