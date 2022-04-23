@@ -31,6 +31,13 @@ export const action: ActionFunction = async ({ request }) => {
   const password = formData.get("password");
   const redirectTo = safeRedirect(formData.get("redirectTo"), "/");
 
+  if (process.env.ALLOW_EMAIL_JOIN !== "true") {
+    return json<ActionData>(
+      { errors: { email: "Sign up is not enabled" } },
+      { status: 400 }
+    );
+  }
+
   if (!validateEmail(email)) {
     return json<ActionData>(
       { errors: { email: "Email is invalid" } },
