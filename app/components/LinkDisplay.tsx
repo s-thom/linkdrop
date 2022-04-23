@@ -10,7 +10,7 @@ export interface LinkDisplayProps {
 
 export default function LinkDisplay({ link }: LinkDisplayProps) {
   return (
-    <div className="mb-2 max-w-2xl border bg-white py-2 px-4">
+    <div className="mb-2 max-w-3xl border border-neutral-400 bg-white py-2 px-4">
       <a
         href={link.url}
         target="_blank"
@@ -22,11 +22,11 @@ export default function LinkDisplay({ link }: LinkDisplayProps) {
       {link.description && (
         <p className="mb-2 break-words">{link.description}</p>
       )}
-      <ul className="flex gap-2">
+      <ul className="flex flex-wrap gap-2">
         {link.tags.map((tag) => (
           <li
             key={tag.id}
-            className="inline-block rounded bg-neutral-100 py-0 px-2 text-neutral-600 hover:text-black"
+            className="inline-block rounded border bg-neutral-100 py-0 px-2 text-neutral-600 hover:text-black"
           >
             {tag.name}
           </li>

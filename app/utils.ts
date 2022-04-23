@@ -1,5 +1,5 @@
 import { useMatches } from "@remix-run/react";
-import { useMemo } from "react";
+import { useEffect, useMemo, useRef } from "react";
 
 import type { User } from "~/models/user.server";
 
@@ -68,4 +68,31 @@ export function useUser(): User {
 
 export function validateEmail(email: unknown): email is string {
   return typeof email === "string" && email.length > 3 && email.includes("@");
+}
+
+/**
+ * https://usehooks.com/useMemoCompare/
+ * @param next Next value
+ * @param compare Comparison function
+ */
+export function useMemoCompare<T>(
+  next: T,
+  compare: (prev: T | undefined, next: T) => boolean
+) {
+  // Ref for storing previous value
+  const previousRef = useRef<T>();
+  const previous = previousRef.current;
+  // Pass previous and next value to compare function
+  // to determine whether to consider them equal.
+  const isEqual = compare(previous, next);
+  // If not equal update previousRef to next value.
+  // We only update if not equal so that this hook continues to return
+  // the same old value if compare keeps returning true.
+  useEffect(() => {
+    if (!isEqual) {
+      previousRef.current = next;
+    }
+  });
+  // Finally, if equal then return the previous value
+  return isEqual ? previous! : next;
 }
