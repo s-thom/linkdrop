@@ -141,14 +141,16 @@ export default function LinksIndexPage() {
   );
 
   return (
-    <div className="flex h-full min-h-screen">
-      <aside className="h-full w-80 p-6 pr-0">
+    <div className="flex h-full min-h-screen flex-col md:flex-row md:justify-center">
+      <aside className="p-6 md:h-full md:w-80 md:pr-0">
+        <h3 className="text-xl font-normal lowercase">Search</h3>
         <ul className="flex flex-wrap gap-2">
           {formValues.tags.map((tag) => (
             <button
               key={tag}
               className="inline-block rounded border bg-neutral-100 py-0 px-2 text-neutral-600 hover:text-black"
               onClick={() => removeTag(tag)}
+              aria-label={`Remove tag: ${tag}`}
             >
               {tag}
             </button>
@@ -175,6 +177,7 @@ export default function LinksIndexPage() {
                 key={tag.id}
                 className="inline-block rounded border bg-neutral-100 py-0 px-2 text-neutral-600 hover:text-black"
                 onClick={() => addTag(tag.name)}
+                aria-label={`Add tag: ${tag.name}`}
               >
                 {tag.name}
               </button>
@@ -182,7 +185,7 @@ export default function LinksIndexPage() {
         </ul>
       </aside>
 
-      <main className="flex-1 p-6">
+      <main className="flex-1 p-6 md:max-w-xl lg:max-w-2xl">
         <ul>
           {data.links.map((link) => (
             <li key={link.id}>
