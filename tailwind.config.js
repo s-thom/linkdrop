@@ -1,7 +1,11 @@
 module.exports = {
   content: ["./app/**/*.{ts,tsx,jsx,js}"],
   theme: {
-    extend: {},
+    extend: {
+      rotate: {
+        heading: "5deg",
+      },
+    },
   },
   plugins: [],
 };
