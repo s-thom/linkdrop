@@ -26,8 +26,12 @@ FROM "Link" l
   JOIN "_LinkToTag" ltt ON ltt."A" = l.id 
   JOIN "Tag" t ON t.id = ltt."B" 
 WHERE
-  l."userId" = ${userId} AND
-  t."name" IN (${Prisma.join(tags)})
+  l."userId" = ${userId} 
+  ${Prisma.sql`AND ${
+    tags.length
+      ? Prisma.sql`t."name" IN (${Prisma.join(tags)})`
+      : Prisma.sql`true`
+  }`}
 GROUP BY l.id
 ORDER BY tag_count DESC, l."createdAt" DESC
 LIMIT ${Math.max(limit, LINK_QUERY_RESULTS_LIMIT)}
