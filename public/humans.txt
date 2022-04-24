@@ -1,0 +1,11 @@
+/* TEAM */
+Creator: Stuart Thomson
+Site: https://sthom.kiwi
+GitHub: https://github.com/s-thom
+Location: New Zealand
+
+/* Site */
+Remix JS
+Tailwind CSS
+Prisma ORM
+PostgreSQL DB

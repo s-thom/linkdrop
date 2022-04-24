@@ -18,13 +18,62 @@ import tailwindStylesheetUrl from "./styles/tailwind.css";
 import { getUser } from "./session.server";
 
 export const links: LinksFunction = () => {
-  return [{ rel: "stylesheet", href: tailwindStylesheetUrl }];
+  return [
+    { rel: "stylesheet", href: tailwindStylesheetUrl },
+    { rel: "manifest", href: "/manifest.json" },
+    { rel: "author", type: "text/plain", href: "/humans.txt" },
+    {
+      rel: "icon",
+      type: "image/png",
+      href: "/images/icons/icon-512x512.png",
+      sizes: "512x512",
+    },
+    {
+      rel: "icon",
+      type: "image/png",
+      href: "/images/icons/icon-192x192.png",
+      sizes: "192x192",
+    },
+    {
+      rel: "icon",
+      type: "image/png",
+      href: "/images/icons/icon-128x128.png",
+      sizes: "128x128",
+    },
+    {
+      rel: "icon",
+      type: "image/png",
+      href: "/images/icons/icon-96x96.png",
+      sizes: "96x96",
+    },
+    {
+      rel: "apple-touch-icon-precomposed",
+      type: "image/png",
+      href: "/images/icons/icon-152x152.png",
+      sizes: "152x152",
+    },
+    {
+      rel: "apple-touch-icon-precomposed",
+      type: "image/png",
+      href: "/images/icons/icon-144x144.png",
+      sizes: "144x144",
+    },
+    {
+      rel: "apple-touch-icon-precomposed",
+      type: "image/png",
+      href: "/images/icons/icon-72x72.png",
+      sizes: "72x72",
+    },
+  ];
 };
 
 export const meta: MetaFunction = () => ({
   charset: "utf-8",
-  title: "Remix Notes",
+  title: "linkdrop",
+  description:
+    "An application to drop interesting links from around the internet.",
   viewport: "width=device-width,initial-scale=1",
+  "application-name": "linkdrop",
 });
 
 type LoaderData = {
