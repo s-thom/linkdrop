@@ -8,7 +8,7 @@ export default function Index() {
           href="https://sthom.kiwi"
           target="_blank"
           rel="noreferrer nofollow"
-          className="text-neutral-600 underline decoration-1 hover:text-neutral-600 hover:no-underline active:bg-neutral-800"
+          className="text-neutral-600 underline decoration-1 hover:text-neutral-600 hover:no-underline active:text-neutral-800"
         >
           Stuart Thomson
         </a>

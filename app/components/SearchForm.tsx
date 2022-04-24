@@ -41,7 +41,6 @@ export default function SearchForm({ commonTags }: SearchFormProps) {
       </label>
       {commonTags.length && (
         <>
-          <hr />
           <h3 className="text-xl font-normal lowercase">Common tags</h3>
           <ul className="flex flex-wrap gap-2 py-2">
             {commonTags

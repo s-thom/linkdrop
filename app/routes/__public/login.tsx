@@ -1,34 +1,10 @@
-import type {
-  ActionFunction,
-  LoaderFunction,
-  MetaFunction,
-} from "@remix-run/node";
-import { json, redirect } from "@remix-run/node";
-import {
-  Form,
-  Link,
-  useActionData,
-  useLoaderData,
-  useSearchParams,
-} from "@remix-run/react";
+import type { ActionFunction, MetaFunction } from "@remix-run/node";
+import { json } from "@remix-run/node";
+import { Form, useActionData, useSearchParams } from "@remix-run/react";
 import * as React from "react";
-
-import { createUserSession, getUserId } from "~/session.server";
 import { verifyLogin } from "~/models/user.server";
+import { createUserSession } from "~/session.server";
 import { safeRedirect, validateEmail } from "~/utils";
-
-type LoaderData = {
-  allowSignUp: boolean;
-};
-
-export const loader: LoaderFunction = async ({ request }) => {
-  const userId = await getUserId(request);
-  if (userId) return redirect("/");
-
-  const allowSignUp = process.env.ALLOW_EMAIL_JOIN === "true";
-
-  return json<LoaderData>({ allowSignUp });
-};
 
 interface ActionData {
   errors?: {
@@ -89,7 +65,6 @@ export const meta: MetaFunction = () => {
 };
 
 export default function LoginPage() {
-  const data = useLoaderData<LoaderData>();
   const [searchParams] = useSearchParams();
   const redirectTo = searchParams.get("redirectTo") || "/links";
   const actionData = useActionData() as ActionData;
@@ -110,7 +85,7 @@ export default function LoginPage() {
         <div>
           <label
             htmlFor="email"
-            className="block text-sm font-medium text-gray-700"
+            className="block text-sm font-medium lowercase text-gray-700"
           >
             Email address
           </label>
@@ -138,7 +113,7 @@ export default function LoginPage() {
         <div>
           <label
             htmlFor="password"
-            className="block text-sm font-medium text-gray-700"
+            className="block text-sm font-medium lowercase text-gray-700"
           >
             Password
           </label>
@@ -164,7 +139,7 @@ export default function LoginPage() {
         <input type="hidden" name="redirectTo" value={redirectTo} />
         <button
           type="submit"
-          className="w-full border border-black py-2 px-4 text-black hover:bg-neutral-200 active:bg-neutral-400"
+          className="w-full border border-black py-2 px-4 lowercase text-black hover:bg-neutral-200 active:bg-neutral-400"
         >
           Log in
         </button>
@@ -178,25 +153,11 @@ export default function LoginPage() {
             />
             <label
               htmlFor="remember"
-              className="ml-2 block text-sm text-gray-900"
+              className="ml-2 block text-sm lowercase text-gray-900"
             >
               Remember me
             </label>
           </div>
-          {data.allowSignUp && (
-            <div className="text-center text-sm text-gray-500">
-              Don't have an account?{" "}
-              <Link
-                className="text-blue-500 underline"
-                to={{
-                  pathname: "/join",
-                  search: searchParams.toString(),
-                }}
-              >
-                Sign up
-              </Link>
-            </div>
-          )}
         </div>
       </Form>
     </div>

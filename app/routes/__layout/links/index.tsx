@@ -1,6 +1,6 @@
 import type { LoaderFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
+import { Link, useLoaderData } from "@remix-run/react";
 import React from "react";
 import LinkDisplay from "~/components/LinkDisplay";
 import SearchForm from "~/components/SearchForm";
@@ -43,13 +43,31 @@ export default function LinksIndexPage() {
       </aside>
 
       <main className="flex-1 p-6 md:max-w-xl lg:max-w-2xl">
-        <ul>
-          {data.links.map((link) => (
-            <li key={link.id}>
-              <LinkDisplay link={link} />
-            </li>
-          ))}
-        </ul>
+        {data.links.length ? (
+          <ul>
+            {data.links.map((link) => (
+              <li key={link.id}>
+                <LinkDisplay link={link} />
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <div>
+            <p className="mx-auto max-w-lg text-center text-xl lowercase sm:max-w-3xl">
+              You haven't added any links yet.
+            </p>
+            <p className="mx-auto max-w-lg text-center text-xl lowercase sm:max-w-3xl">
+              Click the{" "}
+              <Link
+                to="/links/new"
+                className="text-neutral-600 underline decoration-1 hover:text-neutral-600 hover:no-underline active:text-neutral-800"
+              >
+                New link
+              </Link>{" "}
+              link above to get started.
+            </p>
+          </div>
+        )}
       </main>
     </div>
   );
