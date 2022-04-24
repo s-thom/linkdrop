@@ -63,6 +63,15 @@ export async function getUserLinksByTags({
   return links.sort((a, b) => linkIds.indexOf(a.id) - linkIds.indexOf(b.id));
 }
 
+export function getSingleLink({ id }: { id: Link["id"] }) {
+  return prisma.link.findFirst({
+    include: { tags: true },
+    where: {
+      id,
+    },
+  });
+}
+
 export function createLink({
   url,
   description,
