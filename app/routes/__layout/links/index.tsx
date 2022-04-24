@@ -23,7 +23,7 @@ export const loader: LoaderFunction = async ({ request }) => {
   const { tags } = searchParamsToFormValues(url.searchParams);
 
   const [commonTags, links] = await Promise.all([
-    getUserCommonTags({ userId }),
+    getUserCommonTags({ userId, exclude: tags }),
     getUserLinksByTags({ userId, tags }),
   ]);
 

@@ -1,11 +1,15 @@
 import type { ActionFunction, LoaderFunction } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
-import { Form, useActionData, useLoaderData } from "@remix-run/react";
-import React, { useCallback, useMemo, useState } from "react";
+import { Form, useActionData, useFetcher } from "@remix-run/react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { createLink } from "~/models/link.server";
 import { getUserCommonTags } from "~/models/tag.server";
 import { requireUserId } from "~/session.server";
 import { decodeStringArray, encodeStringArray } from "~/util/stringArray";
+import {
+  formValuesToSearchParams,
+  searchParamsToFormValues,
+} from "~/util/useSearchFormState";
 import { useTagsInput } from "~/util/useTagsInput";
 
 export const handle = { hydrate: true };
@@ -23,7 +27,10 @@ type LoaderData = {
 export const loader: LoaderFunction = async ({ request }) => {
   const userId = await requireUserId(request);
 
-  const commonTags = await getUserCommonTags({ userId });
+  const url = new URL(request.url);
+  const { tags } = searchParamsToFormValues(url.searchParams);
+
+  const commonTags = await getUserCommonTags({ userId, exclude: tags });
 
   return json<LoaderData>({
     commonTags: commonTags.map((tag) => tag.name),
@@ -81,7 +88,7 @@ export const action: ActionFunction = async ({ request }) => {
 };
 
 export default function NewLinkPage() {
-  const data = useLoaderData<LoaderData>();
+  const fetcher = useFetcher<LoaderData>();
 
   // #region Focus on error
   const actionData = useActionData() as ActionData;
@@ -99,6 +106,15 @@ export default function NewLinkPage() {
   const [descriptionValue, setDescriptionValue] = useState("");
   const [tagsValue, setTagsValue] = useState<string[]>([]);
 
+  useEffect(() => {
+    fetcher.load(
+      `/links/new?${formValuesToSearchParams({ tags: tagsValue }).toString()}`
+    );
+    // The eslint rule wants `fetcher` to be in the deps array.
+    // This causes an infinite fetch loop.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [fetcher.load, tagsValue]);
+
   const addTag = useCallback((tag: string) => {
     setTagsValue((prev) => {
       if (!tag || prev.includes(tag)) {
@@ -112,8 +128,9 @@ export default function NewLinkPage() {
   }, []);
 
   const remainingCommonTags = useMemo(
-    () => data.commonTags.filter((tag) => !tagsValue.includes(tag)),
-    [data.commonTags, tagsValue]
+    () =>
+      fetcher.data?.commonTags.filter((tag) => !tagsValue.includes(tag)) ?? [],
+    [fetcher.data, tagsValue]
   );
   // #endregion
 
