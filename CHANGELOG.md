@@ -5,7 +5,27 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+<!--
+### Added
+### Changed
+### Deprecated
+### Removed
+### Fixed
+### Security
+-->
+
 ## [Unreleased](https://github.com/s-thom/linkdrop/compare/v1.0.0...HEAD)
+
+### Changed
+
+- Tag suggestions update with new tags as you add tags.
+- Tag inputs are no longer capitalised on software keyboards (such as mobile).
+
+### Fixed
+
+- Any left-over input in the Add link's tag input is treated properly.
+  - This fixes an issue where you could add invalid tags by submitting the form with an invalid value in the input.
+- Removed "0" appearing in the common tags of the search form when using the app for the first time.
 
 ## [1.0.0](https://github.com/s-thom/linkdrop/releases/tag/v1.0.0) - 2022-04-24
 

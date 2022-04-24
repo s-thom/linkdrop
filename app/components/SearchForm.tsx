@@ -39,7 +39,7 @@ export default function SearchForm({ commonTags }: SearchFormProps) {
         <span className="sr-only">Enter tags</span>
         {input}
       </label>
-      {commonTags.length && (
+      {commonTags.length ? (
         <>
           <h3 className="text-xl font-normal lowercase">Common tags</h3>
           <ul className="flex flex-wrap gap-2 py-2">
@@ -58,7 +58,7 @@ export default function SearchForm({ commonTags }: SearchFormProps) {
               ))}
           </ul>
         </>
-      )}
+      ) : null}
     </div>
   );
 }
