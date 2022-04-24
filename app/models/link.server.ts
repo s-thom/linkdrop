@@ -1,4 +1,4 @@
-import type { Link, User } from "@prisma/client";
+import type { Link, Tag, User } from "@prisma/client";
 import { Prisma } from "@prisma/client";
 import { prisma } from "~/db.server";
 
@@ -72,13 +72,29 @@ export function getSingleLink({ id }: { id: Link["id"] }) {
   });
 }
 
-export function createLink({
+export async function createLink({
   url,
   description,
   userId,
+  tags,
 }: Pick<Link, "url" | "description"> & {
   userId: User["id"];
+  tags: string[];
 }) {
+  const tagModels = await prisma.tag.findMany({
+    where: {
+      name: { in: tags },
+      userId: { equals: userId },
+    },
+  });
+  const tagMap = tagModels.reduce<Record<string, Tag | undefined>>(
+    (map, tag) => {
+      map[tag.name] = tag;
+      return map;
+    },
+    {}
+  );
+
   return prisma.link.create({
     data: {
       url,
@@ -87,6 +103,16 @@ export function createLink({
         connect: {
           id: userId,
         },
+      },
+      tags: {
+        connectOrCreate: tags.map((tag) => ({
+          where: {
+            id:
+              tagMap[tag]?.id ??
+              "this string should never be used as an identifier",
+          },
+          create: { name: tag, userId },
+        })),
       },
     },
   });

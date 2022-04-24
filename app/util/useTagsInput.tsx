@@ -27,9 +27,9 @@ export function useTagsInput({ initialValue = "", addTag }: UseTagsInputProps) {
 
   const input = (
     <input
-      name="tags"
+      name="_tag_entry"
       placeholder="Enter tags"
-      className="flex-1 border border-gray-400 px-2 py-1 text-lg"
+      className="w-full flex-1 border border-gray-400 px-2 py-1 text-lg"
       value={tagInputValue}
       onChange={onTagInputChange}
       onKeyDown={onTagInputKeyDown}

@@ -22,6 +22,7 @@ export default function SearchForm({ commonTags }: SearchFormProps) {
           {formValues.tags.map((tag) => (
             <button
               key={tag}
+              type="button"
               className="inline-block rounded border bg-neutral-100 py-0 px-2 text-neutral-600 hover:text-black"
               onClick={() => removeTag(tag)}
               aria-label={`Remove tag: ${tag}`}
@@ -48,6 +49,7 @@ export default function SearchForm({ commonTags }: SearchFormProps) {
               .map((tag) => (
                 <button
                   key={tag}
+                  type="button"
                   className="inline-block rounded border bg-neutral-100 py-0 px-2 text-neutral-600 hover:text-black"
                   onClick={() => addTag(tag)}
                   aria-label={`Add tag: ${tag}`}

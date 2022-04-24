@@ -3,6 +3,7 @@ import equal from "fast-deep-equal";
 import { useCallback } from "react";
 import { useMemoCompare } from "~/utils";
 import type { FormValues } from "../components/SearchForm";
+import { decodeStringArray, encodeStringArray } from "./stringArray";
 
 type Edit<T> = T extends Array<infer U>
   ? { add?: U[]; remove?: U[] }
@@ -42,23 +43,13 @@ function editObject<T extends {}>(obj: T, changes: Edit<T>): T {
 
 export function searchParamsToFormValues(params: URLSearchParams): FormValues {
   const paramsTagsRaw = params.get("tags");
-  const tags = paramsTagsRaw
-    ? paramsTagsRaw
-        .split(/[,+ ]/)
-        .map((tag) => decodeURIComponent(tag))
-        .filter(Boolean)
-        .sort()
-    : [];
+  const tags = decodeStringArray(paramsTagsRaw ?? "");
 
   return { tags };
 }
 
 export function formValuesToSearchParams(values: FormValues): URLSearchParams {
-  const tags = values.tags
-    .filter(Boolean)
-    .sort()
-    .map((tag) => encodeURIComponent(tag))
-    .join(" ");
+  const tags = encodeStringArray(values.tags.filter(Boolean).sort());
 
   return new URLSearchParams({ tags });
 }
