@@ -15,7 +15,7 @@ export default function LinkDisplay({ link }: LinkDisplayProps) {
         href={link.url}
         target="_blank"
         rel="noreferrer nofollow"
-        className="mb-2 block break-words text-2xl font-normal text-link visited:text-link-visited  hover:underline active:text-link-active visited:active:text-link-active"
+        className="mb-2 block break-words text-xl font-normal text-link visited:text-link-visited hover:underline  active:text-link-active visited:active:text-link-active sm:text-2xl"
       >
         {link.url}
       </a>
