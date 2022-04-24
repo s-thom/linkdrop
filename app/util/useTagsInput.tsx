@@ -36,6 +36,8 @@ export function useTagsInput({
       name={id ?? "_tag_entry"}
       placeholder="Enter tags"
       className="w-full flex-1 border border-gray-400 px-2 py-1 text-lg"
+      autoCapitalize="off"
+      autoComplete="off"
       value={tagInputValue}
       onChange={onTagInputChange}
       onKeyDown={onTagInputKeyDown}
