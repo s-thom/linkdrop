@@ -1,3 +1,4 @@
+import type { ShouldReloadFunction } from "@remix-run/react";
 import { Outlet, useLoaderData } from "@remix-run/react";
 import type { LoaderFunction } from "@remix-run/server-runtime";
 import { json } from "@remix-run/server-runtime";
@@ -13,6 +14,8 @@ export const loader: LoaderFunction = async ({ request }) => {
 
   return json<LoaderData>({ allowSignUp });
 };
+
+export const unstable_shouldReload: ShouldReloadFunction = () => false;
 
 export default function PublicLayout() {
   const data = useLoaderData<LoaderData>();
