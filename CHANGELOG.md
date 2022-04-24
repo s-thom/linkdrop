@@ -16,6 +16,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased](https://github.com/s-thom/linkdrop/compare/v1.0.0...HEAD)
 
+### Added
+
+- Tags are highlighted when searching, so it's easier to see why a particular link is included in the results.
+
 ### Changed
 
 - Tag suggestions update with new tags as you add tags.

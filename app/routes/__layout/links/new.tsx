@@ -2,6 +2,7 @@ import type { ActionFunction, LoaderFunction } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import { Form, useActionData, useFetcher } from "@remix-run/react";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
+import Tag from "~/components/Tag";
 import { createLink } from "~/models/link.server";
 import { getUserCommonTags } from "~/models/tag.server";
 import { requireUserId } from "~/session.server";
@@ -203,15 +204,13 @@ export default function NewLinkPage() {
             {tagsValue.length ? (
               <ul className="flex flex-wrap gap-2 py-2">
                 {tagsValue.map((tag) => (
-                  <button
+                  <Tag
                     key={tag}
-                    type="button"
-                    className="inline-block rounded border bg-neutral-100 py-0 px-2 text-neutral-600 hover:text-black"
+                    name={tag}
+                    isActive
                     onClick={() => removeTag(tag)}
                     aria-label={`Remove tag: ${tag}`}
-                  >
-                    {tag}
-                  </button>
+                  />
                 ))}
               </ul>
             ) : (
@@ -225,15 +224,12 @@ export default function NewLinkPage() {
                 </span>
                 <ul className="flex flex-wrap gap-2 py-2">
                   {remainingCommonTags.map((tag) => (
-                    <button
+                    <Tag
                       key={tag}
-                      type="button"
-                      className="inline-block rounded border bg-neutral-100 py-0 px-2 text-neutral-600 hover:text-black"
+                      name={tag}
                       onClick={() => addTag(tag)}
                       aria-label={`Add tag: ${tag}`}
-                    >
-                      {tag}
-                    </button>
+                    />
                   ))}
                 </ul>
               </>

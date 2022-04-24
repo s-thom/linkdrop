@@ -1,5 +1,6 @@
 import { useTagsInput } from "~/util/useTagsInput";
 import { useSearchFormState } from "../util/useSearchFormState";
+import Tag from "./Tag";
 
 export interface FormValues {
   tags: string[];
@@ -20,15 +21,13 @@ export default function SearchForm({ commonTags }: SearchFormProps) {
       {formValues.tags.length ? (
         <ul className="flex flex-wrap gap-2 py-2">
           {formValues.tags.map((tag) => (
-            <button
+            <Tag
               key={tag}
-              type="button"
-              className="inline-block rounded border bg-neutral-100 py-0 px-2 text-neutral-600 hover:text-black"
+              name={tag}
+              isActive
               onClick={() => removeTag(tag)}
               aria-label={`Remove tag: ${tag}`}
-            >
-              {tag}
-            </button>
+            />
           ))}
         </ul>
       ) : (
@@ -46,15 +45,12 @@ export default function SearchForm({ commonTags }: SearchFormProps) {
             {commonTags
               .filter((tag) => !formValues.tags.includes(tag))
               .map((tag) => (
-                <button
+                <Tag
                   key={tag}
-                  type="button"
-                  className="inline-block rounded border bg-neutral-100 py-0 px-2 text-neutral-600 hover:text-black"
+                  name={tag}
                   onClick={() => addTag(tag)}
                   aria-label={`Add tag: ${tag}`}
-                >
-                  {tag}
-                </button>
+                />
               ))}
           </ul>
         </>

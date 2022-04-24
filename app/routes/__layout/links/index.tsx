@@ -1,6 +1,6 @@
 import type { LoaderFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import { Link, useLoaderData } from "@remix-run/react";
+import { Link, useLoaderData, useSearchParams } from "@remix-run/react";
 import React from "react";
 import LinkDisplay from "~/components/LinkDisplay";
 import SearchForm from "~/components/SearchForm";
@@ -35,6 +35,9 @@ export const loader: LoaderFunction = async ({ request }) => {
 
 export default function LinksIndexPage() {
   const data = useLoaderData<LoaderData>();
+  const [searchParams] = useSearchParams();
+
+  const { tags } = searchParamsToFormValues(searchParams);
 
   return (
     <div className="flex flex-col md:flex-row md:justify-center">
@@ -47,7 +50,7 @@ export default function LinksIndexPage() {
           <ul>
             {data.links.map((link) => (
               <li key={link.id}>
-                <LinkDisplay link={link} />
+                <LinkDisplay link={link} activeTags={tags} />
               </li>
             ))}
           </ul>
