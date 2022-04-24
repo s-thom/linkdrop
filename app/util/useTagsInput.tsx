@@ -3,11 +3,16 @@ import { useState, useCallback } from "react";
 const INPUT_RESET_KEYS = [" ", ",", "+", "Enter"];
 
 export interface UseTagsInputProps {
+  id?: string;
   initialValue?: string;
   addTag?: (tag: string) => void;
 }
 
-export function useTagsInput({ initialValue = "", addTag }: UseTagsInputProps) {
+export function useTagsInput({
+  id,
+  initialValue = "",
+  addTag,
+}: UseTagsInputProps) {
   const [tagInputValue, setTagInputValue] = useState(initialValue);
   const onTagInputChange = useCallback<
     React.ChangeEventHandler<HTMLInputElement>
@@ -27,7 +32,8 @@ export function useTagsInput({ initialValue = "", addTag }: UseTagsInputProps) {
 
   const input = (
     <input
-      name="_tag_entry"
+      id={id}
+      name={id ?? "_tag_entry"}
       placeholder="Enter tags"
       className="w-full flex-1 border border-gray-400 px-2 py-1 text-lg"
       value={tagInputValue}

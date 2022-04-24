@@ -61,6 +61,13 @@ export const action: ActionFunction = async ({ request }) => {
     );
   }
   const tags = decodeStringArray(tagsRaw ?? "");
+  // If the _tag_entry value is set, the user probably didn't hit enter. They'll probably still want this tag, though.
+  if (formData.has("_tag_entry")) {
+    const unsavedTag = formData.get("_tag_entry");
+    if (typeof unsavedTag === "string") {
+      tags.push(unsavedTag);
+    }
+  }
   // #endregion
 
   const link = await createLink({ userId, url, description, tags });
@@ -105,7 +112,7 @@ export default function NewLinkPage() {
   );
   // #endregion
 
-  const { input } = useTagsInput({ addTag });
+  const { input } = useTagsInput({ id: "_tag_entry", addTag });
 
   return (
     <div className="flex flex-col md:flex-row md:justify-center">
@@ -166,7 +173,7 @@ export default function NewLinkPage() {
 
           <div className="my-2">
             <label
-              htmlFor="url"
+              htmlFor="_tag_entry"
               className="block text-sm font-medium lowercase text-gray-700"
             >
               Tags
