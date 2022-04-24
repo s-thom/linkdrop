@@ -64,7 +64,7 @@ export const action: ActionFunction = async ({ request }) => {
   // If the _tag_entry value is set, the user probably didn't hit enter. They'll probably still want this tag, though.
   if (formData.has("_tag_entry")) {
     const unsavedTag = formData.get("_tag_entry");
-    if (typeof unsavedTag === "string") {
+    if (typeof unsavedTag === "string" && unsavedTag) {
       tags.push(unsavedTag);
     }
   }
