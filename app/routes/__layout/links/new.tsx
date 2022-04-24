@@ -64,8 +64,13 @@ export const action: ActionFunction = async ({ request }) => {
   // If the _tag_entry value is set, the user probably didn't hit enter. They'll probably still want this tag, though.
   if (formData.has("_tag_entry")) {
     const unsavedTag = formData.get("_tag_entry");
-    if (typeof unsavedTag === "string" && unsavedTag) {
-      tags.push(unsavedTag);
+    if (unsavedTag && typeof unsavedTag === "string") {
+      const candidateTags = decodeStringArray(unsavedTag);
+      candidateTags.forEach((tag) => {
+        if (tag && !tags.includes(unsavedTag)) {
+          tags.push(tag);
+        }
+      });
     }
   }
   // #endregion
