@@ -5,14 +5,14 @@ import React from "react";
 import LinkDisplay from "~/components/LinkDisplay";
 import SearchForm from "~/components/SearchForm";
 import { searchParamsToFormValues } from "~/util/useSearchFormState";
-import { getUserLinksByTags } from "~/models/link.server";
+import { searchUserLinks } from "~/models/link.server";
 import { getUserCommonTags } from "~/models/tag.server";
 import { requireUserId } from "~/session.server";
 
 export const handle = { hydrate: true };
 
 type LoaderData = {
-  links: Awaited<ReturnType<typeof getUserLinksByTags>>;
+  links: Awaited<ReturnType<typeof searchUserLinks>>;
   commonTags: string[];
 };
 
@@ -24,7 +24,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 
   const [commonTags, links] = await Promise.all([
     getUserCommonTags({ userId, exclude: tags }),
-    getUserLinksByTags({ userId, tags }),
+    searchUserLinks({ userId, tags }),
   ]);
 
   return json<LoaderData>({

@@ -9,7 +9,7 @@ interface LinksByTagResult extends Link {
   tags: string[];
 }
 
-async function getUserLinkIDsByTags({
+export async function searchUserLinks({
   userId,
   tags,
   limit = LINK_QUERY_RESULTS_LIMIT,
@@ -18,49 +18,49 @@ async function getUserLinkIDsByTags({
   tags: string[];
   limit?: number;
 }) {
+  const trueLimit = Math.max(limit, LINK_QUERY_RESULTS_LIMIT);
+
+  // Since this is a bit more of a complicated query, it's split into a couple of sections.
+  // It involved re-querying data and sorting in-memory, which is why there is a limit in place.
   const results = await prisma.$queryRaw<LinksByTagResult[]>`
 SELECT
   DISTINCT l.*,
   count(t.id) AS tag_count
 FROM "Link" l
   JOIN "_LinkToTag" ltt ON ltt."A" = l.id 
-  JOIN "Tag" t ON t.id = ltt."B" 
+  LEFT JOIN "Tag" t ON
+    t.id = ltt."B" AND
+    ${Prisma.sql([tags.length ? "true" : "false"])}
 WHERE
-  l."userId" = ${userId} 
-  ${Prisma.sql`AND ${
+  l."userId" = ${userId} AND
+  ${Prisma.sql`${
     tags.length
       ? Prisma.sql`t."name" IN (${Prisma.join(tags)})`
       : Prisma.sql`true`
   }`}
 GROUP BY l.id
 ORDER BY tag_count DESC, l."createdAt" DESC
-LIMIT ${Math.max(limit, LINK_QUERY_RESULTS_LIMIT)}
+LIMIT ${trueLimit}
 OFFSET 0
 `;
+  const sortedLinkIds = results.map((link) => link.id);
 
-  return results.map((link) => link.id);
-}
-
-export async function getUserLinksByTags({
-  userId,
-  tags,
-  limit,
-}: {
-  userId: User["id"];
-  tags: string[];
-  limit?: number;
-}) {
-  const linkIds = await getUserLinkIDsByTags({ userId, tags, limit });
-
+  // Now we have the IDs, get the objects for real.
+  // Yes, this is effectively querying the same information again.
   const links = await prisma.link.findMany({
     include: { tags: true },
     where: {
       userId,
-      id: { in: linkIds },
+      id: { in: sortedLinkIds },
     },
   });
 
-  return links.sort((a, b) => linkIds.indexOf(a.id) - linkIds.indexOf(b.id));
+  // The list from the findMany is not in the correct order, so it must be sorted in-memory.
+  links.sort(
+    (a, b) => sortedLinkIds.indexOf(a.id) - sortedLinkIds.indexOf(b.id)
+  );
+
+  return links;
 }
 
 export function getSingleLink({ id }: { id: Link["id"] }) {

@@ -27,6 +27,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- Sorting when there are no tags selected now uses the creation date properly.
 - Any left-over input in the Add link's tag input is treated properly.
   - This fixes an issue where you could add invalid tags by submitting the form with an invalid value in the input.
 - Removed "0" appearing in the common tags of the search form when using the app for the first time.
