@@ -8,6 +8,7 @@ import { searchParamsToFormValues } from "~/util/useSearchFormState";
 import { searchUserLinks } from "~/models/link.server";
 import { getUserCommonTags } from "~/models/tag.server";
 import { requireUserId } from "~/session.server";
+import { useUser } from "~/utils";
 
 export const handle = { hydrate: true };
 
@@ -34,6 +35,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 };
 
 export default function LinksIndexPage() {
+  const user = useUser();
   const data = useLoaderData<LoaderData>();
   const [searchParams] = useSearchParams();
 
@@ -50,7 +52,12 @@ export default function LinksIndexPage() {
           <ul>
             {data.links.map((link) => (
               <li key={link.id}>
-                <LinkDisplay link={link} activeTags={tags} />
+                <LinkDisplay
+                  link={link}
+                  activeTags={tags}
+                  canShare
+                  canEdit={user.id === link.userId}
+                />
               </li>
             ))}
           </ul>

@@ -1,5 +1,7 @@
 import type { Link, Tag } from "@prisma/client";
 import TagComponent from "./Tag";
+import { Edit3, Share2 } from "react-feather";
+import { Link as LinkComponent } from "@remix-run/react";
 
 interface LinkWithTags extends Link {
   tags: Tag[];
@@ -8,9 +10,18 @@ interface LinkWithTags extends Link {
 export interface LinkDisplayProps {
   link: LinkWithTags;
   activeTags?: string[];
+  canShare?: boolean;
+  canEdit?: boolean;
 }
 
-export default function LinkDisplay({ link, activeTags }: LinkDisplayProps) {
+export default function LinkDisplay({
+  link,
+  activeTags,
+  canShare,
+  canEdit,
+}: LinkDisplayProps) {
+  const shouldShowIcons = canShare || canEdit;
+
   return (
     <div className="mb-2 max-w-3xl border border-neutral-400 bg-white py-2 px-4">
       <a
@@ -21,20 +32,44 @@ export default function LinkDisplay({ link, activeTags }: LinkDisplayProps) {
       >
         {link.url}
       </a>
-      {link.description && (
-        <p className="mb-2 break-words">{link.description}</p>
-      )}
-      <ul className="flex flex-wrap gap-2">
-        {link.tags.map((tag) => (
-          <li key={tag.id}>
-            <TagComponent
-              name={tag.name}
-              disabled
-              isActive={activeTags?.includes(tag.name)}
-            />
-          </li>
-        ))}
-      </ul>
+      <div className="flex">
+        <div className="flex-1">
+          {link.description && (
+            <p className="mb-2 break-words">{link.description}</p>
+          )}
+          <ul className="flex  flex-wrap gap-2">
+            {link.tags.map((tag) => (
+              <li key={tag.id}>
+                <TagComponent
+                  name={tag.name}
+                  disabled
+                  isActive={activeTags?.includes(tag.name)}
+                />
+              </li>
+            ))}
+          </ul>
+        </div>
+        {shouldShowIcons && (
+          <div className="jusify-end -mr-2 flex flex-col justify-end">
+            {canShare && (
+              <LinkComponent
+                className="p-1 text-neutral-400 hover:text-neutral-600"
+                to={`/links/${link.id}`}
+              >
+                <Share2 className="h-5 w-5" aria-label="Share" />
+              </LinkComponent>
+            )}
+            {canEdit && (
+              <LinkComponent
+                className="p-1 text-neutral-400 hover:text-neutral-600"
+                to={`/links/${link.id}/edit`}
+              >
+                <Edit3 className="h-5 w-5" aria-label="Edit note" />
+              </LinkComponent>
+            )}
+          </div>
+        )}
+      </div>
     </div>
   );
 }
