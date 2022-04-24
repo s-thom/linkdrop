@@ -34,7 +34,7 @@ function renderUserNav() {
         Your links
       </Link>
       <Link
-        to="new"
+        to="/links/new"
         className="lowercase text-neutral-600 underline decoration-1 hover:text-neutral-600 hover:no-underline active:bg-neutral-800"
       >
         New link

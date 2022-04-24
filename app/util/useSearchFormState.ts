@@ -2,7 +2,7 @@ import { useSearchParams } from "@remix-run/react";
 import equal from "fast-deep-equal";
 import { useCallback } from "react";
 import { useMemoCompare } from "~/utils";
-import type { FormValues } from "./SearchForm";
+import type { FormValues } from "../components/SearchForm";
 
 type Edit<T> = T extends Array<infer U>
   ? { add?: U[]; remove?: U[] }

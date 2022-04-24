@@ -1,7 +1,5 @@
-import { useCallback, useState } from "react";
-import { useSearchFormState } from "./searchFormUtils";
-
-const INPUT_RESET_KEYS = [" ", ",", "+", "Enter"];
+import { useTagsInput } from "~/util/useTagsInput";
+import { useSearchFormState } from "../util/useSearchFormState";
 
 export interface FormValues {
   tags: string[];
@@ -14,22 +12,7 @@ export interface SearchFormProps {
 export default function SearchForm({ commonTags }: SearchFormProps) {
   const { formValues, addTag, removeTag } = useSearchFormState();
 
-  const [tagInputValue, setTagInputValue] = useState("");
-  const onTagInputChange = useCallback<
-    React.ChangeEventHandler<HTMLInputElement>
-  >((event) => setTagInputValue(event.target.value), []);
-  const onTagInputKeyDown = useCallback<
-    React.KeyboardEventHandler<HTMLInputElement>
-  >(
-    (event) => {
-      if (INPUT_RESET_KEYS.includes(event.key)) {
-        event.preventDefault();
-        addTag(tagInputValue);
-        setTagInputValue("");
-      }
-    },
-    [addTag, tagInputValue]
-  );
+  const { input } = useTagsInput({ addTag });
 
   return (
     <div>
@@ -53,14 +36,7 @@ export default function SearchForm({ commonTags }: SearchFormProps) {
 
       <label className="flex w-full flex-col gap-1">
         <span className="sr-only">Enter tags</span>
-        <input
-          name="tags"
-          placeholder="Enter tags"
-          className="flex-1 border border-gray-500 px-2 py-1 text-lg"
-          value={tagInputValue}
-          onChange={onTagInputChange}
-          onKeyDown={onTagInputKeyDown}
-        />
+        {input}
       </label>
       {commonTags.length && (
         <>

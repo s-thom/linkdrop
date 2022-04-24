@@ -4,10 +4,12 @@ import { useLoaderData } from "@remix-run/react";
 import React from "react";
 import LinkDisplay from "~/components/LinkDisplay";
 import SearchForm from "~/components/SearchForm";
-import { searchParamsToFormValues } from "~/components/searchFormUtils";
+import { searchParamsToFormValues } from "~/util/useSearchFormState";
 import { getUserLinksByTags } from "~/models/link.server";
 import { getUserCommonTags } from "~/models/tag.server";
 import { requireUserId } from "~/session.server";
+
+export const handle = { hydrate: true };
 
 type LoaderData = {
   links: Awaited<ReturnType<typeof getUserLinksByTags>>;
@@ -35,7 +37,7 @@ export default function LinksIndexPage() {
   const data = useLoaderData<LoaderData>();
 
   return (
-    <div className="flex h-full min-h-screen flex-col md:flex-row md:justify-center">
+    <div className="flex flex-col md:flex-row md:justify-center">
       <aside className="p-6 md:h-full md:w-80 md:pr-0">
         <SearchForm commonTags={data.commonTags} />
       </aside>
