@@ -33,20 +33,23 @@ export const loader: LoaderFunction = async ({ request, params }) => {
 };
 
 interface ActionData {
-  formErrors?: FormErrors;
-  error?: string;
+  errors?: FormErrors;
 }
 
 export const action: ActionFunction = async ({ request, params }) => {
   const userId = await requireUserId(request);
   const id = params.id;
   if (!id) {
-    return json<ActionData>({ error: "Not found" }, { status: 404 });
+    throw new Response("Not Found", {
+      status: 404,
+    });
   }
 
   const link = await getSingleLink({ id });
   if (!link || link.userId !== userId) {
-    return json<ActionData>({ error: "Not found" }, { status: 404 });
+    throw new Response("Not Found", {
+      status: 404,
+    });
   }
 
   // Process deletes
@@ -60,7 +63,7 @@ export const action: ActionFunction = async ({ request, params }) => {
 
   const result = validateFormData(formData);
   if (result.status === "error") {
-    return json<ActionData>({ formErrors: result.errors }, { status: 400 });
+    return json<ActionData>({ errors: result.errors }, { status: 400 });
   }
 
   const values = result.values;
@@ -86,7 +89,7 @@ export default function LinkViewPage() {
         <LinkForm
           i18n={{ submit: "Edit link" }}
           method="put"
-          errors={actionData?.formErrors}
+          errors={actionData?.errors}
           initialValues={{
             url: data.link.url,
             description: data.link.description,

@@ -11,11 +11,16 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useCatch,
   useMatches,
 } from "@remix-run/react";
-
-import tailwindStylesheetUrl from "./styles/tailwind.css";
+import type {
+  CatchBoundaryComponent,
+  ErrorBoundaryComponent,
+} from "@remix-run/react/routeModules";
+import { BigErrorPage } from "./components/BigErrorPage";
 import { getUser } from "./session.server";
+import tailwindStylesheetUrl from "./styles/tailwind.css";
 
 export const links: LinksFunction = () => {
   return [
@@ -106,3 +111,13 @@ export default function App() {
     </html>
   );
 }
+
+export const ErrorBoundary: ErrorBoundaryComponent = () => {
+  return <BigErrorPage status={500} />;
+};
+
+export const CatchBoundary: CatchBoundaryComponent = () => {
+  const caught = useCatch();
+
+  return <BigErrorPage status={caught.status} />;
+};

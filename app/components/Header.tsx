@@ -1,9 +1,12 @@
 import { Form, Link } from "@remix-run/react";
 
+const DEFAULT_TEXT = { link: "link", drop: "drop" };
+
 export interface HeaderProps {
+  text?: { link: string; drop: string };
   size: "large" | "small";
-  mode: "user" | "public";
-  allowSignUp: boolean;
+  mode: "user" | "public" | "none";
+  allowSignUp?: boolean;
 }
 
 function renderPublicNav(allowSignUp: boolean) {
@@ -58,7 +61,12 @@ function renderUserNav() {
   );
 }
 
-export default function Header({ size, mode, allowSignUp }: HeaderProps) {
+export default function Header({
+  size,
+  mode,
+  allowSignUp = false,
+  text = DEFAULT_TEXT,
+}: HeaderProps) {
   const fontClasses =
     size === "large" ? "mb-6 text-6xl sm:text-8xl lg:text-9xl" : "text-3xl";
   const containerClasses = size === "large" ? "" : "border-b";
@@ -68,18 +76,21 @@ export default function Header({ size, mode, allowSignUp }: HeaderProps) {
       className={`flex flex-col items-center justify-between p-2 ${containerClasses}`}
     >
       <h1
-        className={`whitespace-nowrap text-center font-normal font-normal italic tracking-tight ${fontClasses}`}
+        className={`whitespace-nowrap text-center font-normal italic tracking-tight ${fontClasses}`}
       >
         <Link to="/">
-          <span>link</span>
+          <span>{text.link}</span>
           <span className="inline-block translate-y-[0.06em] rotate-heading">
-            drop
+            {text.drop}
           </span>
         </Link>
       </h1>
-      <nav className="flex gap-2">
-        {mode === "public" ? renderPublicNav(allowSignUp) : renderUserNav()}
-      </nav>
+      {mode !== "none" && (
+        <nav className="flex gap-2">
+          {mode === "public" && renderPublicNav(allowSignUp)}
+          {mode === "user" && renderUserNav()}
+        </nav>
+      )}
     </header>
   );
 }
