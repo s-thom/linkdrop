@@ -3,7 +3,7 @@ import { Link as LinkComponent } from "@remix-run/react";
 import { Edit3, Link as LinkIcon } from "react-feather";
 import TagComponent from "./Tag";
 
-interface LinkWithTags extends Link {
+export interface LinkWithTags extends Link {
   tags: Tag[];
 }
 

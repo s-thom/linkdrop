@@ -1,4 +1,5 @@
 import { Links, LiveReload, Meta, Scripts } from "@remix-run/react";
+import { createLink } from "~/util/mock";
 import type { HeaderProps } from "./Header";
 import Header from "./Header";
 import LinkDisplay from "./LinkDisplay";
@@ -6,6 +7,12 @@ import LinkDisplay from "./LinkDisplay";
 const SPECIAL_TEXT: Record<number, NonNullable<HeaderProps["text"]>> = {
   404: { link: "40", drop: "4" },
 };
+
+const MOCK_LINK = createLink(
+  "https://linkdrop.sthom.kiwi",
+  "linkdrop's home page",
+  ["linkdrop", "home"]
+);
 
 export interface BigErrorPageProps {
   status: number;
@@ -33,25 +40,7 @@ export function BigErrorPage({ status }: BigErrorPageProps) {
                   ? "Page not found."
                   : `An unknown error occurred (${status}).`}
               </p>
-              <LinkDisplay
-                link={{
-                  id: "home",
-                  description: "linkdrop's home page",
-                  createdAt: new Date(),
-                  updatedAt: new Date(),
-                  url:
-                    typeof document === "undefined"
-                      ? "/home"
-                      : window.location.origin,
-                  userId: "",
-                  tags: ["linkdrop", "home"].map((name) => ({
-                    id: name,
-                    name,
-                    userId: "",
-                    createdAt: new Date(),
-                  })),
-                }}
-              />
+              <LinkDisplay link={MOCK_LINK} />
             </div>
           </main>
         </div>

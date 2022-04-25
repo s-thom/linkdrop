@@ -1,13 +1,16 @@
 import type { LoaderFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import { Link, useLoaderData, useSearchParams } from "@remix-run/react";
-import React from "react";
+import { Link, useLoaderData } from "@remix-run/react";
+import React, { useCallback } from "react";
 import LinkDisplay from "~/components/LinkDisplay";
 import SearchForm from "~/components/SearchForm";
-import { searchParamsToFormValues } from "~/util/useSearchFormState";
 import { searchUserLinks } from "~/models/link.server";
 import { getUserCommonTags } from "~/models/tag.server";
 import { requireUserId } from "~/session.server";
+import {
+  searchParamsToFormValues,
+  useSearchFormState,
+} from "~/util/useSearchFormState";
 import { useUser } from "~/utils";
 
 type LoaderData = {
@@ -35,14 +38,25 @@ export const loader: LoaderFunction = async ({ request }) => {
 export default function LinksIndexPage() {
   const user = useUser();
   const data = useLoaderData<LoaderData>();
-  const [searchParams] = useSearchParams();
 
-  const { tags } = searchParamsToFormValues(searchParams);
+  const { values, addTag, removeTag } = useSearchFormState();
+
+  const toggleTag = useCallback(
+    (tag: string) => {
+      values.tags.includes(tag) ? removeTag(tag) : addTag(tag);
+    },
+    [addTag, removeTag, values.tags]
+  );
 
   return (
     <div className="flex flex-col md:flex-row md:justify-center">
       <aside className="p-6 md:h-full md:w-80 md:pr-0">
-        <SearchForm commonTags={data.commonTags} />
+        <SearchForm
+          commonTags={data.commonTags}
+          values={values}
+          addTag={addTag}
+          removeTag={removeTag}
+        />
       </aside>
 
       <main className="flex-1 p-6 md:max-w-xl lg:max-w-2xl">
@@ -52,9 +66,10 @@ export default function LinksIndexPage() {
               <li key={link.id}>
                 <LinkDisplay
                   link={link}
-                  activeTags={tags}
+                  activeTags={values.tags}
                   canShare
                   canEdit={user.id === link.userId}
+                  onTagClick={toggleTag}
                 />
               </li>
             ))}
