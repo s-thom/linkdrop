@@ -118,6 +118,67 @@ export async function createLink({
   });
 }
 
+export async function editLink({
+  id,
+  url,
+  description,
+  userId,
+  tags,
+}: Pick<Link, "id" | "url" | "description"> & {
+  userId: User["id"];
+  tags: string[];
+}) {
+  // Ensure the link exists already. This is also used for updating the tags correctly.
+  const currentLink = await prisma.link.findFirst({
+    where: { id },
+    include: { tags: true },
+  });
+  if (!currentLink || currentLink.userId !== userId) {
+    throw new Error("Link does not exist");
+  }
+
+  // Try fetch all of the tags the user wants to add, so the connect behaviour is correct
+  const tagModels = await prisma.tag.findMany({
+    where: {
+      name: { in: tags },
+      userId: { equals: userId },
+    },
+  });
+  const tagMap = tagModels.reduce<Record<string, Tag | undefined>>(
+    (map, tag) => {
+      map[tag.name] = tag;
+      return map;
+    },
+    {}
+  );
+
+  // Determine which tags to add/remove
+  const currentTagNames = currentLink.tags.map((tag) => tag.name);
+  const tagsToConnect = tags.filter((tag) => !currentTagNames.includes(tag));
+  const tagsToDisconnect = currentLink.tags
+    .filter((tag) => !tags.includes(tag.name))
+    .map((tag) => ({ id: tag.id }));
+
+  return prisma.link.update({
+    where: { id },
+    data: {
+      url,
+      description,
+      tags: {
+        connectOrCreate: tagsToConnect.map((tag) => ({
+          where: {
+            id:
+              tagMap[tag]?.id ??
+              "this string should never be used as an identifier",
+          },
+          create: { name: tag, userId },
+        })),
+        disconnect: tagsToDisconnect,
+      },
+    },
+  });
+}
+
 export function deleteLink({
   id,
   userId,

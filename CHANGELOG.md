@@ -14,6 +14,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased](https://github.com/s-thom/linkdrop/compare/v1.0.0...HEAD)
 
+### Added
+
+- Form to edit existing links.
+
 ## [1.0.1](https://github.com/s-thom/linkdrop/releases/tag/v1.0.1) - 2022-04-25
 
 ### Added

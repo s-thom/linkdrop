@@ -1,0 +1,115 @@
+import type { ActionFunction, LoaderFunction } from "@remix-run/node";
+import { json, redirect } from "@remix-run/node";
+import { Form, useActionData, useLoaderData } from "@remix-run/react";
+import type { FormErrors } from "~/components/LinkForm";
+import LinkForm from "~/components/LinkForm";
+import { deleteLink, editLink, getSingleLink } from "~/models/link.server";
+import { requireUserId } from "~/session.server";
+import { validateFormData } from "~/util/linkFormData.server";
+
+export const handle = { hydrate: true };
+
+type LoaderData = {
+  link: NonNullable<Awaited<ReturnType<typeof getSingleLink>>>;
+};
+
+export const loader: LoaderFunction = async ({ request, params }) => {
+  const userId = await requireUserId(request);
+  const id = params.id;
+  if (!id) {
+    throw new Response("Not Found", {
+      status: 404,
+    });
+  }
+
+  const link = await getSingleLink({ id });
+  if (!link || link.userId !== userId) {
+    throw new Response("Not Found", {
+      status: 404,
+    });
+  }
+
+  return json<LoaderData>({ link });
+};
+
+interface ActionData {
+  formErrors?: FormErrors;
+  error?: string;
+}
+
+export const action: ActionFunction = async ({ request, params }) => {
+  const userId = await requireUserId(request);
+  const id = params.id;
+  if (!id) {
+    return json<ActionData>({ error: "Not found" }, { status: 404 });
+  }
+
+  const link = await getSingleLink({ id });
+  if (!link || link.userId !== userId) {
+    return json<ActionData>({ error: "Not found" }, { status: 404 });
+  }
+
+  // Process deletes
+  if (request.method.toLowerCase() === "delete") {
+    await deleteLink({ id, userId });
+
+    return redirect(`/links`);
+  }
+
+  const formData = await request.formData();
+
+  const result = validateFormData(formData);
+  if (result.status === "error") {
+    return json<ActionData>({ formErrors: result.errors }, { status: 400 });
+  }
+
+  const values = result.values;
+
+  const editedLink = await editLink({
+    id,
+    userId,
+    url: values.url,
+    description: values.description,
+    tags: values.tags,
+  });
+
+  return redirect(`/links/${editedLink.id}`);
+};
+
+export default function LinkViewPage() {
+  const data = useLoaderData<LoaderData>();
+  const actionData = useActionData<ActionData>();
+
+  return (
+    <div className="flex flex-col md:flex-row md:justify-center">
+      <main className="flex-1 p-6 md:max-w-xl lg:max-w-2xl">
+        <LinkForm
+          i18n={{ submit: "Edit link" }}
+          method="put"
+          errors={actionData?.formErrors}
+          initialValues={{
+            url: data.link.url,
+            description: data.link.description,
+            tags: data.link.tags.map((t) => t.name),
+          }}
+        />
+        <div className="mt-4 border border-red-200 bg-red-50 p-2">
+          <Form method="delete">
+            <h2 className="mb-2 text-xl font-normal lowercase text-red-800">
+              Danger zone
+            </h2>
+            <button
+              type="submit"
+              className="md:1/3 mt-2 w-full border border-red-400 py-2 px-4 lowercase text-red-800 hover:bg-red-200 active:bg-red-300 sm:w-1/2"
+            >
+              Delete link
+            </button>
+            <p className="text-sm font-normal lowercase text-red-800">
+              This action can not be undone
+            </p>
+          </Form>
+        </div>
+      </main>
+    </div>
+  );
+}
