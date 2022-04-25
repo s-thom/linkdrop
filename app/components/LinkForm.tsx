@@ -62,7 +62,7 @@ export default function LinkForm({
 
   useEffect(() => {
     fetcher.load(
-      `/links/new?${formValuesToSearchParams({ tags: tagsValue }).toString()}`
+      `/tags?${formValuesToSearchParams({ tags: tagsValue }).toString()}`
     );
     // The eslint rule wants `fetcher` to be in the deps array.
     // This causes an infinite fetch loop.

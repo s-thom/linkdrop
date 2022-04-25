@@ -1,30 +1,11 @@
-import type { ActionFunction, LoaderFunction } from "@remix-run/node";
+import type { ActionFunction } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import { useActionData } from "@remix-run/react";
 import type { FormErrors } from "~/components/LinkForm";
 import LinkForm from "~/components/LinkForm";
 import { createLink } from "~/models/link.server";
-import { getUserCommonTags } from "~/models/tag.server";
 import { requireUserId } from "~/session.server";
 import { validateFormData } from "~/util/linkFormData.server";
-import { searchParamsToFormValues } from "~/util/useSearchFormState";
-
-type LoaderData = {
-  commonTags: string[];
-};
-
-export const loader: LoaderFunction = async ({ request }) => {
-  const userId = await requireUserId(request);
-
-  const url = new URL(request.url);
-  const { tags } = searchParamsToFormValues(url.searchParams);
-
-  const commonTags = await getUserCommonTags({ userId, exclude: tags });
-
-  return json<LoaderData>({
-    commonTags: commonTags.map((tag) => tag.name),
-  });
-};
 
 interface ActionData {
   errors?: FormErrors;
