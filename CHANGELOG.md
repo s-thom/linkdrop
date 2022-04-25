@@ -12,7 +12,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 <!-- ### Fixed -->
 <!-- ### Security -->
 
-## [Unreleased](https://github.com/s-thom/linkdrop/compare/v1.0.1...HEAD)
+## [Unreleased](https://github.com/s-thom/linkdrop/compare/v1.1.0...HEAD)
+
+## [1.1.0](https://github.com/s-thom/linkdrop/compare/v1.0.1...v1.1.0) - 2022-04-25
 
 ### Added
 
@@ -31,7 +33,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Navigations getting lost on certain occasions when clicking back in your browser.
 
-## [1.0.1](https://github.com/s-thom/linkdrop/releases/tag/v1.0.1) - 2022-04-25
+## [1.0.1](https://github.com/s-thom/linkdrop/compare/v1.0.0...v1.0.1) - 2022-04-25
 
 ### Added
 
