@@ -51,9 +51,8 @@ describe("smoke tests", () => {
     cy.findByRole("link", { name: testLink.url });
     cy.findByText(testLink.description);
 
-    // TODO: editing and deleting
-    // cy.findByRole("button", { name: /delete/i }).click();
-
-    // cy.findByText("No notes yet");
+    cy.findByRole("link", { name: /edit link/i }).click();
+    cy.findByRole("button", { name: /delete/i }).click();
+    cy.findByText("You haven't added any links yet.");
   });
 });

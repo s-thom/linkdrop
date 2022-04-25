@@ -67,7 +67,7 @@ export default function LinkDisplay({
                 className="p-1 text-neutral-400 hover:text-neutral-600"
                 to={`/links/${link.id}/edit`}
               >
-                <Edit3 className="h-5 w-5" aria-label="Edit note" />
+                <Edit3 className="h-5 w-5" aria-label="Edit link" />
               </LinkComponent>
             )}
           </div>
