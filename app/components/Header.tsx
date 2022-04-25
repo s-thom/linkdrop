@@ -1,4 +1,4 @@
-import { Form, Link } from "@remix-run/react";
+import { Link } from "@remix-run/react";
 
 const DEFAULT_TEXT = { link: "link", drop: "drop" };
 
@@ -45,18 +45,12 @@ function renderUserNav() {
       >
         New link
       </Link>
-      <Form
-        action="/logout"
-        method="post"
-        className="inline-block items-center"
+      <Link
+        to="/user"
+        className="lowercase text-neutral-600 underline decoration-1 hover:text-neutral-600 hover:no-underline active:text-neutral-800"
       >
-        <button
-          type="submit"
-          className="lowercase text-neutral-600 underline decoration-1 hover:text-neutral-600 hover:no-underline active:text-neutral-800"
-        >
-          Log out
-        </button>
-      </Form>
+        Settings
+      </Link>
     </>
   );
 }

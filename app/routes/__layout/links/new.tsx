@@ -1,4 +1,4 @@
-import type { ActionFunction } from "@remix-run/node";
+import type { ActionFunction, LoaderFunction } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import { useActionData } from "@remix-run/react";
 import type { FormErrors } from "~/components/LinkForm";
@@ -6,6 +6,11 @@ import LinkForm from "~/components/LinkForm";
 import { createLink } from "~/models/link.server";
 import { requireUserId } from "~/session.server";
 import { validateFormData } from "~/util/linkFormData.server";
+
+export const loader: LoaderFunction = async ({ request }) => {
+  await requireUserId(request);
+  return json({});
+};
 
 interface ActionData {
   errors?: FormErrors;

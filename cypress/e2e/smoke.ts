@@ -20,6 +20,7 @@ describe("smoke tests", () => {
     cy.findByRole("button", { name: /sign up/i }).click();
 
     cy.findByRole("link", { name: /your links/i }).click();
+    cy.findByRole("link", { name: /settings/i }).click();
     cy.findByRole("button", { name: /log out/i }).click();
     cy.findByRole("link", { name: /log in/i });
   });
