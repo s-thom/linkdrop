@@ -29,6 +29,21 @@ export async function createUser(email: User["email"], password: string) {
   });
 }
 
+export async function updateUserPassword({
+  userId,
+  password,
+}: {
+  userId: User["id"];
+  password: string;
+}) {
+  const hashedPassword = await bcrypt.hash(password, 10);
+
+  return prisma.password.update({
+    where: { userId },
+    data: { hash: hashedPassword },
+  });
+}
+
 export async function deleteUserByEmail(email: User["email"]) {
   return prisma.user.delete({ where: { email } });
 }

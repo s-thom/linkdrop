@@ -26,7 +26,7 @@ export default function LinksIndexPage() {
             </li>
             <li>
               <Link
-                to="/change-password"
+                to="/user/change-password"
                 className="lowercase text-neutral-600 underline decoration-1 hover:text-neutral-600 hover:no-underline active:text-neutral-800"
               >
                 Change password
