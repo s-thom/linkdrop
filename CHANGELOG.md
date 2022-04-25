@@ -16,11 +16,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Demo on landing page.
 - User info page.
   - It has some basic info on it, like the number of links and the most commonly used tags.
   - In fact, that's all it has right now.
 - Form to edit existing links.
 - Better error pages.
+
+### Changed
+
+- Tag buttons on link cards are clickable in the search.
 
 ### Fixed
 

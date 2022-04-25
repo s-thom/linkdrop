@@ -12,6 +12,7 @@ export interface LinkDisplayProps {
   activeTags?: string[];
   canShare?: boolean;
   canEdit?: boolean;
+  onTagClick?: (tag: string) => void;
 }
 
 export default function LinkDisplay({
@@ -19,6 +20,7 @@ export default function LinkDisplay({
   activeTags,
   canShare,
   canEdit,
+  onTagClick,
 }: LinkDisplayProps) {
   const shouldShowIcons = canShare || canEdit;
 
@@ -42,8 +44,9 @@ export default function LinkDisplay({
               <li key={tag.id}>
                 <TagComponent
                   name={tag.name}
-                  disabled
+                  disabled={!onTagClick}
                   isActive={activeTags?.includes(tag.name)}
+                  onClick={onTagClick && (() => onTagClick(tag.name))}
                 />
               </li>
             ))}

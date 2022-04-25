@@ -1,5 +1,4 @@
 import { useTagsInput } from "~/util/useTagsInput";
-import { useSearchFormState } from "../util/useSearchFormState";
 import Tag from "./Tag";
 
 export interface FormValues {
@@ -8,24 +7,31 @@ export interface FormValues {
 
 export interface SearchFormProps {
   commonTags: string[];
+  values: FormValues;
+  addTag?: (tag: string) => void;
+  removeTag?: (tag: string) => void;
 }
 
-export default function SearchForm({ commonTags }: SearchFormProps) {
-  const { formValues, addTag, removeTag } = useSearchFormState();
-
+export default function SearchForm({
+  commonTags,
+  values,
+  addTag,
+  removeTag,
+}: SearchFormProps) {
   const { input } = useTagsInput({ addTag });
 
   return (
     <div>
       <h3 className="text-xl font-normal lowercase">Search</h3>
-      {formValues.tags.length ? (
+      {values.tags.length ? (
         <ul className="flex flex-wrap gap-2 py-2">
-          {formValues.tags.map((tag) => (
+          {values.tags.map((tag) => (
             <Tag
               key={tag}
               name={tag}
               isActive
-              onClick={() => removeTag(tag)}
+              disabled={!removeTag}
+              onClick={removeTag && (() => removeTag(tag))}
               aria-label={`Remove tag: ${tag}`}
             />
           ))}
@@ -43,12 +49,13 @@ export default function SearchForm({ commonTags }: SearchFormProps) {
           <h3 className="text-xl font-normal lowercase">Common tags</h3>
           <ul className="flex flex-wrap gap-2 py-2">
             {commonTags
-              .filter((tag) => !formValues.tags.includes(tag))
+              .filter((tag) => !values.tags.includes(tag))
               .map((tag) => (
                 <Tag
                   key={tag}
                   name={tag}
-                  onClick={() => addTag(tag)}
+                  disabled={!addTag}
+                  onClick={addTag && (() => addTag(tag))}
                   aria-label={`Add tag: ${tag}`}
                 />
               ))}

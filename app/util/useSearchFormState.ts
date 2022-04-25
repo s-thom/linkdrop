@@ -57,10 +57,7 @@ export function formValuesToSearchParams(values: FormValues): URLSearchParams {
 export function useSearchFormState() {
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const formValues = useMemoCompare(
-    searchParamsToFormValues(searchParams),
-    equal
-  );
+  const values = useMemoCompare(searchParamsToFormValues(searchParams), equal);
 
   const setFormState = useCallback(
     (values: FormValues) =>
@@ -70,18 +67,18 @@ export function useSearchFormState() {
 
   const addTag = useCallback(
     (tag: string) => {
-      const newValues = editObject(formValues, { tags: { add: [tag] } });
+      const newValues = editObject(values, { tags: { add: [tag] } });
       setFormState(newValues);
     },
-    [formValues, setFormState]
+    [values, setFormState]
   );
   const removeTag = useCallback(
     (tag: string) => {
-      const newValues = editObject(formValues, { tags: { remove: [tag] } });
+      const newValues = editObject(values, { tags: { remove: [tag] } });
       setFormState(newValues);
     },
-    [formValues, setFormState]
+    [values, setFormState]
   );
 
-  return { formValues, addTag, removeTag };
+  return { values, addTag, removeTag };
 }
