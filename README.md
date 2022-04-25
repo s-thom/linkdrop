@@ -1,4 +1,4 @@
-# linkdrop
+# [linkdrop](https://linkdrop.sthom.kiwi)
 
 ![Screenshot of linkdrop](/.github/media/hero.png "Screenshot of linkdrop")
 
