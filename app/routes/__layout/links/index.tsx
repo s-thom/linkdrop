@@ -10,8 +10,6 @@ import { getUserCommonTags } from "~/models/tag.server";
 import { requireUserId } from "~/session.server";
 import { useUser } from "~/utils";
 
-export const handle = { hydrate: true };
-
 type LoaderData = {
   links: Awaited<ReturnType<typeof searchUserLinks>>;
   commonTags: string[];

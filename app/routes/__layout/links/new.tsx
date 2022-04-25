@@ -9,8 +9,6 @@ import { requireUserId } from "~/session.server";
 import { validateFormData } from "~/util/linkFormData.server";
 import { searchParamsToFormValues } from "~/util/useSearchFormState";
 
-export const handle = { hydrate: true };
-
 type LoaderData = {
   commonTags: string[];
 };

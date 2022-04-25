@@ -92,10 +92,6 @@ export const loader: LoaderFunction = async ({ request }) => {
 };
 
 export default function App() {
-  const matches = useMatches();
-
-  const includeScripts = matches.some((match) => match.handle?.hydrate);
-
   return (
     <html lang="en" className="h-full">
       <head>
@@ -105,7 +101,7 @@ export default function App() {
       <body className="h-full bg-neutral-50">
         <Outlet />
         <ScrollRestoration />
-        {includeScripts ? <Scripts /> : null}
+        <Scripts />
         <LiveReload />
       </body>
     </html>

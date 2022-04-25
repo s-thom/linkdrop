@@ -7,8 +7,6 @@ import { deleteLink, editLink, getSingleLink } from "~/models/link.server";
 import { requireUserId } from "~/session.server";
 import { validateFormData } from "~/util/linkFormData.server";
 
-export const handle = { hydrate: true };
-
 type LoaderData = {
   link: NonNullable<Awaited<ReturnType<typeof getSingleLink>>>;
 };
