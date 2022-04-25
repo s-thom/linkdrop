@@ -12,7 +12,6 @@ import {
   Scripts,
   ScrollRestoration,
   useCatch,
-  useMatches,
 } from "@remix-run/react";
 import type {
   CatchBoundaryComponent,

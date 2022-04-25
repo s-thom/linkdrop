@@ -17,12 +17,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Form to edit existing links.
+- Better error pages.
+
+### Fixed
+
+- Navigations getting lost on certain occasions when clicking back in your browser.
 
 ## [1.0.1](https://github.com/s-thom/linkdrop/releases/tag/v1.0.1) - 2022-04-25
 
 ### Added
 
 - Tags are highlighted when searching, so it's easier to see why a particular link is included in the results.
+- Manual sign up can be done by including a secret token in the request. Set the secret wisely.
 
 ### Changed
 

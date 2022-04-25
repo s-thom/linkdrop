@@ -27,9 +27,13 @@ export const action: ActionFunction = async ({ request }) => {
   const formData = await request.formData();
   const email = formData.get("email");
   const password = formData.get("password");
+  const superuserSecret = formData.get("__");
   const redirectTo = safeRedirect(formData.get("redirectTo"), "/");
 
-  if (process.env.ALLOW_EMAIL_JOIN !== "true") {
+  if (
+    process.env.ALLOW_EMAIL_JOIN !== "true" &&
+    superuserSecret !== process.env.SUPERUSER_SECRET
+  ) {
     return json<ActionData>(
       { errors: { email: "Sign up is not enabled" } },
       { status: 400 }
@@ -154,6 +158,7 @@ export default function Join() {
         </div>
 
         <input type="hidden" name="redirectTo" value={redirectTo} />
+        <input type="hidden" name="__" value="" />
         <button
           type="submit"
           className="w-full border border-black py-2 px-4 lowercase text-black hover:bg-neutral-200 active:bg-neutral-400"
