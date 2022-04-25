@@ -2,6 +2,7 @@ import type { Password, User } from "@prisma/client";
 import bcrypt from "bcryptjs";
 
 import { prisma } from "~/db.server";
+import { getUserCommonTags } from "./tag.server";
 
 export type { User } from "@prisma/client";
 
@@ -30,6 +31,20 @@ export async function createUser(email: User["email"], password: string) {
 
 export async function deleteUserByEmail(email: User["email"]) {
   return prisma.user.delete({ where: { email } });
+}
+
+export async function getUserSummary(userId: User["id"]) {
+  const [user, numLinks, commonTags] = await Promise.all([
+    getUserById(userId),
+    prisma.link.count({ where: { userId } }),
+    getUserCommonTags({ userId, includeCount: true }),
+  ]);
+
+  if (!user) {
+    throw new Error("User not found");
+  }
+
+  return { user, numLinks, commonTags };
 }
 
 export async function verifyLogin(

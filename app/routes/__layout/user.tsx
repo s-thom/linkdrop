@@ -1,6 +1,6 @@
 import type { LoaderFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import { Form, Outlet } from "@remix-run/react";
+import { Form, Link, Outlet } from "@remix-run/react";
 import React from "react";
 import { requireUserId } from "~/session.server";
 
@@ -13,11 +13,25 @@ export default function LinksIndexPage() {
   return (
     <div className="flex flex-col md:flex-row md:justify-center">
       <aside className="p-6 md:h-full md:w-80 md:pr-0">
+        <h3 className="text-xl font-normal lowercase">Settings</h3>
         <nav>
           <ul>
-            <li>test</li>
-            <li>test</li>
-            <li>test</li>
+            <li>
+              <Link
+                to="/user"
+                className="lowercase text-neutral-600 underline decoration-1 hover:text-neutral-600 hover:no-underline active:text-neutral-800"
+              >
+                Info
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/change-password"
+                className="lowercase text-neutral-600 underline decoration-1 hover:text-neutral-600 hover:no-underline active:text-neutral-800"
+              >
+                Change password
+              </Link>
+            </li>
           </ul>
           <Form
             action="/logout"

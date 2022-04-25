@@ -12,10 +12,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 <!-- ### Fixed -->
 <!-- ### Security -->
 
-## [Unreleased](https://github.com/s-thom/linkdrop/compare/v1.0.0...HEAD)
+## [Unreleased](https://github.com/s-thom/linkdrop/compare/v1.0.1...HEAD)
 
 ### Added
 
+- User info page.
+  - It has some basic info on it, like the number of links and the most commonly used tags.
+  - In fact, that's all it has right now.
 - Form to edit existing links.
 - Better error pages.
 
