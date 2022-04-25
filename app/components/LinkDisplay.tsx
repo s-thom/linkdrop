@@ -1,7 +1,7 @@
 import type { Link, Tag } from "@prisma/client";
-import TagComponent from "./Tag";
-import { Edit3, Share2 } from "react-feather";
 import { Link as LinkComponent } from "@remix-run/react";
+import { Edit3, Link as LinkIcon } from "react-feather";
+import TagComponent from "./Tag";
 
 interface LinkWithTags extends Link {
   tags: Tag[];
@@ -56,7 +56,7 @@ export default function LinkDisplay({
                 className="p-1 text-neutral-400 hover:text-neutral-600"
                 to={`/links/${link.id}`}
               >
-                <Share2 className="h-5 w-5" aria-label="Share" />
+                <LinkIcon className="h-5 w-5" aria-label="Permalink" />
               </LinkComponent>
             )}
             {canEdit && (
