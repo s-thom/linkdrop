@@ -14,6 +14,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased](https://github.com/s-thom/linkdrop/compare/v1.1.0...HEAD)
 
+## [1.2.0](https://github.com/s-thom/linkdrop/compare/v1.2.0...HEAD)
+
 ### Added
 
 - Tags can be excluded from a search by prefixing with a hyphen (e.g. `-example`)
