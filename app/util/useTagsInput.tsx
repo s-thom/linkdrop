@@ -1,4 +1,5 @@
 import { useState, useCallback } from "react";
+import { decodeStringArray } from "./stringArray";
 
 const INPUT_RESET_KEYS = [" ", ",", "+", "Enter"];
 
@@ -23,7 +24,9 @@ export function useTagsInput({
     (event) => {
       if (INPUT_RESET_KEYS.includes(event.key)) {
         event.preventDefault();
-        addTag?.(tagInputValue);
+        if (addTag) {
+          decodeStringArray(tagInputValue).forEach((tag) => addTag(tag));
+        }
         setTagInputValue("");
       }
     },
