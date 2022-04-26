@@ -1,6 +1,7 @@
 import type { Link, Tag, User } from "@prisma/client";
 import { Prisma } from "@prisma/client";
 import { prisma } from "~/db.server";
+import { splitMap } from "~/util/array";
 
 const LINK_QUERY_RESULTS_LIMIT = 50;
 
@@ -18,30 +19,58 @@ export async function searchUserLinks({
   tags: string[];
   limit?: number;
 }) {
-  const trueLimit = Math.max(limit, LINK_QUERY_RESULTS_LIMIT);
-
   // Since this is a bit more of a complicated query, it's split into a couple of sections.
   // It involved re-querying data and sorting in-memory, which is why there is a limit in place.
+  const trueLimit = Math.max(limit, LINK_QUERY_RESULTS_LIMIT);
+
+  const { include, exclude } = splitMap(
+    tags,
+    (tag) => !tag.startsWith("-"),
+    (tag) => tag.replace(/^(-)/, "")
+  );
+
+  // Beware the SQL that needs comments.
   const results = await prisma.$queryRaw<LinksByTagResult[]>`
+WITH link_tags (id, tags) AS (
+  -- Start by getting array of tags for each link.
+  -- This MUST be done as a separate query. 
+  -- The main SELECT must not JOIN to tags or else the wrong.
+  SELECT
+    l.id,
+    array_agg(t."name") AS tags
+  FROM "Link" l
+    JOIN "_LinkToTag" ltt ON ltt."A" = l.id 
+    JOIN "Tag" t ON t.id = ltt."B"
+  WHERE
+    l."userId" = ${userId}
+  GROUP BY l.id
+)
 SELECT
-  DISTINCT l.*,
-  count(t.id) AS tag_count
-FROM "Link" l
-  JOIN "_LinkToTag" ltt ON ltt."A" = l.id 
-  LEFT JOIN "Tag" t ON
-    t.id = ltt."B" AND
-    ${Prisma.sql([tags.length ? "true" : "false"])}
+  lt.id,
+  l.url,
+  -- This counts the number of items in the intersection of an array.
+  -- https://stackoverflow.com/a/5834576
+  -- Note the include list here doesn't need special 0 items behaviour.
+  array_length(ARRAY(
+    SELECT UNNEST(lt.tags::TEXT[])
+    INTERSECT
+    SELECT UNNEST(${include}::TEXT[])
+  ), 1) AS tag_count
+FROM link_tags lt
+  JOIN "Link" l ON lt.id = l.id
 WHERE
-  l."userId" = ${userId} AND
+  -- && is a boolean "does this intersect" operator.
+  -- Special handling for the include list is needed here,
+  -- because the empty set has no items to intersect with.
   ${Prisma.sql`${
-    tags.length
-      ? Prisma.sql`t."name" IN (${Prisma.join(tags)})`
+    include.length
+      ? Prisma.sql`lt.tags && ${include}::TEXT[]`
       : Prisma.sql`true`
-  }`}
-GROUP BY l.id
+  }`} AND
+  (lt.tags && ${exclude}::TEXT[]) = FALSE
 ORDER BY tag_count DESC, l."createdAt" DESC
 LIMIT ${trueLimit}
-OFFSET 0
+OFFSET 0;
 `;
   const sortedLinkIds = results.map((link) => link.id);
 

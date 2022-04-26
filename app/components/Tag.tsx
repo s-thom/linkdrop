@@ -7,12 +7,21 @@ export interface TagProps
   > {
   name: string;
   isActive?: boolean;
+  isNegative?: boolean;
 }
 
-export default function Tag({ name, isActive, className, ...props }: TagProps) {
-  const activeClasses = isActive
-    ? "bg-neutral-300 text-neutral-900 border-neutral-400"
-    : "bg-neutral-100 text-neutral-600";
+export default function Tag({
+  name,
+  isActive,
+  isNegative,
+  className,
+  ...props
+}: TagProps) {
+  const activeClasses = isNegative
+    ? "bg-red-200 text-red-800 border-red-400 hover:text-red-900"
+    : isActive
+    ? "bg-neutral-300 text-neutral-900 border-neutral-400 hover:text-black"
+    : "bg-neutral-100 text-neutral-600 hover:text-black";
 
   return (
     <button

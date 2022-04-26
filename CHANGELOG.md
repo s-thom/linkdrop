@@ -14,6 +14,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased](https://github.com/s-thom/linkdrop/compare/v1.1.0...HEAD)
 
+### Added
+
+- Tags can be excluded from a search by prefixing with a hyphen (e.g. `-example`)
+  - As a result, tags can no longer start with a hyphen, but can still contain them in other places.
+
 ### Changed
 
 - all tags much be lowercase.

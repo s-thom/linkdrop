@@ -18,7 +18,7 @@ export default function SearchForm({
   addTag,
   removeTag,
 }: SearchFormProps) {
-  const { input } = useTagsInput({ addTag });
+  const { input } = useTagsInput({ addTag, allowNegative: true });
 
   return (
     <div>
@@ -30,6 +30,7 @@ export default function SearchForm({
               key={tag}
               name={tag}
               isActive
+              isNegative={tag.startsWith("-")}
               disabled={!removeTag}
               onClick={removeTag && (() => removeTag(tag))}
               aria-label={`Remove tag: ${tag}`}
