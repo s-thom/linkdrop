@@ -55,13 +55,15 @@ LIMIT ${Math.min(limit, TAGS_QUERY_RESULTS_LIMIT)};
 
 export async function searchUserTags({
   userId,
-  tags,
+  tags: tagsWithNegatives,
   limit = TAGS_QUERY_RESULTS_LIMIT,
 }: {
   userId: Tag["id"];
   tags: string[];
   limit?: number;
 }) {
+  const tags = tagsWithNegatives.filter((tag) => !tag.startsWith("-"));
+
   const related = await getRelatedTags({ userId, tags, limit });
 
   if (related.length >= TAGS_QUERY_RESULTS_LIMIT) {
