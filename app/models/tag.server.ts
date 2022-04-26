@@ -24,3 +24,55 @@ export function getUserCommonTags({
     take: Math.min(limit, TAGS_QUERY_RESULTS_LIMIT),
   });
 }
+
+export function getRelatedTags({
+  userId,
+  tags,
+  limit = TAGS_QUERY_RESULTS_LIMIT,
+}: {
+  userId: Tag["id"];
+  tags: string[];
+  limit?: number;
+}) {
+  return prisma.$queryRaw<Tag[]>`
+SELECT
+  t2.*
+FROM "Tag" t
+  JOIN "_LinkToTag" ltt ON ltt."B" = t.id
+  JOIN "_LinkToTag" ltt2 ON
+    ltt2."A" = ltt."A" AND
+    ltt2."B" != ltt."B"
+  JOIN "Tag" t2 ON t2.id = ltt2."B"
+WHERE
+  t."userId" = ${userId} AND
+  t.name = ANY(${tags}) AND
+  (t2.name = ANY(${tags})) = FALSE
+GROUP BY t2.id
+ORDER BY count(ltt2."B") DESC, t2."name"
+LIMIT ${Math.min(limit, TAGS_QUERY_RESULTS_LIMIT)};
+`;
+}
+
+export async function searchUserTags({
+  userId,
+  tags,
+  limit = TAGS_QUERY_RESULTS_LIMIT,
+}: {
+  userId: Tag["id"];
+  tags: string[];
+  limit?: number;
+}) {
+  const related = await getRelatedTags({ userId, tags, limit });
+
+  if (related.length >= TAGS_QUERY_RESULTS_LIMIT) {
+    return related;
+  }
+
+  const rest = await getUserCommonTags({
+    userId,
+    exclude: tags.concat(related.map((tag) => tag.name)),
+    limit: limit - related.length,
+  });
+
+  return [...related, ...rest];
+}

@@ -22,6 +22,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - all tags much be lowercase.
+- Tag suggestions are more relevant, based on which tags have appeared most commonly with the ones already selected.
 
 ## [1.1.0](https://github.com/s-thom/linkdrop/compare/v1.0.1...v1.1.0) - 2022-04-25
 

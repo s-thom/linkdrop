@@ -5,7 +5,7 @@ import React, { useCallback } from "react";
 import LinkDisplay from "~/components/LinkDisplay";
 import SearchForm from "~/components/SearchForm";
 import { searchUserLinks } from "~/models/link.server";
-import { getUserCommonTags } from "~/models/tag.server";
+import { searchUserTags } from "~/models/tag.server";
 import { requireUserId } from "~/session.server";
 import {
   searchParamsToFormValues,
@@ -25,7 +25,7 @@ export const loader: LoaderFunction = async ({ request }) => {
   const { tags } = searchParamsToFormValues(url.searchParams);
 
   const [commonTags, links] = await Promise.all([
-    getUserCommonTags({ userId, exclude: tags }),
+    searchUserTags({ userId, tags }),
     searchUserLinks({ userId, tags }),
   ]);
 

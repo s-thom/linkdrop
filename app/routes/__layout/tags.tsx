@@ -1,6 +1,6 @@
 import type { LoaderFunction } from "@remix-run/server-runtime";
 import { json } from "@remix-run/server-runtime";
-import { getUserCommonTags } from "~/models/tag.server";
+import { searchUserTags } from "~/models/tag.server";
 import { requireUserId } from "~/session.server";
 import { searchParamsToFormValues } from "~/util/useSearchFormState";
 
@@ -14,7 +14,7 @@ export const loader: LoaderFunction = async ({ request }) => {
   const url = new URL(request.url);
   const { tags } = searchParamsToFormValues(url.searchParams);
 
-  const commonTags = await getUserCommonTags({ userId, exclude: tags });
+  const commonTags = await searchUserTags({ userId, tags });
 
   return json<LoaderData>({
     commonTags: commonTags.map((tag) => tag.name),
