@@ -1,0 +1,22 @@
+{
+  "name": "linkdrop",
+  "description": "Companion extension for linkdrop",
+  "version": "1.0",
+  "manifest_version": 3,
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "72": "/images/icon-72x72.png",
+      "96": "/images/icon-96x96.png",
+      "128": "/images/icon-128x128.png"
+    }
+  },
+  "icons": {
+    "72": "/images/icon-72x72.png",
+    "96": "/images/icon-96x96.png",
+    "128": "/images/icon-128x128.png"
+  },
+
+  "host_permissions": ["https://linkdrop.sthom.kiwi/"],
+  "permissions": ["tabs"]
+}
