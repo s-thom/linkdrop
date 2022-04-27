@@ -1,15 +1,25 @@
 import type { ActionFunction, LoaderFunction } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
-import { useActionData } from "@remix-run/react";
+import { useActionData, useLoaderData } from "@remix-run/react";
 import type { FormErrors } from "~/components/LinkForm";
 import LinkForm from "~/components/LinkForm";
 import { createLink } from "~/models/link.server";
 import { requireUserId } from "~/session.server";
 import { validateFormData } from "~/util/linkFormData.server";
 
+type LoaderData = {
+  url?: string;
+  description?: string;
+};
+
 export const loader: LoaderFunction = async ({ request }) => {
   await requireUserId(request);
-  return json({});
+
+  const reqUrl = new URL(request.url);
+  const url = reqUrl.searchParams.get("url") ?? undefined;
+  const description = reqUrl.searchParams.get("description") ?? undefined;
+
+  return json<LoaderData>({ url, description });
 };
 
 interface ActionData {
@@ -27,27 +37,33 @@ export const action: ActionFunction = async ({ request }) => {
 
   const values = result.values;
 
-  const link = await createLink({
+  await createLink({
     userId,
     url: values.url,
     description: values.description,
     tags: values.tags,
   });
 
-  return redirect(`/links/${link.id}`);
+  return redirect(`/links/new`);
 };
 
 export default function NewLinkPage() {
+  const data = useLoaderData<LoaderData>();
   const actionData = useActionData<ActionData>();
 
   return (
     <div className="flex flex-col md:flex-row md:justify-center">
       <main className="flex-1 p-6 md:max-w-xl lg:max-w-2xl">
         <LinkForm
+          key={data.url}
           i18n={{ submit: "Save link" }}
           method="post"
           errors={actionData?.errors}
-          initialValues={{ url: "", description: "", tags: [] }}
+          initialValues={{
+            url: data.url ?? "",
+            description: data.description ?? "",
+            tags: [],
+          }}
         />
       </main>
     </div>
