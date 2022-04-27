@@ -12,19 +12,21 @@ import {
   Scripts,
   ScrollRestoration,
   useCatch,
+  useLocation,
+  useMatches,
 } from "@remix-run/react";
 import type {
   CatchBoundaryComponent,
   ErrorBoundaryComponent,
 } from "@remix-run/react/routeModules";
+import { useEffect, useRef } from "react";
 import { BigErrorPage } from "./components/BigErrorPage";
 import { getUser } from "./session.server";
 import tailwindStylesheetUrl from "./styles/tailwind.css";
-
 export const links: LinksFunction = () => {
   return [
     { rel: "stylesheet", href: tailwindStylesheetUrl },
-    { rel: "manifest", href: "/manifest.json" },
+    { rel: "manifest", href: "/resources/manifest.json" },
     { rel: "author", type: "text/plain", href: "/humans.txt" },
     {
       rel: "icon",
@@ -91,6 +93,45 @@ export const loader: LoaderFunction = async ({ request }) => {
 };
 
 export default function App() {
+  const location = useLocation();
+  const matches = useMatches();
+
+  const mountedRef = useRef(false);
+  useEffect(() => {
+    // Whether this effect is running on first mount
+    const isMount = !mountedRef.current;
+    mountedRef.current = true;
+    if ("serviceWorker" in navigator) {
+      if (navigator.serviceWorker.controller) {
+        navigator.serviceWorker.controller?.postMessage({
+          type: "REMIX_NAVIGATION",
+          isMount,
+          location,
+          matches,
+          manifest: window.__remixManifest,
+        });
+      } else {
+        let listener = async () => {
+          await navigator.serviceWorker.ready;
+          navigator.serviceWorker.controller?.postMessage({
+            type: "REMIX_NAVIGATION",
+            isMount,
+            location,
+            matches,
+            manifest: window.__remixManifest,
+          });
+        };
+        navigator.serviceWorker.addEventListener("controllerchange", listener);
+        return () => {
+          navigator.serviceWorker.removeEventListener(
+            "controllerchange",
+            listener
+          );
+        };
+      }
+    }
+  }, [location, matches]);
+
   return (
     <html lang="en" className="h-full">
       <head>
