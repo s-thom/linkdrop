@@ -1,6 +1,6 @@
 import type { ActionFunction, LoaderFunction } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
-import { useActionData, useLoaderData } from "@remix-run/react";
+import { useActionData, useLoaderData, useTransition } from "@remix-run/react";
 import type { FormErrors } from "~/components/LinkForm";
 import LinkForm from "~/components/LinkForm";
 import { createLink } from "~/models/link.server";
@@ -50,12 +50,13 @@ export const action: ActionFunction = async ({ request }) => {
 export default function NewLinkPage() {
   const data = useLoaderData<LoaderData>();
   const actionData = useActionData<ActionData>();
+  const transition = useTransition();
 
   return (
     <div className="flex flex-col md:flex-row md:justify-center">
       <main className="flex-1 p-6 md:max-w-xl lg:max-w-2xl">
         <LinkForm
-          key={data.url}
+          key={transition.state === "loading" ? "i" : "l"}
           i18n={{ submit: "Save link" }}
           method="post"
           errors={actionData?.errors}

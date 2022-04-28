@@ -50,7 +50,9 @@ describe("smoke tests", () => {
     );
     cy.findByRole("textbox", { name: /Tags/i }).type(testLink.tags);
     cy.findByRole("button", { name: /save/i }).click();
+    cy.wait(5000);
 
+    cy.findByRole("link", { name: /your links/i }).click();
     cy.findByRole("link", { name: testLink.url });
     cy.findByText(testLink.description);
 
