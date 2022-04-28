@@ -5,8 +5,6 @@ async function loadFrame() {
     currentWindow: true,
   });
 
-  console.log({ tab });
-
   const params = new URLSearchParams({
     url: tab.url,
     description: tab.title,
