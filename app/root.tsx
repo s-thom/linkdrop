@@ -21,8 +21,10 @@ import type {
 } from "@remix-run/react/routeModules";
 import { useEffect, useRef } from "react";
 import { BigErrorPage } from "./components/BigErrorPage";
+import { InstallContextProvider } from "./components/InstallContext";
 import { getUser } from "./session.server";
 import tailwindStylesheetUrl from "./styles/tailwind.css";
+import { useInstallPrompt } from "./util/useInstallPrompt";
 export const links: LinksFunction = () => {
   return [
     { rel: "stylesheet", href: tailwindStylesheetUrl },
@@ -96,6 +98,8 @@ export default function App() {
   const location = useLocation();
   const matches = useMatches();
 
+  useInstallPrompt();
+
   const mountedRef = useRef(false);
   useEffect(() => {
     // Whether this effect is running on first mount
@@ -139,7 +143,9 @@ export default function App() {
         <Links />
       </head>
       <body className="h-full bg-neutral-50">
-        <Outlet />
+        <InstallContextProvider>
+          <Outlet />
+        </InstallContextProvider>
         <ScrollRestoration />
         <Scripts />
         <LiveReload />
