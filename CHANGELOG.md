@@ -14,19 +14,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased](https://github.com/s-thom/linkdrop/compare/v1.3.2...HEAD) - DATE
 
-## [1.3.2](https://github.com/s-thom/linkdrop/compare/v1.3.1...v1.3.2) - DATE
+## [1.3.2](https://github.com/s-thom/linkdrop/compare/v1.3.1...v1.3.2) - 2022-04-29
 
 ### Fixed
 
 - Sharing URLs to the installed website in Android should work for realsies this time.
 
-## [1.3.1](https://github.com/s-thom/linkdrop/compare/v1.3.0...v1.3.1) - DATE
+## [1.3.1](https://github.com/s-thom/linkdrop/compare/v1.3.0...v1.3.1) - 2022-04-28
 
 ### Fixed
 
 - Sharing URLs to the installed website in Android should work better.
 
-## [1.3.0](https://github.com/s-thom/linkdrop/compare/v1.2.0...v1.3.0) - DATE
+## [1.3.0](https://github.com/s-thom/linkdrop/compare/v1.2.0...v1.3.0) - 2022-04-28
 
 ### Added
 
