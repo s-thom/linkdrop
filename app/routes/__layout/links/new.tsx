@@ -22,7 +22,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 
   if (!url && description) {
     // Android doesn't send URLs, because its intents don't support it.
-    const match = description.match(/^(?:([\S\s]*)\s+)(https?:\/\/[^\s]+)$/);
+    const match = description.match(/^(?:([\S\s]*)\s+)?(https?:\/\/[^\s]+)$/);
     if (match) {
       const [, desc, link] = match;
       return json<LoaderData>({ url: link, description: desc ?? title });
