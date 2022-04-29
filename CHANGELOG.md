@@ -12,19 +12,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 <!-- ### Fixed -->
 <!-- ### Security -->
 
-## [Unreleased](https://github.com/s-thom/linkdrop/compare/v1.3.0...HEAD) - DATE
+## [Unreleased](https://github.com/s-thom/linkdrop/compare/v1.3.2...HEAD) - DATE
+
+## [1.3.2](https://github.com/s-thom/linkdrop/compare/v1.3.1...v1.3.2) - DATE
 
 ### Fixed
 
 - Sharing URLs to the installed website in Android should work for realsies this time.
 
-## [1.3.1](https://github.com/s-thom/linkdrop/compare/v1.3.1...HEAD) - DATE
+## [1.3.1](https://github.com/s-thom/linkdrop/compare/v1.3.0...v1.3.1) - DATE
 
 ### Fixed
 
 - Sharing URLs to the installed website in Android should work better.
 
-## [1.3.0](https://github.com/s-thom/linkdrop/compare/v1.3.0...v1.3.1) - DATE
+## [1.3.0](https://github.com/s-thom/linkdrop/compare/v1.2.0...v1.3.0) - DATE
 
 ### Added
 
@@ -35,7 +37,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - After adding a new link, you are no longer redirected to that link's page.
   - Instead, the form resets.
 
-## [1.2.0](https://github.com/s-thom/linkdrop/compare/v1.2.0...v1.3.0) - 2022-04-26
+## [1.2.0](https://github.com/s-thom/linkdrop/compare/v1.1.0...v1.2.0) - 2022-04-26
 
 ### Added
 
