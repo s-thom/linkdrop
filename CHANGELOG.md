@@ -14,6 +14,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased](https://github.com/s-thom/linkdrop/compare/v1.3.2...HEAD) - DATE
 
+### Fixed
+
+- When searching for tags, excluded tags no longer show up in the suggestions.
+
 ## [1.3.2](https://github.com/s-thom/linkdrop/compare/v1.3.1...v1.3.2) - 2022-04-29
 
 ### Fixed

@@ -1,5 +1,6 @@
 import type { Tag } from "@prisma/client";
 import { prisma } from "~/db.server";
+import { splitMap } from "~/util/array";
 
 const TAGS_QUERY_RESULTS_LIMIT = 25;
 
@@ -28,10 +29,12 @@ export function getUserCommonTags({
 export function getRelatedTags({
   userId,
   tags,
+  exclude,
   limit = TAGS_QUERY_RESULTS_LIMIT,
 }: {
   userId: Tag["id"];
   tags: string[];
+  exclude: string[];
   limit?: number;
 }) {
   return prisma.$queryRaw<Tag[]>`
@@ -46,7 +49,8 @@ FROM "Tag" t
 WHERE
   t."userId" = ${userId} AND
   t.name = ANY(${tags}) AND
-  (t2.name = ANY(${tags})) = FALSE
+  (t2.name = ANY(${tags})) = FALSE AND
+  (t2.name = ANY(${exclude})) = FALSE
 GROUP BY t2.id
 ORDER BY count(ltt2."B") DESC, t2."name"
 LIMIT ${Math.min(limit, TAGS_QUERY_RESULTS_LIMIT)};
@@ -62,9 +66,18 @@ export async function searchUserTags({
   tags: string[];
   limit?: number;
 }) {
-  const tags = tagsWithNegatives.filter((tag) => !tag.startsWith("-"));
+  const { include, exclude } = splitMap(
+    tagsWithNegatives,
+    (tag) => !tag.startsWith("-"),
+    (tag) => tag.replace(/^(-)/, "")
+  );
 
-  const related = await getRelatedTags({ userId, tags, limit });
+  const related = await getRelatedTags({
+    userId,
+    tags: include,
+    exclude,
+    limit,
+  });
 
   if (related.length >= TAGS_QUERY_RESULTS_LIMIT) {
     return related;
@@ -72,7 +85,11 @@ export async function searchUserTags({
 
   const rest = await getUserCommonTags({
     userId,
-    exclude: tags.concat(related.map((tag) => tag.name)),
+    exclude: ([] as string[]).concat(
+      include,
+      exclude,
+      related.map((tag) => tag.name)
+    ),
     limit: limit - related.length,
   });
 
