@@ -2,7 +2,6 @@ import type { LoaderFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { Link, useLoaderData } from "@remix-run/react";
 import React from "react";
-import { useInstallContext } from "~/components/InstallContext";
 import Tag from "~/components/Tag";
 import { getUserSummary } from "~/models/user.server";
 import { requireUserId } from "~/session.server";
@@ -57,8 +56,6 @@ export default function LinksIndexPage() {
   const { node: numLinksDescription } = NUM_LINKS_TEXT.find(
     (f) => f.lessThan >= numLinks
   )!;
-
-  const { canPrompt, prompt } = useInstallContext();
 
   return (
     <div className="flex flex-col gap-4">
@@ -117,25 +114,6 @@ export default function LinksIndexPage() {
         </a>
         .
       </p>
-
-      {canPrompt && (
-        <section className="mb-2 max-w-3xl border border-neutral-200 bg-neutral-50 py-2 px-4">
-          <h3 className="text-md mb-2 block break-words font-normal lowercase">
-            Install
-          </h3>
-          <p className="mb-2 break-words text-sm">
-            Install this site to your desktop/home screen to be able to save
-            links by sharing directly to linkdrop.
-          </p>
-          <button
-            type="button"
-            className="w-full border border-neutral-300 py-2 px-4 lowercase text-black hover:bg-neutral-100 active:bg-neutral-400"
-            onClick={() => prompt()}
-          >
-            Install
-          </button>
-        </section>
-      )}
     </div>
   );
 }

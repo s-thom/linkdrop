@@ -14,6 +14,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased](https://github.com/s-thom/linkdrop/compare/v1.3.2...HEAD) - DATE
 
+### Added
+
+- Link to Chrome extension ina new page in the settings area.
+
+### Changed
+
+- The PWA install prompt has moved to the same page as the Chrome extension link.
+
 ### Fixed
 
 - When searching for tags, excluded tags no longer show up in the suggestions.

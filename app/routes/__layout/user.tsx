@@ -32,6 +32,14 @@ export default function LinksIndexPage() {
                 Change password
               </Link>
             </li>
+            <li>
+              <Link
+                to="/user/extras"
+                className="lowercase text-neutral-600 underline decoration-1 hover:text-neutral-600 hover:no-underline active:text-neutral-800"
+              >
+                Extras
+              </Link>
+            </li>
           </ul>
           <Form
             action="/logout"
