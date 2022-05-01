@@ -63,7 +63,7 @@ export default function AccountIndexPage() {
           </Link>
         </section>
 
-        <section className="col-span-1 mb-2 max-w-3xl border border-red-200 bg-red-50 py-2 px-4 text-red-800  sm:col-span-2 md:col-span-1 lg:col-span-2">
+        <section className="col-span-1 mb-2 max-w-3xl border border-red-200 bg-red-50 py-2 px-4 text-red-800">
           <h3 className="mb-2 block break-words text-xl font-normal lowercase">
             Delete account
           </h3>
