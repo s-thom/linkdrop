@@ -1,7 +1,7 @@
 import type { LoaderFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { Link, useLoaderData } from "@remix-run/react";
-import React, { useCallback } from "react";
+import { useCallback } from "react";
 import LinkDisplay from "~/components/LinkDisplay";
 import SearchForm from "~/components/SearchForm";
 import { searchUserLinks } from "~/models/link.server";

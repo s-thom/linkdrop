@@ -1,7 +1,6 @@
 import type { LoaderFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { Link, useLoaderData } from "@remix-run/react";
-import React from "react";
 import Tag from "~/components/Tag";
 import { getUserSummary } from "~/models/user.server";
 import { requireUserId } from "~/session.server";

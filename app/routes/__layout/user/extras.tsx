@@ -7,15 +7,15 @@ export default function LinksIndexPage() {
     <div className="flex flex-col gap-4">
       <h2 className="text-2xl font-normal lowercase">Extras</h2>
 
-      <section className="mb-2 max-w-3xl border border-neutral-200 bg-neutral-50 py-2 px-4">
-        <h3 className="text-md mb-2 block break-words font-normal lowercase">
+      <section className="mb-2 max-w-3xl border border-neutral-400 bg-white py-2 px-4">
+        <h3 className="mb-2 block break-words text-xl font-normal lowercase">
           Chrome Extension
         </h3>
-        <p className="mb-2 break-words text-sm">
+        <p className="mb-2 break-words">
           linkdrop has a companion Chrome extension, which adds a button to save
           the current tab in the extensions menu near your search bar.
         </p>
-        <p className="mb-2 break-words text-sm">
+        <p className="mb-2 break-words">
           Once installed, clicking the "Pin" icon in the extensions menu will
           keep it visible at all times.
         </p>
@@ -30,14 +30,14 @@ export default function LinksIndexPage() {
       </section>
 
       {canPrompt && (
-        <section className="mb-2 max-w-3xl border border-neutral-200 bg-neutral-50 py-2 px-4">
-          <h3 className="text-md mb-2 block break-words font-normal lowercase">
+        <section className="mb-2 max-w-3xl border border-neutral-400 bg-white py-2 px-4">
+          <h3 className="mb-2 block break-words text-xl font-normal lowercase">
             Install
           </h3>
-          <p className="mb-2 break-words text-sm">
+          <p className="mb-2 break-words">
             linkdrop can be installed to your device as a web application.
           </p>
-          <p className="mb-2 break-words text-sm">
+          <p className="mb-2 break-words">
             This is most effective on mobile, as it allows you to share links to
             linkdrop from any app in order to save them.
           </p>

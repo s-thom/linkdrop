@@ -1,5 +1,3 @@
-import React from "react";
-
 export interface TagProps
   extends React.DetailedHTMLProps<
     React.ButtonHTMLAttributes<HTMLButtonElement>,

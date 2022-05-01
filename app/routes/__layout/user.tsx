@@ -1,7 +1,6 @@
 import type { LoaderFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { Form, Link, Outlet } from "@remix-run/react";
-import React from "react";
 import { requireUserId } from "~/session.server";
 
 export const loader: LoaderFunction = async ({ request }) => {

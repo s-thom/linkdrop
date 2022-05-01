@@ -1,7 +1,6 @@
 import type { LoaderFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
-import React from "react";
 import LinkDisplay from "~/components/LinkDisplay";
 import { getSingleLink } from "~/models/link.server";
 import { useOptionalUser } from "~/utils";
