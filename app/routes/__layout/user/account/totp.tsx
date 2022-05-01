@@ -4,10 +4,15 @@ import { Form, useActionData, useLoaderData } from "@remix-run/react";
 import { authenticator } from "otplib";
 import { useEffect, useRef } from "react";
 import {
+  createUserTotp,
+  decodeTotpSecret,
   deleteUserTotp,
+  getUserTotp,
+  setUserTotpActive,
+} from "~/models/totp.server";
+import {
   getUser2faMethods,
   getUserById,
-  setUserTotp,
   verifyLogin,
 } from "~/models/user.server";
 import { requireUserId } from "~/session.server";
@@ -23,8 +28,15 @@ export const loader: LoaderFunction = async ({ request }) => {
   const methods = await getUser2faMethods(userId);
 
   if (!methods.totp) {
-    const secret = authenticator.generateSecret();
-    await setUserTotp(userId, secret);
+    const totp = await getUserTotp(userId);
+
+    let secret: string;
+    if (totp?.secret) {
+      secret = decodeTotpSecret(totp.secret);
+    } else {
+      secret = authenticator.generateSecret();
+      await createUserTotp(userId, secret);
+    }
 
     return json<LoaderData>({
       activation: {
@@ -84,6 +96,8 @@ export const action: ActionFunction = async ({ request }) => {
 
   if (request.method.toLowerCase() === "delete") {
     await deleteUserTotp(userId);
+  } else {
+    await setUserTotpActive(userId);
   }
 
   return redirect("/user/account");

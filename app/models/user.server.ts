@@ -1,12 +1,8 @@
 import type { Password, Totp, User } from "@prisma/client";
 import bcrypt from "bcryptjs";
-import { authenticator } from "otplib";
-import invariant from "tiny-invariant";
 import { prisma } from "~/db.server";
-import { decode, encode } from "~/util/aes.server";
 import { getUserCommonTags } from "./tag.server";
-
-invariant(process.env.TOTP_SECRET, "TOTP_SECRET must be set");
+import { validateTotp } from "./totp.server";
 
 export type { User } from "@prisma/client";
 
@@ -77,7 +73,7 @@ export async function getUser2faMethods(
   });
 
   return {
-    totp: !!user?.totp,
+    totp: !!user?.totp?.active,
   };
 }
 
@@ -113,16 +109,12 @@ export async function verifyLogin(
     return { success: false, errorType: "password_incorrect" };
   }
 
-  if (userWithPassword.totp) {
+  if (userWithPassword.totp?.active) {
     if (!totp) {
       return { success: false, errorType: "requires_2fa" };
     }
 
-    const secret = decode(
-      userWithPassword.totp.secret,
-      process.env.TOTP_SECRET!
-    );
-    const isTotpValid = authenticator.check(totp, secret);
+    const isTotpValid = validateTotp(totp, userWithPassword.totp.secret);
     if (!isTotpValid) {
       return { success: false, errorType: "totp_incorrect" };
     }
@@ -135,13 +127,4 @@ export async function verifyLogin(
   } = userWithPassword;
 
   return { success: true, user: userWithoutPassword };
-}
-
-export function setUserTotp(userId: User["id"], secret: string) {
-  const encryptedSecret = encode(secret, process.env.TOTP_SECRET!);
-  return prisma.totp.create({ data: { userId, secret: encryptedSecret } });
-}
-
-export function deleteUserTotp(userId: User["id"]) {
-  return prisma.totp.delete({ where: { userId } });
 }

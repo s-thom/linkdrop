@@ -177,6 +177,7 @@ export default function LoginPage() {
                 ref={totpRef}
                 name="totp"
                 type="text"
+                autoFocus={true}
                 autoComplete="one-time-code"
                 aria-invalid={actionData?.errors?.totp ? true : undefined}
                 aria-describedby="totp-error"
