@@ -169,7 +169,7 @@ export default function LoginPage() {
               htmlFor="totp"
               className="block text-sm font-medium lowercase text-gray-700"
             >
-              TOTP Code
+              Authenticator Code
             </label>
             <div className="mt-1">
               <input
