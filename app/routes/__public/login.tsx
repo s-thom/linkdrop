@@ -10,6 +10,10 @@ interface ActionData {
   errors?: {
     email?: string;
     password?: string;
+    totp?: string;
+  };
+  extra?: {
+    totp?: boolean;
   };
 }
 
@@ -17,6 +21,7 @@ export const action: ActionFunction = async ({ request }) => {
   const formData = await request.formData();
   const email = formData.get("email");
   const password = formData.get("password");
+  const totp = formData.get("totp") ?? "";
   const redirectTo = safeRedirect(formData.get("redirectTo"), "/");
   const remember = formData.get("remember");
 
@@ -34,6 +39,13 @@ export const action: ActionFunction = async ({ request }) => {
     );
   }
 
+  if (totp && typeof totp !== "string") {
+    return json<ActionData>(
+      { errors: { totp: "TOTP code is required" } },
+      { status: 400 }
+    );
+  }
+
   if (password.length < 8) {
     return json<ActionData>(
       { errors: { password: "Password is too short" } },
@@ -41,18 +53,30 @@ export const action: ActionFunction = async ({ request }) => {
     );
   }
 
-  const user = await verifyLogin(email, password);
-
-  if (!user) {
-    return json<ActionData>(
-      { errors: { email: "Invalid email or password" } },
-      { status: 400 }
-    );
+  const result = await verifyLogin(email, password, totp);
+  if (!result.success) {
+    switch (result.errorType) {
+      case "password_incorrect":
+        return json<ActionData>(
+          { errors: { email: "Invalid email or password" } },
+          { status: 400 }
+        );
+      case "requires_2fa":
+        return json<ActionData>(
+          { errors: {}, extra: { totp: true } },
+          { status: 400 }
+        );
+      case "totp_incorrect":
+        return json<ActionData>(
+          { errors: { totp: "Incorrect code" }, extra: { totp: true } },
+          { status: 400 }
+        );
+    }
   }
 
   return createUserSession({
     request,
-    userId: user.id,
+    userId: result.user.id,
     remember: remember === "on" ? true : false,
     redirectTo,
   });
@@ -70,12 +94,15 @@ export default function LoginPage() {
   const actionData = useActionData<ActionData>();
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
+  const totpRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (actionData?.errors?.email) {
       emailRef.current?.focus();
     } else if (actionData?.errors?.password) {
       passwordRef.current?.focus();
+    } else if (actionData?.errors?.totp) {
+      totpRef.current?.focus();
     }
   }, [actionData]);
 
@@ -135,6 +162,34 @@ export default function LoginPage() {
             )}
           </div>
         </div>
+
+        {actionData?.extra?.totp && (
+          <div>
+            <label
+              htmlFor="totp"
+              className="block text-sm font-medium lowercase text-gray-700"
+            >
+              TOTP Code
+            </label>
+            <div className="mt-1">
+              <input
+                id="totp"
+                ref={totpRef}
+                name="totp"
+                type="text"
+                autoComplete="one-time-code"
+                aria-invalid={actionData?.errors?.totp ? true : undefined}
+                aria-describedby="totp-error"
+                className="w-full border border-gray-500 px-2 py-1 text-lg"
+              />
+              {actionData?.errors?.totp && (
+                <div className="pt-1 text-red-700" id="totp-error">
+                  {actionData.errors.totp}
+                </div>
+              )}
+            </div>
+          </div>
+        )}
 
         <input type="hidden" name="redirectTo" value={redirectTo} />
         <button

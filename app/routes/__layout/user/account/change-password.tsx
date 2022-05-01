@@ -1,23 +1,33 @@
 import type { ActionFunction, LoaderFunction } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
-import { Form, useActionData } from "@remix-run/react";
-import * as React from "react";
+import { Form, useActionData, useLoaderData } from "@remix-run/react";
+import { useEffect, useRef } from "react";
 import {
+  getUser2faMethods,
   getUserById,
   updateUserPassword,
   verifyLogin,
 } from "~/models/user.server";
 import { requireUserId } from "~/session.server";
 
+interface LoaderData {
+  mfa?: {
+    totp: boolean;
+  };
+}
+
 export const loader: LoaderFunction = async ({ request }) => {
-  await requireUserId(request);
-  return json({});
+  const userId = await requireUserId(request);
+  const methods = await getUser2faMethods(userId);
+
+  return json<LoaderData>({ mfa: methods });
 };
 
 interface ActionData {
   errors: {
     currentPassword?: string;
     password?: string;
+    totp?: string;
   };
 }
 
@@ -28,6 +38,7 @@ export const action: ActionFunction = async ({ request }) => {
   const formData = await request.formData();
   const currentPassword = formData.get("currentPassword");
   const password = formData.get("password");
+  const totp = formData.get("totp") ?? "";
 
   if (typeof currentPassword !== "string") {
     return json<ActionData>(
@@ -50,14 +61,23 @@ export const action: ActionFunction = async ({ request }) => {
     );
   }
 
-  if (!(await verifyLogin(user.email, currentPassword))) {
+  if (totp && typeof totp !== "string") {
+    return json<ActionData>(
+      { errors: { totp: "TOTP code is required" } },
+      { status: 400 }
+    );
+  }
+
+  const passwordResult = await verifyLogin(user.email, currentPassword, totp);
+  if (!passwordResult.success) {
     return json<ActionData>(
       { errors: { currentPassword: "Password is incorrect" } },
       { status: 400 }
     );
   }
 
-  if (await verifyLogin(user.email, password)) {
+  const samePasswordCheck = await verifyLogin(user.email, password, totp);
+  if (samePasswordCheck.success) {
     return json<ActionData>(
       {
         errors: {
@@ -71,20 +91,24 @@ export const action: ActionFunction = async ({ request }) => {
 
   await updateUserPassword({ userId, password });
 
-  return redirect("/user");
+  return redirect("/user/account");
 };
 
 export default function Join() {
-  const actionData = useActionData() as ActionData;
+  const data = useLoaderData<LoaderData>();
+  const actionData = useActionData<ActionData>();
 
-  const currentPasswordRef = React.useRef<HTMLInputElement>(null);
-  const passwordRef = React.useRef<HTMLInputElement>(null);
+  const currentPasswordRef = useRef<HTMLInputElement>(null);
+  const passwordRef = useRef<HTMLInputElement>(null);
+  const totpRef = useRef<HTMLInputElement>(null);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (actionData?.errors?.currentPassword) {
       currentPasswordRef.current?.focus();
     } else if (actionData?.errors?.password) {
       passwordRef.current?.focus();
+    } else if (actionData?.errors?.totp) {
+      totpRef.current?.focus();
     }
   }, [actionData]);
 
@@ -144,6 +168,34 @@ export default function Join() {
             )}
           </div>
         </div>
+
+        {data.mfa?.totp && (
+          <div>
+            <label
+              htmlFor="totp"
+              className="block text-sm font-medium lowercase text-gray-700"
+            >
+              TOTP Code
+            </label>
+            <div className="mt-1">
+              <input
+                id="totp"
+                ref={totpRef}
+                name="totp"
+                type="text"
+                autoComplete="one-time-code"
+                aria-invalid={actionData?.errors?.totp ? true : undefined}
+                aria-describedby="totp-error"
+                className="w-full border border-gray-500 px-2 py-1 text-lg"
+              />
+              {actionData?.errors?.totp && (
+                <div className="pt-1 text-red-700" id="totp-error">
+                  {actionData.errors.totp}
+                </div>
+              )}
+            </div>
+          </div>
+        )}
 
         <button
           type="submit"

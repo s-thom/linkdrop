@@ -25,10 +25,10 @@ export default function LinksIndexPage() {
             </li>
             <li>
               <Link
-                to="/user/change-password"
+                to="/user/account"
                 className="lowercase text-neutral-600 underline decoration-1 hover:text-neutral-600 hover:no-underline active:text-neutral-800"
               >
-                Change password
+                Account
               </Link>
             </li>
             <li>
