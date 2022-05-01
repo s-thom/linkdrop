@@ -17,7 +17,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - 2 factor authentication via TOTP (mobile authenticator).
-- Link to Chrome extension ina new page in the settings area.
+- Accounts can be deleted from the account settings.
+- Link to Chrome extension in a new page in the settings area.
 
 ### Changed
 
