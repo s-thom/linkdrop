@@ -2,7 +2,7 @@ import type { ActionFunction, LoaderFunction } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import { Form, useActionData, useLoaderData } from "@remix-run/react";
 import { authenticator } from "otplib";
-import { useEffect, useRef } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import {
   createUserTotp,
   decodeTotpSecret,
@@ -16,6 +16,8 @@ import {
   verifyLogin,
 } from "~/models/user.server";
 import { requireUserId } from "~/session.server";
+import qr from "qrcode";
+import { useUser } from "~/utils";
 
 interface LoaderData {
   activation?: {
@@ -104,6 +106,7 @@ export const action: ActionFunction = async ({ request }) => {
 };
 
 export default function SetUpTotpPage() {
+  const user = useUser();
   const data = useLoaderData<LoaderData>();
   const actionData = useActionData<ActionData>();
 
@@ -117,6 +120,23 @@ export default function SetUpTotpPage() {
       totpRef.current?.focus();
     }
   }, [actionData]);
+
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  const url = useMemo(() => {
+    if (!data.activation?.secret) {
+      return null;
+    }
+    return `otpauth://totp/${encodeURIComponent(
+      `linkdrop (${user.email})`
+    )}?secret=${data.activation.secret}`;
+  }, [data.activation?.secret, user.email]);
+
+  useEffect(() => {
+    if (canvasRef.current && url) {
+      qr.toCanvas(canvasRef.current, url);
+    }
+  }, [url]);
 
   return (
     <div className="mx-auto w-full max-w-md px-8">
@@ -151,7 +171,23 @@ export default function SetUpTotpPage() {
           </div>
         </div>
 
-        {data.activation && <div>{data.activation.secret}</div>}
+        {data.activation && (
+          <section className="mb-2 flex max-w-3xl flex-col items-center border border-neutral-400 bg-white py-2 px-4">
+            <p>
+              Use the following code to save your authenticator secret. Once
+              enabled, you will not see this again.
+            </p>
+
+            <canvas className="my-2" ref={canvasRef} />
+
+            <p className="text-sm text-neutral-500">
+              If you aren't able to scan the code, use the value below.
+            </p>
+            <p className="select-all border py-1 px-2 text-center text-sm">
+              {data.activation.secret}
+            </p>
+          </section>
+        )}
 
         <div>
           <label

@@ -31,7 +31,7 @@ export default function AccountIndexPage() {
           Change password
         </h3>
         <p className="mb-2 break-words">
-          Need to change your password? You will need you current password to
+          Need to change your password? You will need your current password to
           continue.
         </p>
         <Link
@@ -48,13 +48,13 @@ export default function AccountIndexPage() {
         </h3>
         {hasMfa ? (
           <p className="mb-2 break-words">
-            Want to change your 2FA settings? You will need you current password
-            to continue.
+            Want to change your 2FA settings? You will need your current
+            password to continue.
           </p>
         ) : (
           <p className="mb-2 break-words">
             Add 2FA to your account with a mobile authenticator app. You will
-            need you current password to continue.
+            need your current password to continue.
           </p>
         )}
         <Link
