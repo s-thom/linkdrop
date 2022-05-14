@@ -14,7 +14,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased](https://github.com/s-thom/linkdrop/compare/v1.4.0...HEAD) - DATE
 
-## [1.4.0](https://github.com/s-thom/linkdrop/compare/v1.3.2...v1.4.0) - DATE
+### Changed
+
+- Login sessions last up to 30 days, instead of 7
+
+## [1.4.0](https://github.com/s-thom/linkdrop/compare/v1.3.2...v1.4.0) - 2022-05-01
 
 ### Added
 
