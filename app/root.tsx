@@ -18,13 +18,14 @@ import {
 import type {
   CatchBoundaryComponent,
   ErrorBoundaryComponent,
-} from "@remix-run/react/routeModules";
+} from "@remix-run/react/dist/routeModules";
 import { useEffect, useRef } from "react";
 import { BigErrorPage } from "./components/BigErrorPage";
 import { InstallContextProvider } from "./components/InstallContext";
 import { getUser } from "./session.server";
 import tailwindStylesheetUrl from "./styles/tailwind.css";
 import { useInstallPrompt } from "./util/useInstallPrompt";
+
 export const links: LinksFunction = () => {
   return [
     { rel: "stylesheet", href: tailwindStylesheetUrl },

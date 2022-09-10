@@ -6,7 +6,7 @@ module.exports = {
     "@remix-run/eslint-config",
     "@remix-run/eslint-config/node",
     "@remix-run/eslint-config/jest-testing-library",
-    "prettier",
+    "plugin:prettier/recommended",
   ],
   // We're using vitest which has a very similar API to jest
   // (so the linting plugins work nicely), but we have to
