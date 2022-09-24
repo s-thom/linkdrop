@@ -16,4 +16,7 @@ module.exports = {
       version: 27,
     },
   },
+  rules: {
+    "prettier/prettier": "warn",
+  },
 };

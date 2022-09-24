@@ -1,4 +1,5 @@
 import { useState, useCallback } from "react";
+import type { TagState } from "~/components/Tag";
 import { decodeStringArray } from "./stringArray";
 
 const INPUT_RESET_KEYS = [" ", ",", "+", "Enter"];
@@ -58,4 +59,14 @@ export function useTagsInput({
   return {
     input,
   };
+}
+
+export function inferTagStateFromName(tag: string): TagState | undefined {
+  if (tag.startsWith("-")) {
+    return "negative";
+  }
+  if (tag.startsWith("+")) {
+    return "positive";
+  }
+  return undefined;
 }

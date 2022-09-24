@@ -1,10 +1,11 @@
 import type { Link, Tag } from "@prisma/client";
 import { Link as LinkComponent } from "@remix-run/react";
+import type { SerializeFrom } from "@remix-run/server-runtime";
 import { Edit3, Link as LinkIcon } from "react-feather";
 import TagComponent from "./Tag";
 
-export interface LinkWithTags extends Link {
-  tags: Tag[];
+export interface LinkWithTags extends SerializeFrom<Link> {
+  tags: SerializeFrom<Tag>[];
 }
 
 export interface LinkDisplayProps {
@@ -45,7 +46,7 @@ export default function LinkDisplay({
                 <TagComponent
                   name={tag.name}
                   disabled={!onTagClick}
-                  isActive={activeTags?.includes(tag.name)}
+                  state={activeTags?.includes(tag.name) ? "active" : "inactive"}
                   onClick={onTagClick && (() => onTagClick(tag.name))}
                 />
               </li>

@@ -1,4 +1,4 @@
-import { useTagsInput } from "~/util/useTagsInput";
+import { inferTagStateFromName, useTagsInput } from "~/util/useTagsInput";
 import Tag from "./Tag";
 
 export interface FormValues {
@@ -29,8 +29,7 @@ export default function SearchForm({
             <Tag
               key={tag}
               name={tag}
-              isActive
-              isNegative={tag.startsWith("-")}
+              state={inferTagStateFromName(tag) ?? "active"}
               disabled={!removeTag}
               onClick={removeTag && (() => removeTag(tag))}
               aria-label={`Remove tag: ${tag}`}
@@ -55,6 +54,7 @@ export default function SearchForm({
                 <Tag
                   key={tag}
                   name={tag}
+                  state="inactive"
                   disabled={!addTag}
                   onClick={addTag && (() => addTag(tag))}
                   aria-label={`Add tag: ${tag}`}

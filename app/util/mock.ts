@@ -1,11 +1,12 @@
 import type { Tag } from "@prisma/client";
+import type { SerializeFrom } from "@remix-run/server-runtime";
 import type { LinkWithTags } from "~/components/LinkDisplay";
 
-export function createTag(name: string): Tag {
+export function createTag(name: string): SerializeFrom<Tag> {
   return {
     id: name,
     name,
-    createdAt: new Date(),
+    createdAt: new Date().toISOString(),
     userId: "",
   };
 }
@@ -19,8 +20,8 @@ export function createLink(
   return {
     id: "",
     url,
-    createdAt: new Date(sortOrder),
-    updatedAt: new Date(),
+    createdAt: new Date(sortOrder).toISOString(),
+    updatedAt: new Date().toISOString(),
     description,
     tags: tags.map(createTag),
     userId: "",
@@ -28,7 +29,8 @@ export function createLink(
 }
 
 function reduceCountMatchingTags(input: Set<string>) {
-  return (count: number, tag: Tag) => count + (input.has(tag.name) ? 1 : 0);
+  return (count: number, tag: SerializeFrom<Tag>) =>
+    count + (input.has(tag.name) ? 1 : 0);
 }
 
 export function doMockSearch(
@@ -46,7 +48,7 @@ export function doMockSearch(
         b.tags.reduce(reduceCountMatchingTags(tagSet), 0) -
           a.tags.reduce(reduceCountMatchingTags(tagSet), 0) ||
         // Sort by date desc
-        b.createdAt.getDate() - a.createdAt.getDate()
+        new Date(b.createdAt).getDate() - new Date(a.createdAt).getDate()
       );
     });
 }

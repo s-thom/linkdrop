@@ -112,7 +112,7 @@ export default function Demo() {
               <Tag
                 key={tag}
                 name={tag}
-                isActive
+                state="active"
                 onClick={() => removeTag(tag)}
                 aria-label={`Remove tag: ${tag}`}
               />
@@ -132,6 +132,7 @@ export default function Demo() {
                 <Tag
                   key={tag}
                   name={tag}
+                  state="inactive"
                   onClick={() => addTag(tag)}
                   aria-label={`Add tag: ${tag}`}
                 />

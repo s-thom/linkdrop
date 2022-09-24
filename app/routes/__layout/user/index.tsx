@@ -93,6 +93,7 @@ export default function LinksIndexPage() {
                 <Tag
                   name={`${tag.name} (${tag._count.links})`}
                   className="cursor-pointer"
+                  state="inactive"
                 />
               </Link>
             </li>
