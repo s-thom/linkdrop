@@ -65,7 +65,11 @@ const EXAMPLE_LINKS: LinkWithTags[] = [
   ),
 ];
 
-export default function Demo() {
+export interface DemoProps {
+  direction?: "column" | "row";
+}
+
+export default function Demo({ direction = "row" }: DemoProps) {
   const [tagsValue, setTagsValue] = useState<string[]>([]);
   const addTag = useCallback((tag: string) => {
     setTagsValue((prev) => {
@@ -102,11 +106,11 @@ export default function Demo() {
   }
 
   const activeTags = useMemo(() => {
-    return tagsValue.map((tag) => tag.replace(/^[-!]/, ""));
+    return tagsValue.map((tag) => tag.replace(/^[-+]/, ""));
   }, [tagsValue]);
 
   return (
-    <div className="flex flex-col md:flex-row md:justify-center">
+    <div className={`flex flex-col md:flex-${direction} md:justify-center`}>
       <aside className="p-6 md:h-full md:w-80 md:pr-0">
         <label
           htmlFor="_tag_entry"

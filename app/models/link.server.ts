@@ -26,11 +26,11 @@ export async function searchUserLinks({
   const { include, exclude } = splitMap(
     tags,
     (tag) => !tag.startsWith("-"),
-    (tag) => tag.replace(/^([-!])/, "")
+    (tag) => tag.replace(/^([-+])/, "")
   );
   const requiredTags = tags
-    .filter((tag) => tag.startsWith("!"))
-    .map((tag) => tag.replace(/^([!])/, ""));
+    .filter((tag) => tag.startsWith("+"))
+    .map((tag) => tag.replace(/^([+])/, ""));
 
   // Beware the SQL that needs comments.
   const results = await prisma.$queryRaw<LinksByTagResult[]>`

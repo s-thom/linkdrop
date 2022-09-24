@@ -51,7 +51,7 @@ export default function LinksIndexPage() {
             Including certain tags
           </h3>
           <p className="mb-2 break-words">
-            By prefixing a tag with <code>!</code>, only links with that tag
+            By prefixing a tag with <code>+</code>, only links with that tag
             will appear in your search results.
           </p>
           <p className="mb-2 break-words">
@@ -59,7 +59,7 @@ export default function LinksIndexPage() {
             down a wide range of topics quickly.
           </p>
           <p>
-            <Tag name="!included" state="positive" />
+            <Tag name="+included" state="positive" />
           </p>
         </section>
 
@@ -85,7 +85,7 @@ export default function LinksIndexPage() {
         Searching demo
       </h3>
       <div>
-        <Demo />
+        <Demo direction="column" />
       </div>
     </div>
   );

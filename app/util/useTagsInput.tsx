@@ -33,14 +33,19 @@ export function useTagsInput({
           decodeStringArray(tagInputValue).forEach((tag) => {
             if (!allowNegative && tag.startsWith("-")) {
               addTag(tag.replace(/^-/, ""));
-            } else if (!allowPositive && tag.startsWith("!")) {
-              addTag(tag.replace(/^!/, ""));
+            } else if (!allowPositive && tag.startsWith("+")) {
+              addTag(tag.replace(/^\+/, ""));
             } else {
               addTag(tag);
             }
           });
         }
-        setTagInputValue("");
+
+        if (allowPositive && event.key === "+") {
+          setTagInputValue("+");
+        } else {
+          setTagInputValue("");
+        }
       }
     },
     [addTag, allowNegative, allowPositive, tagInputValue]
@@ -69,7 +74,7 @@ export function inferTagStateFromName(tag: string): TagState | undefined {
   if (tag.startsWith("-")) {
     return "negative";
   }
-  if (tag.startsWith("!")) {
+  if (tag.startsWith("+")) {
     return "positive";
   }
   return undefined;

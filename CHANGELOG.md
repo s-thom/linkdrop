@@ -17,7 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Required tags when searching.
-  - By prefixing a tag with `!`, links must include the given tag in order to show up.
+  - By prefixing a tag with `+`, links must include the given tag in order to show up.
   - Combining with the existing `-`, this allows for much more granular searching.
 - New help page, with information about searching and the different modifiers to tags
 

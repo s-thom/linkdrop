@@ -18,7 +18,7 @@ export function createLink(
   sortOrder: number = 0
 ): LinkWithTags {
   return {
-    id: "",
+    id: url,
     url,
     createdAt: new Date(sortOrder).toISOString(),
     updatedAt: new Date().toISOString(),
@@ -45,8 +45,8 @@ export function doMockSearch(
   );
   const positiveSet = new Set(
     tags
-      .filter((tag) => tag.startsWith("!"))
-      .map((tag) => tag.replace(/^!/, ""))
+      .filter((tag) => tag.startsWith("+"))
+      .map((tag) => tag.replace(/^\+/, ""))
   );
   // Make sur to include positive tags in the tag set
   positiveSet.forEach((tag) => tagSet.add(tag));

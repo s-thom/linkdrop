@@ -49,7 +49,7 @@ export default function LinksIndexPage() {
   );
 
   const activeTags = useMemo(() => {
-    return values.tags.map((tag) => tag.replace(/^[-!]/, ""));
+    return values.tags.map((tag) => tag.replace(/^[-+]/, ""));
   }, [values.tags]);
 
   return (
