@@ -1,6 +1,6 @@
 import { useCallback, useMemo, useState } from "react";
 import { createLink, doMockSearch } from "~/util/mock";
-import { useTagsInput } from "~/util/useTagsInput";
+import { inferTagStateFromName, useTagsInput } from "~/util/useTagsInput";
 import type { LinkWithTags } from "./LinkDisplay";
 import LinkDisplay from "./LinkDisplay";
 import Tag from "./Tag";
@@ -90,12 +90,20 @@ export default function Demo() {
     [tagsValue]
   );
 
-  const { input } = useTagsInput({ addTag });
+  const { input } = useTagsInput({
+    addTag,
+    allowNegative: true,
+    allowPositive: true,
+  });
 
   let links = doMockSearch(EXAMPLE_LINKS, tagsValue);
-  if (links.length === 0) {
+  if (links.length === 0 && tagsValue.length === 0) {
     links = [DEFAULT_LINK];
   }
+
+  const activeTags = useMemo(() => {
+    return tagsValue.map((tag) => tag.replace(/^[-!]/, ""));
+  }, [tagsValue]);
 
   return (
     <div className="flex flex-col md:flex-row md:justify-center">
@@ -112,7 +120,7 @@ export default function Demo() {
               <Tag
                 key={tag}
                 name={tag}
-                state="active"
+                state={inferTagStateFromName(tag) ?? "active"}
                 onClick={() => removeTag(tag)}
                 aria-label={`Remove tag: ${tag}`}
               />
@@ -148,7 +156,7 @@ export default function Demo() {
             <li key={link.id}>
               <LinkDisplay
                 link={link}
-                activeTags={tagsValue}
+                activeTags={activeTags}
                 onTagClick={toggleTag}
               />
             </li>

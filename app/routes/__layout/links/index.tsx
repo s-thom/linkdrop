@@ -1,7 +1,7 @@
 import type { LoaderFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { Link, useLoaderData } from "@remix-run/react";
-import { useCallback } from "react";
+import { useCallback, useMemo } from "react";
 import LinkDisplay from "~/components/LinkDisplay";
 import SearchForm from "~/components/SearchForm";
 import { searchUserLinks } from "~/models/link.server";
@@ -48,6 +48,10 @@ export default function LinksIndexPage() {
     [addTag, removeTag, values.tags]
   );
 
+  const activeTags = useMemo(() => {
+    return values.tags.map((tag) => tag.replace(/^[-!]/, ""));
+  }, [values.tags]);
+
   return (
     <div className="flex flex-col md:flex-row md:justify-center">
       <aside className="p-6 md:h-full md:w-80 md:pr-0">
@@ -66,7 +70,7 @@ export default function LinksIndexPage() {
               <li key={link.id}>
                 <LinkDisplay
                   link={link}
-                  activeTags={values.tags}
+                  activeTags={activeTags}
                   canShare
                   canEdit={user.id === link.userId}
                   onTagClick={toggleTag}
