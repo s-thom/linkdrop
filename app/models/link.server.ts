@@ -26,8 +26,11 @@ export async function searchUserLinks({
   const { include, exclude } = splitMap(
     tags,
     (tag) => !tag.startsWith("-"),
-    (tag) => tag.replace(/^(-)/, "")
+    (tag) => tag.replace(/^([-!])/, "")
   );
+  const requiredTags = tags
+    .filter((tag) => tag.startsWith("!"))
+    .map((tag) => tag.replace(/^([!])/, ""));
 
   // Beware the SQL that needs comments.
   const results = await prisma.$queryRaw<LinksByTagResult[]>`
@@ -65,6 +68,12 @@ WHERE
   ${Prisma.sql`${
     include.length
       ? Prisma.sql`lt.tags && ${include}::TEXT[]`
+      : Prisma.sql`true`
+  }`} AND
+  -- Something similar for required tags
+  ${Prisma.sql`${
+    requiredTags.length
+      ? Prisma.sql`lt.tags @> ${requiredTags}::TEXT[]`
       : Prisma.sql`true`
   }`} AND
   (lt.tags && ${exclude}::TEXT[]) = FALSE

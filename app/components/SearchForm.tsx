@@ -18,7 +18,11 @@ export default function SearchForm({
   addTag,
   removeTag,
 }: SearchFormProps) {
-  const { input } = useTagsInput({ addTag, allowNegative: true });
+  const { input } = useTagsInput({
+    addTag,
+    allowNegative: true,
+    allowPositive: true,
+  });
 
   return (
     <div>

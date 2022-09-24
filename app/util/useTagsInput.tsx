@@ -9,6 +9,7 @@ export interface UseTagsInputProps {
   initialValue?: string;
   addTag?: (tag: string) => void;
   allowNegative?: boolean;
+  allowPositive?: boolean;
 }
 
 export function useTagsInput({
@@ -16,6 +17,7 @@ export function useTagsInput({
   initialValue = "",
   addTag,
   allowNegative,
+  allowPositive,
 }: UseTagsInputProps) {
   const [tagInputValue, setTagInputValue] = useState(initialValue);
   const onTagInputChange = useCallback<
@@ -29,17 +31,19 @@ export function useTagsInput({
         event.preventDefault();
         if (addTag) {
           decodeStringArray(tagInputValue).forEach((tag) => {
-            if (allowNegative) {
-              addTag(tag);
-            } else {
+            if (!allowNegative && tag.startsWith("-")) {
               addTag(tag.replace(/^-/, ""));
+            } else if (!allowPositive && tag.startsWith("!")) {
+              addTag(tag.replace(/^!/, ""));
+            } else {
+              addTag(tag);
             }
           });
         }
         setTagInputValue("");
       }
     },
-    [addTag, allowNegative, tagInputValue]
+    [addTag, allowNegative, allowPositive, tagInputValue]
   );
 
   const input = (
@@ -65,7 +69,7 @@ export function inferTagStateFromName(tag: string): TagState | undefined {
   if (tag.startsWith("-")) {
     return "negative";
   }
-  if (tag.startsWith("+")) {
+  if (tag.startsWith("!")) {
     return "positive";
   }
   return undefined;

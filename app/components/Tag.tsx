@@ -20,7 +20,8 @@ export default function Tag({ name, state, className, ...props }: TagProps) {
       activeClasses = "bg-neutral-100 text-neutral-600 hover:text-black";
       break;
     case "positive":
-      activeClasses = "";
+      activeClasses =
+        "bg-lime-200 text-lime-800 border-lime-400 hover:text-lime-900";
       break;
     case "negative":
       activeClasses =
