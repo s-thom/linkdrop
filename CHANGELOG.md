@@ -25,6 +25,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Login sessions last up to 30 days, instead of 7.
 - Upgraded to React 18.
+- Changed favicons to hopefully be more readable.
 
 ## [1.4.0](https://github.com/s-thom/linkdrop/compare/v1.3.2...v1.4.0) - 2022-05-01
 

@@ -81,6 +81,12 @@ export let loader: LoaderFunction = () => {
           sizes: "512x512",
           type: "image/png",
         },
+        {
+          src: "/images/icons/maskable_icon.png",
+          sizes: "1024x1024",
+          type: "image/png",
+          purpose: "maskable",
+        },
       ],
       share_target: {
         action: "/links/new",
