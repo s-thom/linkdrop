@@ -18,7 +18,7 @@ export function createLink(
   sortOrder: number = 0
 ): LinkWithTags {
   return {
-    id: url,
+    id: Math.random().toString(10),
     url,
     createdAt: new Date(sortOrder).toISOString(),
     updatedAt: new Date().toISOString(),
