@@ -14,6 +14,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased](https://github.com/s-thom/linkdrop/compare/v1.4.0...HEAD) - DATE
 
+## [1.5.0](https://github.com/s-thom/linkdrop/compare/v1.4.0...v1.5.0) - 2022-09-24
+
 ### Added
 
 - Required tags when searching.
