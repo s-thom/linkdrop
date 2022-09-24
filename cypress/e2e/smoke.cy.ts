@@ -12,7 +12,7 @@ describe("smoke tests", () => {
     };
     cy.then(() => ({ email: loginForm.email })).as("user");
 
-    cy.visit("/");
+    cy.visitAndCheck("/");
     cy.findByRole("link", { name: /sign up/i }).click();
 
     cy.findByRole("textbox", { name: /email/i }).type(loginForm.email);
@@ -35,7 +35,7 @@ describe("smoke tests", () => {
       tags: "foo+bar,baz wibble+wobble,wubble",
     };
     cy.login();
-    cy.visit("/");
+    cy.visitAndCheck("/");
 
     cy.findByRole("link", { name: /Your links/i }).click();
     cy.findByText("You haven't added any links yet.");
