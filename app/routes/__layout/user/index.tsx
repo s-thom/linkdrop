@@ -4,6 +4,7 @@ import { Link, useLoaderData } from "@remix-run/react";
 import Tag from "~/components/Tag";
 import { getUserSummary } from "~/models/user.server";
 import { requireUserId } from "~/session.server";
+import { useEventCallback } from "~/util/analytics";
 
 const NUM_LINKS_TEXT: { lessThan: number; node: React.ReactNode }[] = [
   { lessThan: -1, node: "I have no idea how you did this." },
@@ -52,6 +53,15 @@ export default function LinksIndexPage() {
   const data = useLoaderData<LoaderData>();
   const { user, numLinks, commonTags } = data.summary;
 
+  const sendClickCommonTag = useEventCallback({
+    name: "common-tag",
+    data: { type: "click" },
+  });
+  const sendClickGithubIssues = useEventCallback({
+    name: "github-issues",
+    data: { type: "click" },
+  });
+
   const { node: numLinksDescription } = NUM_LINKS_TEXT.find(
     (f) => f.lessThan >= numLinks
   )!;
@@ -89,7 +99,10 @@ export default function LinksIndexPage() {
         <ul className="flex flex-wrap gap-2">
           {commonTags.map((tag) => (
             <li key={tag.id}>
-              <Link to={`/links?tags=${encodeURIComponent(tag.name)}`}>
+              <Link
+                to={`/links?tags=${encodeURIComponent(tag.name)}`}
+                onClick={sendClickCommonTag}
+              >
                 <Tag
                   name={`${tag.name} (${tag._count.links})`}
                   className="cursor-pointer"
@@ -109,6 +122,7 @@ export default function LinksIndexPage() {
           target="_blank"
           rel="noreferrer nofollow"
           className="text-neutral-600 underline decoration-1 hover:text-neutral-600 hover:no-underline active:text-neutral-800"
+          onClick={sendClickGithubIssues}
         >
           creating an issue in GitHub
         </a>

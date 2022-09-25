@@ -5,6 +5,7 @@ import type { FormErrors } from "~/components/LinkForm";
 import LinkForm from "~/components/LinkForm";
 import { createLink } from "~/models/link.server";
 import { requireUserId } from "~/session.server";
+import { useEventCallback } from "~/util/analytics";
 import { validateFormData } from "~/util/linkFormData.server";
 
 type LoaderData = {
@@ -75,6 +76,10 @@ export default function NewLinkPage() {
             description: data.description ?? "",
             tags: [],
           }}
+          onSubmit={useEventCallback({
+            name: "create-link",
+            data: { type: "submit" },
+          })}
         />
       </main>
     </div>

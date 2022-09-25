@@ -1,4 +1,4 @@
-import type { FormMethod } from "@remix-run/react";
+import type { FormMethod, FormProps } from "@remix-run/react";
 import { Form, useFetcher } from "@remix-run/react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { encodeStringArray } from "~/util/stringArray";
@@ -30,6 +30,7 @@ export interface LinkFormProps {
   i18n: {
     submit: string;
   };
+  onSubmit?: FormProps["onSubmit"];
 }
 
 export default function LinkForm({
@@ -38,6 +39,7 @@ export default function LinkForm({
   initialValues,
   errors,
   i18n,
+  onSubmit,
 }: LinkFormProps) {
   const fetcher = useFetcher<TagsLoaderData>();
 
@@ -91,7 +93,7 @@ export default function LinkForm({
   const { input } = useTagsInput({ id: "_tag_entry", addTag });
 
   return (
-    <Form method={method} action={action}>
+    <Form method={method} action={action} onSubmit={onSubmit}>
       <div className="my-2">
         <label
           htmlFor="url"

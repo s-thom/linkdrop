@@ -1,4 +1,5 @@
 import { Links, LiveReload, Meta, Scripts } from "@remix-run/react";
+import { useEventCallback } from "~/util/analytics";
 import { createLink } from "~/util/mock";
 import type { HeaderProps } from "./Header";
 import Header from "./Header";
@@ -40,7 +41,13 @@ export function BigErrorPage({ status }: BigErrorPageProps) {
                   ? "Page not found."
                   : `An unknown error occurred (${status}).`}
               </p>
-              <LinkDisplay link={MOCK_LINK} />
+              <LinkDisplay
+                link={MOCK_LINK}
+                onLinkClick={useEventCallback({
+                  name: "error-page-link",
+                  data: { type: "click", status },
+                })}
+              />
             </div>
           </main>
         </div>

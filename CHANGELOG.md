@@ -12,7 +12,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 <!-- ### Fixed -->
 <!-- ### Security -->
 
-## [Unreleased](https://github.com/s-thom/linkdrop/compare/v1.4.0...HEAD) - DATE
+## [Unreleased](https://github.com/s-thom/linkdrop/compare/v1.5.0...HEAD) - DATE
+
+### Added
+
+- Analytics through Umami.
+  - No cookies/local/session storage.
+  - Instance is hosted at [analytics.sthom.kiwi](https://analytics.sthom.kiwi), which most adblockers should detect by default.
+  - Do Not Track header is respected.
+  - Any paths with identifiable information are anonymised (e.g. tags are omitted during searches).
 
 ## [1.5.0](https://github.com/s-thom/linkdrop/compare/v1.4.0...v1.5.0) - 2022-09-24
 

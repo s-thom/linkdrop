@@ -18,6 +18,7 @@ import {
 import { requireUserId } from "~/session.server";
 import qr from "qrcode";
 import { useUser } from "~/utils";
+import { useEventCallback } from "~/util/analytics";
 
 interface LoaderData {
   activation?: {
@@ -144,6 +145,10 @@ export default function SetUpTotpPage() {
         method={data.activation ? "post" : "delete"}
         className="space-y-6"
         noValidate
+        onSubmit={useEventCallback({
+          name: "update-totp",
+          data: { type: "submit" },
+        })}
       >
         <div>
           <label

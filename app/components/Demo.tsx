@@ -1,4 +1,5 @@
 import { useCallback, useMemo, useState } from "react";
+import { useEventCallback } from "~/util/analytics";
 import { createLink, doMockSearch } from "~/util/mock";
 import { inferTagStateFromName, useTagsInput } from "~/util/useTagsInput";
 import type { LinkWithTags } from "./LinkDisplay";
@@ -109,6 +110,11 @@ export default function Demo({ direction = "row" }: DemoProps) {
     return tagsValue.map((tag) => tag.replace(/^[-+]/, ""));
   }, [tagsValue]);
 
+  const sendDemoLinkClick = useEventCallback({
+    name: "demo-link",
+    data: { type: "click" },
+  });
+
   return (
     <div className={`flex flex-col md:flex-${direction} md:justify-center`}>
       <aside className="p-6 md:h-full md:w-80 md:pr-0">
@@ -161,6 +167,7 @@ export default function Demo({ direction = "row" }: DemoProps) {
               <LinkDisplay
                 link={link}
                 activeTags={activeTags}
+                onLinkClick={sendDemoLinkClick}
                 onTagClick={toggleTag}
               />
             </li>

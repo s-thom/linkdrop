@@ -4,6 +4,7 @@ import { Form, useActionData, useSearchParams } from "@remix-run/react";
 import { useEffect, useRef } from "react";
 import { verifyLogin } from "~/models/user.server";
 import { createUserSession } from "~/session.server";
+import { useEventCallback } from "~/util/analytics";
 import { safeRedirect, validateEmail } from "~/utils";
 
 interface ActionData {
@@ -108,7 +109,15 @@ export default function LoginPage() {
 
   return (
     <div className="mx-auto w-full max-w-md px-8">
-      <Form method="post" className="space-y-6" noValidate>
+      <Form
+        method="post"
+        className="space-y-6"
+        noValidate
+        onSubmit={useEventCallback({
+          name: "sign-in",
+          data: { type: "submit" },
+        })}
+      >
         <div>
           <label
             htmlFor="email"

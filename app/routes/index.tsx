@@ -4,6 +4,7 @@ import type { LoaderFunction } from "@remix-run/server-runtime";
 import { json } from "@remix-run/server-runtime";
 import Demo from "~/components/Demo";
 import Header from "~/components/Header";
+import { useEventCallback } from "~/util/analytics";
 import { useOptionalUser } from "~/utils";
 
 type LoaderData = {
@@ -42,6 +43,10 @@ export default function Index() {
               target="_blank"
               rel="noreferrer nofollow"
               className="text-neutral-600 underline decoration-1 hover:text-neutral-600 hover:no-underline active:text-neutral-800"
+              onClick={useEventCallback({
+                name: "sthom",
+                data: { type: "click" },
+              })}
             >
               Stuart Thomson
             </a>
@@ -51,6 +56,10 @@ export default function Index() {
               target="_blank"
               rel="noreferrer nofollow"
               className="text-center lowercase text-neutral-400 underline decoration-1 hover:text-neutral-500 hover:no-underline active:bg-neutral-600"
+              onClick={useEventCallback({
+                name: "source-code",
+                data: { type: "click" },
+              })}
             >
               (Source code)
             </a>

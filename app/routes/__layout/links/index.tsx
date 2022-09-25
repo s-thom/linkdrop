@@ -7,6 +7,7 @@ import SearchForm from "~/components/SearchForm";
 import { searchUserLinks } from "~/models/link.server";
 import { searchUserTags } from "~/models/tag.server";
 import { requireUserId } from "~/session.server";
+import { useEventCallback } from "~/util/analytics";
 import {
   searchParamsToFormValues,
   useSearchFormState,
@@ -52,6 +53,11 @@ export default function LinksIndexPage() {
     return values.tags.map((tag) => tag.replace(/^[-+]/, ""));
   }, [values.tags]);
 
+  const sendLinkClick = useEventCallback({
+    name: "link",
+    data: { type: "click" },
+  });
+
   return (
     <div className="flex flex-col md:flex-row md:justify-center">
       <aside className="p-6 md:h-full md:w-80 md:pr-0">
@@ -73,6 +79,7 @@ export default function LinksIndexPage() {
                   activeTags={activeTags}
                   canShare
                   canEdit={user.id === link.userId}
+                  onLinkClick={sendLinkClick}
                   onTagClick={toggleTag}
                 />
               </li>

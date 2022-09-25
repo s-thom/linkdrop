@@ -2,6 +2,7 @@ import type { LoaderFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { Form, Link, Outlet } from "@remix-run/react";
 import { requireUserId } from "~/session.server";
+import { useEventCallback } from "~/util/analytics";
 
 export const loader: LoaderFunction = async ({ request }) => {
   await requireUserId(request);
@@ -52,6 +53,10 @@ export default function LinksIndexPage() {
             action="/logout"
             method="post"
             className="mt-6 inline-block items-center"
+            onSubmit={useEventCallback({
+              name: "log-out",
+              data: { type: "submit" },
+            })}
           >
             <button
               type="submit"

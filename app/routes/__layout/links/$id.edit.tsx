@@ -5,6 +5,7 @@ import type { FormErrors } from "~/components/LinkForm";
 import LinkForm from "~/components/LinkForm";
 import { deleteLink, editLink, getSingleLink } from "~/models/link.server";
 import { requireUserId } from "~/session.server";
+import { useEventCallback } from "~/util/analytics";
 import { validateFormData } from "~/util/linkFormData.server";
 
 type LoaderData = {
@@ -93,9 +94,19 @@ export default function LinkViewPage() {
             description: data.link.description,
             tags: data.link.tags.map((t) => t.name),
           }}
+          onSubmit={useEventCallback({
+            name: "edit-link",
+            data: { type: "submit" },
+          })}
         />
         <div className="mt-4 border border-red-200 bg-red-50 p-2">
-          <Form method="delete">
+          <Form
+            method="delete"
+            onSubmit={useEventCallback({
+              name: "delete-link",
+              data: { type: "submit" },
+            })}
+          >
             <h2 className="mb-2 text-xl font-normal lowercase text-red-800">
               Danger zone
             </h2>

@@ -24,6 +24,8 @@ import { BigErrorPage } from "./components/BigErrorPage";
 import { InstallContextProvider } from "./components/InstallContext";
 import { getUser } from "./session.server";
 import tailwindStylesheetUrl from "./styles/tailwind.css";
+import { pageView } from "./util/analytics";
+import { useRoutePath } from "./util/useRoutePath";
 import { useInstallPrompt } from "./util/useInstallPrompt";
 
 export const links: LinksFunction = () => {
@@ -101,6 +103,11 @@ export default function App() {
 
   useInstallPrompt();
 
+  const path = useRoutePath();
+  useEffect(() => {
+    pageView(path);
+  }, [path]);
+
   const mountedRef = useRef(false);
   useEffect(() => {
     // Whether this effect is running on first mount
@@ -142,6 +149,15 @@ export default function App() {
       <head>
         <Meta />
         <Links />
+        <script
+          async
+          defer
+          data-auto-track="false"
+          data-do-not-track="true"
+          data-domains="linkdrop.sthom.kiwi"
+          data-website-id="8d5d5a05-af03-4ccf-86c1-0e6a0459518c"
+          src="https://analytics.sthom.kiwi/umami.js"
+        ></script>
       </head>
       <body className="h-full bg-neutral-50">
         <InstallContextProvider>

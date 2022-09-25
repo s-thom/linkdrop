@@ -9,6 +9,7 @@ import {
   verifyLogin,
 } from "~/models/user.server";
 import { requireUserId } from "~/session.server";
+import { useEventCallback } from "~/util/analytics";
 
 interface LoaderData {
   mfa?: {
@@ -114,7 +115,15 @@ export default function Join() {
 
   return (
     <div className="mx-auto w-full max-w-md px-8">
-      <Form method="post" className="space-y-6" noValidate>
+      <Form
+        method="post"
+        className="space-y-6"
+        noValidate
+        onSubmit={useEventCallback({
+          name: "change-password",
+          data: { type: "submit" },
+        })}
+      >
         <div>
           <label
             htmlFor="currentPassword"

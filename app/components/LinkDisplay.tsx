@@ -13,6 +13,7 @@ export interface LinkDisplayProps {
   activeTags?: string[];
   canShare?: boolean;
   canEdit?: boolean;
+  onLinkClick?: () => void;
   onTagClick?: (tag: string) => void;
 }
 
@@ -21,6 +22,7 @@ export default function LinkDisplay({
   activeTags,
   canShare,
   canEdit,
+  onLinkClick,
   onTagClick,
 }: LinkDisplayProps) {
   const shouldShowIcons = canShare || canEdit;
@@ -32,6 +34,7 @@ export default function LinkDisplay({
         target="_blank"
         rel="noreferrer nofollow"
         className="mb-2 block break-words text-xl font-normal text-link visited:text-link-visited hover:underline  active:text-link-active visited:active:text-link-active sm:text-2xl"
+        onClick={onLinkClick}
       >
         {link.url}
       </a>

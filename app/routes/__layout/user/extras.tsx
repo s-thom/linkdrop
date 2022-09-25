@@ -1,7 +1,12 @@
 import { useInstallContext } from "~/components/InstallContext";
+import { useEventCallback } from "~/util/analytics";
 
 export default function LinksIndexPage() {
   const { canPrompt, prompt } = useInstallContext();
+  const sendInstallTracking = useEventCallback({
+    name: "install-pwa",
+    data: { type: "click" },
+  });
 
   return (
     <div className="flex flex-col gap-4">
@@ -25,6 +30,10 @@ export default function LinksIndexPage() {
             target="_blank"
             rel="noreferrer nofollow"
             className="block w-full border border-neutral-300 py-2 px-4 text-center lowercase text-black hover:bg-neutral-100 active:bg-neutral-400"
+            onClick={useEventCallback({
+              name: "open-chrome-store",
+              data: { type: "click" },
+            })}
           >
             Go to Chrome Web Store
           </a>
@@ -45,7 +54,10 @@ export default function LinksIndexPage() {
             <button
               type="button"
               className="w-full border border-neutral-300 py-2 px-4 lowercase text-black hover:bg-neutral-100 active:bg-neutral-400"
-              onClick={() => prompt()}
+              onClick={() => {
+                sendInstallTracking();
+                prompt();
+              }}
             >
               Install
             </button>
