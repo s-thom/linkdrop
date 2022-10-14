@@ -14,6 +14,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased](https://github.com/s-thom/linkdrop/compare/v1.5.1...HEAD) - DATE
 
+### Added
+
+- Allow tags in new link URLs
+
 ## [1.5.1](https://github.com/s-thom/linkdrop/compare/v1.5.0...v1.5.1) - 2022-09-25
 
 ### Added
