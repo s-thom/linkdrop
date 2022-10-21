@@ -20,6 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Upgrade dependencies
 - Switched from Feather icons to Lucide icons
   - Lucide is a fork that is still getting maintained
 
