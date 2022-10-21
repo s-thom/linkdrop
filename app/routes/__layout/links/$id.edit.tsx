@@ -51,14 +51,17 @@ export const action: ActionFunction = async ({ request, params }) => {
     });
   }
 
+  const formData = await request.formData();
+
   // Process deletes
-  if (request.method.toLowerCase() === "delete") {
+  if (
+    request.method.toLowerCase() === "delete" ||
+    formData.get("_method") === "delete"
+  ) {
     await deleteLink({ id, userId });
 
     return redirect(`/links`);
   }
-
-  const formData = await request.formData();
 
   const result = validateFormData(formData);
   if (result.status === "error") {
@@ -110,6 +113,7 @@ export default function LinkViewPage() {
             <h2 className="mb-2 text-xl font-normal lowercase text-red-800">
               Danger zone
             </h2>
+            <input type="hidden" name="_method" value="delete" />
             <button
               type="submit"
               className="md:1/3 mt-2 w-full border border-red-400 py-2 px-4 lowercase text-red-800 hover:bg-red-200 active:bg-red-300 sm:w-1/2"

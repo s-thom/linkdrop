@@ -158,6 +158,7 @@ export default function Join() {
           </div>
         )}
 
+        <input type="hidden" name="_method" value="delete" />
         <button
           type="submit"
           className="w-full border border-black py-2 px-4 lowercase text-black hover:bg-neutral-200 active:bg-neutral-400"
