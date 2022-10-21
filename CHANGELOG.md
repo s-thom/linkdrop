@@ -18,6 +18,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Allow tags in new link URLs
 
+### Changed
+
+- Switched from Feather icons to Lucide icons
+  - Lucide is a fork that is still getting maintained
+
 ## [1.5.1](https://github.com/s-thom/linkdrop/compare/v1.5.0...v1.5.1) - 2022-09-25
 
 ### Added

@@ -1,7 +1,7 @@
 import type { Link, Tag } from "@prisma/client";
 import { Link as LinkComponent } from "@remix-run/react";
 import type { SerializeFrom } from "@remix-run/server-runtime";
-import { Edit3, Link as LinkIcon } from "react-feather";
+import { Edit3, Link as LinkIcon } from "lucide-react";
 import TagComponent from "./Tag";
 
 export interface LinkWithTags extends SerializeFrom<Link> {
