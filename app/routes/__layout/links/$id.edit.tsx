@@ -101,6 +101,7 @@ export default function LinkViewPage() {
             name: "edit-link",
             data: { type: "submit" },
           })}
+          currentLinkId={data.link.id}
         />
         <div className="mt-4 border border-red-200 bg-red-50 p-2">
           <Form

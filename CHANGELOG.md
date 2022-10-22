@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Check for duplicate urls when saving a new link
 - Allow tags in new link URLs
 
 ### Changed

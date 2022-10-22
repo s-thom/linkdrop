@@ -49,6 +49,7 @@ model Link {
   userId String
 
   @@index([userId])
+  @@index([url, userId])
 }
 
 model Tag {

@@ -2,8 +2,10 @@ import type { FormMethod, FormProps } from "@remix-run/react";
 import { Form, useFetcher } from "@remix-run/react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { encodeStringArray } from "~/util/stringArray";
+import { useDebounce } from "~/util/useDebounce";
 import { formValuesToSearchParams } from "~/util/useSearchFormState";
 import { useTagsInput } from "~/util/useTagsInput";
+import { Link as LinkComponent } from "@remix-run/react";
 import Tag from "./Tag";
 
 export interface FormValues {
@@ -22,6 +24,10 @@ interface TagsLoaderData {
   commonTags: string[];
 }
 
+interface DuplicateLoaderData {
+  duplicateLinkIds: string[];
+}
+
 export interface LinkFormProps {
   method?: FormMethod;
   action?: string;
@@ -31,6 +37,7 @@ export interface LinkFormProps {
     submit: string;
   };
   onSubmit?: FormProps["onSubmit"];
+  currentLinkId?: string;
 }
 
 export default function LinkForm({
@@ -40,8 +47,10 @@ export default function LinkForm({
   errors,
   i18n,
   onSubmit,
+  currentLinkId,
 }: LinkFormProps) {
-  const fetcher = useFetcher<TagsLoaderData>();
+  const tagsFetcher = useFetcher<TagsLoaderData>();
+  const duplicateFetcher = useFetcher<DuplicateLoaderData>();
 
   // #region Focus on error
   const urlRef = useRef<HTMLInputElement>(null);
@@ -63,13 +72,13 @@ export default function LinkForm({
   );
 
   useEffect(() => {
-    fetcher.load(
+    tagsFetcher.load(
       `/tags?${formValuesToSearchParams({ tags: tagsValue }).toString()}`
     );
     // The eslint rule wants `fetcher` to be in the deps array.
     // This causes an infinite fetch loop.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [fetcher.load, tagsValue]);
+  }, [tagsFetcher.load, tagsValue]);
 
   const addTag = useCallback((tag: string) => {
     setTagsValue((prev) => {
@@ -85,9 +94,28 @@ export default function LinkForm({
 
   const remainingCommonTags = useMemo(
     () =>
-      fetcher.data?.commonTags.filter((tag) => !tagsValue.includes(tag)) ?? [],
-    [fetcher.data, tagsValue]
+      tagsFetcher.data?.commonTags.filter((tag) => !tagsValue.includes(tag)) ??
+      [],
+    [tagsFetcher.data, tagsValue]
   );
+
+  // Duplicate link check
+  const debouncedUrl = useDebounce(urlValue, 200);
+  useEffect(() => {
+    // Avoid sending a request when we know it won't be valid
+    if (debouncedUrl) {
+      duplicateFetcher.load(
+        `/links/check-duplicate?${new URLSearchParams({
+          url: debouncedUrl,
+        }).toString()}`
+      );
+    }
+    // The eslint rule wants `fetcher` to be in the deps array.
+    // This causes an infinite fetch loop.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [duplicateFetcher.load, debouncedUrl]);
+  const duplicateLinks = duplicateFetcher.data?.duplicateLinkIds ?? [];
+  const isCurrentLink = currentLinkId && duplicateLinks.includes(currentLinkId);
   // #endregion
 
   const { input } = useTagsInput({ id: "_tag_entry", addTag });
@@ -122,6 +150,17 @@ export default function LinkForm({
           {errors?.url && (
             <div className="pt-1 text-red-700" id="url-error">
               {errors.url}
+            </div>
+          )}
+          {duplicateLinks.length > 0 && !isCurrentLink && (
+            <div className="lowercase text-yellow-700" id="duplicate-warning">
+              This link has been saved before.{" "}
+              <LinkComponent
+                className="p-1 text-neutral-400 hover:text-neutral-600"
+                to={`/links/${duplicateLinks[0]}`}
+              >
+                View saved link
+              </LinkComponent>
             </div>
           )}
         </div>

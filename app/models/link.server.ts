@@ -225,3 +225,18 @@ export function deleteLink({
     where: { id, userId },
   });
 }
+
+export async function checkDuplicateLinks({
+  userId,
+  url,
+}: {
+  userId: User["id"];
+  url: Link["url"];
+}) {
+  return prisma.link.findMany({
+    where: {
+      userId,
+      url,
+    },
+  });
+}
