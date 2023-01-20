@@ -14,7 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased](https://github.com/s-thom/linkdrop/compare/v1.6.1...HEAD) - DATE
 
-## [1.6.1](https://github.com/s-thom/linkdrop/compare/v1.6.0...v1.6.1) - 2013-01-21
+## [1.6.1](https://github.com/s-thom/linkdrop/compare/v1.6.0...v1.6.1) - 2023-01-21
 
 ### Added
 
