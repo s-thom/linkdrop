@@ -1,24 +1,23 @@
 version: 2
 updates:
   # Maintain dependencies for GitHub Actions
-  - package-ecosystem: 'github-actions'
-    directory: '/'
+  - package-ecosystem: "github-actions"
+    directory: "/"
     schedule:
-      interval: 'weekly'
-      day: 'monday'
-      time: '18:00'
-      timezone: 'Pacific/Auckland'
-  - package-ecosystem: 'npm'
-    directory: '/'
+      interval: "weekly"
+      day: "monday"
+      time: "19:00"
+      timezone: "Pacific/Auckland"
+  - package-ecosystem: "npm"
+    directory: "/"
     schedule:
-      interval: 'weekly'
-      day: 'monday'
-      time: '18:00'
-      timezone: 'Pacific/Auckland'
-  - package-ecosystem: 'docker'
-    directory: '/'
+      interval: "monthly"
+      time: "19:00"
+      timezone: "Pacific/Auckland"
+  - package-ecosystem: "docker"
+    directory: "/"
     schedule:
-      interval: 'weekly'
-      day: 'monday'
-      time: '18:00'
-      timezone: 'Pacific/Auckland'
+      interval: "weekly"
+      day: "monday"
+      time: "19:00"
+      timezone: "Pacific/Auckland"
