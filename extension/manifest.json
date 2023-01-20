@@ -18,5 +18,11 @@
   },
 
   "host_permissions": ["https://linkdrop.sthom.kiwi/"],
-  "permissions": ["tabs"]
+  "permissions": ["tabs"],
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "{5ff7b717-fcc6-403f-9d1b-7fa41b7dd9df}",
+	  "strict_min_version": "109.0"
+    }
+  }
 }

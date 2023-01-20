@@ -14,6 +14,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased](https://github.com/s-thom/linkdrop/compare/v1.6.0...HEAD) - DATE
 
+### Added
+
+- Firefox extension link
+  - Requires Firefox 109+
+
 ## [1.6.0](https://github.com/s-thom/linkdrop/compare/v1.5.1...v1.6.0) - 2022-10-23
 
 ### Added

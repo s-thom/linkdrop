@@ -15,6 +15,32 @@ export default function LinksIndexPage() {
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2">
         <section className="mb-2 max-w-3xl border border-neutral-400 bg-white py-2 px-4">
           <h3 className="mb-2 block break-words text-xl font-normal lowercase">
+            Firefox Extension
+          </h3>
+          <p className="mb-2 break-words">
+            linkdrop has a companion Firefox extension, which adds a button to
+            save the current tab in the extensions menu near your search bar.
+          </p>
+          <p className="mb-2 break-words">
+            Once installed, open the Extensions menu and pin the extension to
+            your toolbar for it to be visible at all times.
+          </p>
+          <a
+            href="https://addons.mozilla.org/firefox/addon/linkdrop/"
+            target="_blank"
+            rel="noreferrer nofollow"
+            className="block w-full border border-neutral-300 py-2 px-4 text-center lowercase text-black hover:bg-neutral-100 active:bg-neutral-400"
+            onClick={useEventCallback({
+              name: "open-firefox-addons",
+              data: { type: "click" },
+            })}
+          >
+            Go to Firefox add-ons
+          </a>
+        </section>
+
+        <section className="mb-2 max-w-3xl border border-neutral-400 bg-white py-2 px-4">
+          <h3 className="mb-2 block break-words text-xl font-normal lowercase">
             Chrome Extension
           </h3>
           <p className="mb-2 break-words">
