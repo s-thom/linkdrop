@@ -1,5 +1,8 @@
+import { Goose, links as gooseLinks } from "~/components/Goose";
 import { useInstallContext } from "~/components/InstallContext";
 import { useEventCallback } from "~/util/analytics";
+
+export const links = () => [...gooseLinks()];
 
 export default function LinksIndexPage() {
   const { canPrompt, prompt } = useInstallContext();
@@ -90,6 +93,10 @@ export default function LinksIndexPage() {
           </section>
         )}
       </div>
+
+      <p className="text-center text-sm">
+        <Goose />
+      </p>
     </div>
   );
 }

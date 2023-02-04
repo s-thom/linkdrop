@@ -11,13 +11,12 @@ export function pageView(path: string) {
 }
 
 export interface EventData {
-  url: string;
+  url?: string;
   name: string;
   data?: unknown;
 }
 
 export function event(data: EventData) {
-  console.log({ e: "event", data });
   if (typeof umami === "undefined") {
     return;
   }

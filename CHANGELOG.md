@@ -14,6 +14,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased](https://github.com/s-thom/linkdrop/compare/v1.6.1...HEAD) - DATE
 
+### Added
+
+- Goose
+
 ### Changed
 
 - Hide the "log in" navigation link when on the login page when signing up is unavailable
