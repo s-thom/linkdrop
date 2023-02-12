@@ -12,7 +12,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 <!-- ### Fixed -->
 <!-- ### Security -->
 
-## [Unreleased](https://github.com/s-thom/linkdrop/compare/v1.6.1...HEAD) - DATE
+## [Unreleased](https://github.com/s-thom/linkdrop/compare/v1.6.2...HEAD) - DATE
+
+## [1.6.2](https://github.com/s-thom/linkdrop/compare/v1.6.1...v1.6.2) - 2023-02-12
 
 ### Added
 
