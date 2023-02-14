@@ -61,7 +61,7 @@ export const action: ActionFunction = async ({ request }) => {
     tags: values.tags,
   });
 
-  return redirect(`/links/new`);
+  return redirect(`/links`);
 };
 
 export default function NewLinkPage() {
