@@ -5,11 +5,13 @@ import type { PropsWithChildren } from "react";
 export interface NavigationLinkProps extends PropsWithChildren {
   to: string;
   className?: string;
+  end?: boolean;
 }
 
 export function NavigationLink({
   to,
   className,
+  end,
   children,
 }: NavigationLinkProps) {
   return (
@@ -22,6 +24,7 @@ export function NavigationLink({
           className
         )
       }
+      end={end}
     >
       {children}
     </NavLink>
