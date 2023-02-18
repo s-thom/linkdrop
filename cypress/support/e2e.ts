@@ -13,7 +13,7 @@ Cypress.on("uncaught:exception", (err) => {
     return false;
   }
   // Weird errors begone
-  if (/AbortError/.test(err.message)) {
+  if (/The user aborted a request/.test(err.message)) {
     return false;
   }
 });
