@@ -52,7 +52,6 @@ describe("smoke tests", () => {
     cy.findByRole("button", { name: /save/i }).click();
     cy.wait(5000);
 
-    cy.findByRole("link", { name: /your links/i }).click();
     cy.findByRole("link", { name: testLink.url }).should("exist");
     cy.findByText(testLink.description).should("exist");
 
@@ -82,7 +81,6 @@ describe("smoke tests", () => {
     cy.wait(5000);
 
     // Expect no warning on edit
-    cy.findByRole("link", { name: /your links/i }).click();
     cy.findByRole("link", { name: testLink.url }).should("exist");
     cy.findByRole("link", { name: /edit link/i }).click();
     cy.wait(1000);
