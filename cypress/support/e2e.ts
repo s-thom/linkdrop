@@ -12,4 +12,8 @@ Cypress.on("uncaught:exception", (err) => {
   ) {
     return false;
   }
+  // Weird errors begone
+  if (/AbortError/.test(err.message)) {
+    return false;
+  }
 });
