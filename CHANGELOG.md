@@ -19,6 +19,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Redirect to link search page after creating a new link
   - The previous behaviour was to redirect to the new link page, which would effectively clear the form
 
+### Fixed
+
+- Your Links navigation item was incorrectly highlighted on the new links page
+
 ## [1.6.2](https://github.com/s-thom/linkdrop/compare/v1.6.1...v1.6.2) - 2023-02-12
 
 ### Added
