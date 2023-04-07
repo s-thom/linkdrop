@@ -14,6 +14,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased](https://github.com/s-thom/linkdrop/compare/v1.6.3...HEAD) - DATE
 
+### Added
+
+- The main settings page now shows a list of the most commonly clicked on links
+
+### Fixed
+
+- Descriptions with long words no longer overflow the container
+
 ## [1.6.3](https://github.com/s-thom/linkdrop/compare/v1.6.2...v1.6.3) - 2023-02-26
 
 ### Changed
