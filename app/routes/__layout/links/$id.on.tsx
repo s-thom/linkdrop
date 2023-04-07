@@ -1,6 +1,7 @@
 import type { ActionFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import { getSingleLink, incrementUserLinkClicks } from "~/models/link.server";
+import { getSingleLink } from "~/models/link.server";
+import { incrementUserLinkClicks } from "~/models/linkanalytics.server.ts";
 import { requireUserId } from "~/session.server";
 
 interface ClickParams {
