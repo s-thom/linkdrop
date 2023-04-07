@@ -57,6 +57,15 @@ export default function LinksIndexPage() {
     name: "link",
     data: { type: "click" },
   });
+  const onLinkClick = useCallback(
+    (linkId: string) => {
+      const formData = new FormData();
+      formData.append("type", "click");
+      navigator.sendBeacon(`/links/${linkId}/on`, formData);
+      sendLinkClick();
+    },
+    [sendLinkClick]
+  );
 
   return (
     <div className="flex flex-col md:flex-row md:justify-center">
@@ -79,7 +88,7 @@ export default function LinksIndexPage() {
                   activeTags={activeTags}
                   canShare
                   canEdit={user.id === link.userId}
-                  onLinkClick={sendLinkClick}
+                  onLinkClick={() => onLinkClick(link.id)}
                   onTagClick={toggleTag}
                 />
               </li>
