@@ -1,6 +1,7 @@
 import type { Password, Totp, User } from "@prisma/client";
 import bcrypt from "bcryptjs";
 import { prisma } from "~/db.server";
+import { getUserMostClickedLinks } from "./linkanalytics.server.ts";
 import { getUserCommonTags } from "./tag.server";
 import { validateTotp } from "./totp.server";
 
@@ -49,17 +50,18 @@ export async function deleteUserByEmail(email: User["email"]) {
 }
 
 export async function getUserSummary(userId: User["id"]) {
-  const [user, numLinks, commonTags] = await Promise.all([
+  const [user, numLinks, commonTags, commonLinks] = await Promise.all([
     getUserById(userId),
     prisma.link.count({ where: { userId } }),
     getUserCommonTags({ userId, includeCount: true }),
+    getUserMostClickedLinks({ userId }),
   ]);
 
   if (!user) {
     throw new Error("User not found");
   }
 
-  return { user, numLinks, commonTags };
+  return { user, numLinks, commonTags, commonLinks };
 }
 
 export async function getUser2faMethods(
