@@ -14,10 +14,11 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  password Password?
-  totp     Totp?
-  links    Link[]
-  tags     Tag[]
+  password      Password?
+  totp          Totp?
+  links         Link[]
+  tags          Tag[]
+  linkAnalytics LinkAnalytics[]
 }
 
 model Password {
@@ -48,6 +49,9 @@ model Link {
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   userId String
 
+  analytics   LinkAnalytics?
+  analyticsId String?
+
   @@index([userId])
   @@index([url, userId])
 }
@@ -66,4 +70,19 @@ model Tag {
 
   @@unique([name, userId])
   @@index([name, userId])
+}
+
+model LinkAnalytics {
+  id String @id @default(cuid())
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId String
+
+  link   Link   @relation(fields: [linkId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  linkId String @unique
+
+  clicks Int
+
+  @@index([linkId, userId])
+  @@index([clicks, userId])
 }
