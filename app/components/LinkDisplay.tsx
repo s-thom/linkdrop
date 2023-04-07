@@ -33,17 +33,19 @@ export default function LinkDisplay({
         href={link.url}
         target="_blank"
         rel="noreferrer nofollow"
-        className="mb-2 block break-words text-xl font-normal text-link visited:text-link-visited hover:underline  active:text-link-active visited:active:text-link-active sm:text-2xl"
+        className="mb-2 block break-words text-xl font-normal text-link visited:text-link-visited hover:underline active:text-link-active visited:active:text-link-active sm:text-2xl"
         onClick={onLinkClick}
       >
         {link.url}
       </a>
       <div className="flex">
-        <div className="flex-1">
+        <div className="w-0 flex-1">
           {link.description && (
-            <p className="mb-2 break-words">{link.description}</p>
+            <p className="mb-2 overflow-hidden text-ellipsis break-words">
+              {link.description}
+            </p>
           )}
-          <ul className="flex  flex-wrap gap-2">
+          <ul className="flex flex-wrap gap-2">
             {link.tags.map((tag) => (
               <li key={tag.id}>
                 <TagComponent
