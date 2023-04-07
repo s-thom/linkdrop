@@ -21,6 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Descriptions with long words no longer overflow the container
+- Changed header re-render blocking to use the final API
 
 ## [1.6.3](https://github.com/s-thom/linkdrop/compare/v1.6.2...v1.6.3) - 2023-02-26
 
