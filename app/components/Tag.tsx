@@ -14,27 +14,28 @@ export default function Tag({ name, state, className, ...props }: TagProps) {
   switch (state) {
     case "active":
       activeClasses =
-        "bg-neutral-300 text-neutral-900 border-neutral-400 hover:text-black";
+        "bg-tag-active text-tag-active-text border-tag-active-border hover:bg-tag-active-hover";
       break;
     case "inactive":
-      activeClasses = "bg-neutral-100 text-neutral-600 hover:text-black";
+      activeClasses =
+        "bg-tag text-tag-text border-tag-border hover:bg-tag-hover";
       break;
     case "positive":
       activeClasses =
-        "bg-lime-200 text-lime-800 border-lime-400 hover:text-lime-900";
+        "bg-tag-positive text-tag-positive-text border-tag-positive-border hover:bg-tag-positive-hover";
       break;
     case "negative":
       activeClasses =
-        "bg-red-200 text-red-800 border-red-400 hover:text-red-900";
+        "bg-tag-negative text-tag-negative-text border-tag-negative-border hover:bg-tag-negative-hover";
       break;
     default:
-      activeClasses = "";
+      activeClasses = "hover:text-text";
   }
 
   return (
     <button
       type={props.type ?? "button"}
-      className={`inline-block rounded border py-0 px-2 hover:text-black ${activeClasses} ${className}`}
+      className={`inline-block rounded border py-0 px-2 ${activeClasses} ${className}`}
       {...props}
     >
       {name}

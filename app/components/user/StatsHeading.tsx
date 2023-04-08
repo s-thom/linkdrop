@@ -11,7 +11,7 @@ const NUM_LINKS_TEXT: { lessThan: number; node: React.ReactNode }[] = [
         Let's{" "}
         <Link
           to={`/links/new`}
-          className="text-neutral-600 underline decoration-1 hover:text-neutral-600 hover:no-underline active:text-neutral-800"
+          className="text-nav-link underline decoration-1 hover:text-nav-link hover:no-underline active:text-nav-link-active"
         >
           get started
         </Link>
@@ -50,7 +50,7 @@ export function StatsHeading({ user, numLinks }: StatsHeadingProps) {
           href={`mailto:${user.email}`}
           target="_blank"
           rel="noreferrer nofollow"
-          className="text-neutral-600 underline decoration-1 hover:text-neutral-600 hover:no-underline active:text-neutral-800"
+          className="text-nav-link underline decoration-1 hover:text-nav-link hover:no-underline active:text-nav-link-active"
         >
           {user.email}
         </a>

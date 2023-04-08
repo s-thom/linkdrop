@@ -115,7 +115,7 @@ export default function Join() {
         <div>
           <label
             htmlFor="email"
-            className="block text-sm font-medium lowercase text-gray-700"
+            className="block text-sm font-medium lowercase text-label"
           >
             Email address
           </label>
@@ -130,10 +130,10 @@ export default function Join() {
               autoComplete="email"
               aria-invalid={actionData?.errors?.email ? true : undefined}
               aria-describedby="email-error"
-              className="w-full border border-gray-500 px-2 py-1 text-lg"
+              className="w-full border border-input-border bg-input px-2 py-1 text-lg"
             />
             {actionData?.errors?.email && (
-              <div className="pt-1 text-red-700" id="email-error">
+              <div className="pt-1 text-text-error" id="email-error">
                 {actionData.errors.email}
               </div>
             )}
@@ -143,7 +143,7 @@ export default function Join() {
         <div>
           <label
             htmlFor="password"
-            className="block text-sm font-medium lowercase text-gray-700"
+            className="block text-sm font-medium lowercase text-label"
           >
             Password
           </label>
@@ -156,10 +156,10 @@ export default function Join() {
               autoComplete="new-password"
               aria-invalid={actionData?.errors?.password ? true : undefined}
               aria-describedby="password-error"
-              className="w-full border border-gray-500 px-2 py-1 text-lg"
+              className="w-full border border-input-border bg-input px-2 py-1 text-lg"
             />
             {actionData?.errors?.password && (
-              <div className="pt-1 text-red-700" id="password-error">
+              <div className="pt-1 text-text-error" id="password-error">
                 {actionData.errors.password}
               </div>
             )}
@@ -170,7 +170,7 @@ export default function Join() {
         <input type="hidden" name="__" value="" />
         <button
           type="submit"
-          className="w-full border border-black py-2 px-4 lowercase text-black hover:bg-neutral-200 active:bg-neutral-400"
+          className="w-full border border-button-border bg-button py-2 px-4 lowercase text-text hover:bg-button-hover active:bg-button-active"
         >
           sign up
         </button>

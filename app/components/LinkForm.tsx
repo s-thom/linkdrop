@@ -125,7 +125,7 @@ export default function LinkForm({
       <div className="my-2">
         <label
           htmlFor="url"
-          className="block text-sm font-medium lowercase text-gray-700"
+          className="block text-sm font-medium lowercase text-label"
         >
           URL
         </label>
@@ -140,7 +140,7 @@ export default function LinkForm({
             autoComplete="url"
             aria-invalid={errors?.url ? true : undefined}
             aria-describedby="url-error"
-            className="w-full border border-gray-500 px-2 py-1 text-lg"
+            className="w-full border border-input-border bg-input px-2 py-1 text-lg"
             value={urlValue}
             onChange={useCallback<React.ChangeEventHandler<HTMLInputElement>>(
               (event) => setUrlValue(event.target.value),
@@ -156,7 +156,7 @@ export default function LinkForm({
             <div className="lowercase text-yellow-700" id="duplicate-warning">
               This link has been saved before.{" "}
               <LinkComponent
-                className="p-1 text-neutral-400 hover:text-neutral-600"
+                className="p-1 text-nav-link hover:text-nav-link hover:no-underline active:text-nav-link-active"
                 to={`/links/${duplicateLinks[0]}`}
               >
                 View saved link
@@ -169,7 +169,7 @@ export default function LinkForm({
       <div className="my-2">
         <label
           htmlFor="description"
-          className="block text-sm font-medium lowercase text-gray-700"
+          className="block text-sm font-medium lowercase text-label"
         >
           Description
         </label>
@@ -178,7 +178,7 @@ export default function LinkForm({
             id="description"
             name="description"
             rows={3}
-            className="w-full resize-y border border-gray-500 px-2 py-1 text-lg"
+            className="w-full resize-y border border-input-border bg-input px-2 py-1 text-lg"
             value={descriptionValue}
             onChange={useCallback<
               React.ChangeEventHandler<HTMLTextAreaElement>
@@ -190,7 +190,7 @@ export default function LinkForm({
       <div className="my-2">
         <label
           htmlFor="_tag_entry"
-          className="block text-sm font-medium lowercase text-gray-700"
+          className="block text-sm font-medium lowercase text-label"
         >
           Tags
         </label>
@@ -207,12 +207,12 @@ export default function LinkForm({
             ))}
           </ul>
         ) : (
-          <p className="py-2 text-sm text-neutral-400">No tags entered</p>
+          <p className="py-2 text-sm text-text-diminished">No tags entered</p>
         )}
         <div className="mt-1">{input}</div>
         {remainingCommonTags.length ? (
           <>
-            <span className="block text-sm font-medium lowercase text-neutral-400">
+            <span className="block text-sm font-medium lowercase text-text-diminished">
               Common tags
             </span>
             <ul className="flex flex-wrap gap-2 py-2">
@@ -233,7 +233,7 @@ export default function LinkForm({
 
       <button
         type="submit"
-        className="w-full border border-black py-2 px-4 lowercase text-black hover:bg-neutral-200 active:bg-neutral-400"
+        className="border-button-border hover:bg-button-hover active:bg-button-active w-full border py-2 px-4 lowercase text-text"
       >
         {i18n.submit}
       </button>

@@ -121,7 +121,7 @@ export default function LoginPage() {
         <div>
           <label
             htmlFor="email"
-            className="block text-sm font-medium lowercase text-gray-700"
+            className="block text-sm font-medium lowercase text-label"
           >
             Email address
           </label>
@@ -136,10 +136,10 @@ export default function LoginPage() {
               autoComplete="email"
               aria-invalid={actionData?.errors?.email ? true : undefined}
               aria-describedby="email-error"
-              className="w-full border border-gray-500 px-2 py-1 text-lg"
+              className="w-full border border-input-border bg-input px-2 py-1 text-lg"
             />
             {actionData?.errors?.email && (
-              <div className="pt-1 text-red-700" id="email-error">
+              <div className="pt-1 text-text-error" id="email-error">
                 {actionData.errors.email}
               </div>
             )}
@@ -149,7 +149,7 @@ export default function LoginPage() {
         <div>
           <label
             htmlFor="password"
-            className="block text-sm font-medium lowercase text-gray-700"
+            className="block text-sm font-medium lowercase text-label"
           >
             Password
           </label>
@@ -162,10 +162,10 @@ export default function LoginPage() {
               autoComplete="current-password"
               aria-invalid={actionData?.errors?.password ? true : undefined}
               aria-describedby="password-error"
-              className="w-full border border-gray-500 px-2 py-1 text-lg"
+              className="w-full border border-input-border bg-input px-2 py-1 text-lg"
             />
             {actionData?.errors?.password && (
-              <div className="pt-1 text-red-700" id="password-error">
+              <div className="pt-1 text-text-error" id="password-error">
                 {actionData.errors.password}
               </div>
             )}
@@ -176,7 +176,7 @@ export default function LoginPage() {
           <div>
             <label
               htmlFor="totp"
-              className="block text-sm font-medium lowercase text-gray-700"
+              className="block text-sm font-medium lowercase text-label"
             >
               Authenticator Code
             </label>
@@ -190,10 +190,10 @@ export default function LoginPage() {
                 autoComplete="one-time-code"
                 aria-invalid={actionData?.errors?.totp ? true : undefined}
                 aria-describedby="totp-error"
-                className="w-full border border-gray-500 px-2 py-1 text-lg"
+                className="w-full border border-input-border bg-input px-2 py-1 text-lg"
               />
               {actionData?.errors?.totp && (
-                <div className="pt-1 text-red-700" id="totp-error">
+                <div className="pt-1 text-text-error" id="totp-error">
                   {actionData.errors.totp}
                 </div>
               )}
@@ -204,7 +204,7 @@ export default function LoginPage() {
         <input type="hidden" name="redirectTo" value={redirectTo} />
         <button
           type="submit"
-          className="w-full border border-black py-2 px-4 lowercase text-black hover:bg-neutral-200 active:bg-neutral-400"
+          className="w-full border border-button-border bg-button py-2 px-4 lowercase text-text hover:bg-button-hover active:bg-button-active"
         >
           Log in
         </button>
@@ -214,11 +214,11 @@ export default function LoginPage() {
               id="remember"
               name="remember"
               type="checkbox"
-              className="h-4 w-4 border-gray-300 text-blue-600 focus:ring-blue-500"
+              className="h-4 w-4 border-input-border text-blue-600 focus:ring-blue-500"
             />
             <label
               htmlFor="remember"
-              className="ml-2 block text-sm lowercase text-gray-900"
+              className="ml-2 block text-sm lowercase text-label"
             >
               Remember me
             </label>

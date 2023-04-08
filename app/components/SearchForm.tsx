@@ -41,7 +41,7 @@ export default function SearchForm({
           ))}
         </ul>
       ) : (
-        <p className="py-2 text-sm text-neutral-400">No tags selected</p>
+        <p className="py-2 text-sm text-text-diminished">No tags selected</p>
       )}
 
       <label className="flex w-full flex-col gap-1">

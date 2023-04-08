@@ -153,7 +153,7 @@ export default function SetUpTotpPage() {
         <div>
           <label
             htmlFor="password"
-            className="block text-sm font-medium lowercase text-gray-700"
+            className="block text-sm font-medium lowercase text-label"
           >
             Current Password
           </label>
@@ -166,10 +166,10 @@ export default function SetUpTotpPage() {
               autoComplete="current-password"
               aria-invalid={actionData?.errors?.password ? true : undefined}
               aria-describedby="password-error"
-              className="w-full border border-gray-500 px-2 py-1 text-lg"
+              className="w-full border border-input-border bg-input px-2 py-1 text-lg"
             />
             {actionData?.errors?.password && (
-              <div className="pt-1 text-red-700" id="password-error">
+              <div className="pt-1 text-text-error" id="password-error">
                 {actionData.errors.password}
               </div>
             )}
@@ -177,7 +177,7 @@ export default function SetUpTotpPage() {
         </div>
 
         {data.activation && (
-          <section className="mb-2 flex max-w-3xl flex-col items-center border border-neutral-400 bg-white py-2 px-4">
+          <section className="mb-2 flex max-w-3xl flex-col items-center border border-card-border bg-card py-2 px-4">
             <p>
               Use the following code to save your authenticator secret. Once
               enabled, you will not see this again.
@@ -185,7 +185,7 @@ export default function SetUpTotpPage() {
 
             <canvas className="my-2" ref={canvasRef} />
 
-            <p className="text-sm text-neutral-500">
+            <p className="text-sm text-text-diminished">
               If you aren't able to scan the code, use the value below.
             </p>
             <p className="select-all border py-1 px-2 text-center text-sm">
@@ -197,7 +197,7 @@ export default function SetUpTotpPage() {
         <div>
           <label
             htmlFor="totp"
-            className="block text-sm font-medium lowercase text-gray-700"
+            className="block text-sm font-medium lowercase text-label"
           >
             Authenticator Code
           </label>
@@ -210,10 +210,10 @@ export default function SetUpTotpPage() {
               autoComplete="one-time-code"
               aria-invalid={actionData?.errors?.totp ? true : undefined}
               aria-describedby="totp-error"
-              className="w-full border border-gray-500 px-2 py-1 text-lg"
+              className="w-full border border-input-border bg-input px-2 py-1 text-lg"
             />
             {actionData?.errors?.totp && (
-              <div className="pt-1 text-red-700" id="totp-error">
+              <div className="pt-1 text-text-error" id="totp-error">
                 {actionData.errors.totp}
               </div>
             )}
@@ -222,7 +222,7 @@ export default function SetUpTotpPage() {
 
         <button
           type="submit"
-          className="w-full border border-black py-2 px-4 lowercase text-black hover:bg-neutral-200 active:bg-neutral-400"
+          className="w-full border border-button-border bg-button py-2 px-4 lowercase text-text hover:bg-button-hover active:bg-button-active"
         >
           {data.activation ? "Enable 2FA" : "Disable 2FA"}
         </button>

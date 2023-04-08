@@ -16,7 +16,7 @@ export default function LinksIndexPage() {
       <h2 className="text-2xl font-normal lowercase">Extras</h2>
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2">
-        <section className="mb-2 max-w-3xl border border-neutral-400 bg-white py-2 px-4">
+        <section className="mb-2 max-w-3xl border border-card-border bg-card py-2 px-4">
           <h3 className="mb-2 block break-words text-xl font-normal lowercase">
             Firefox Extension
           </h3>
@@ -32,7 +32,7 @@ export default function LinksIndexPage() {
             href="https://addons.mozilla.org/firefox/addon/linkdrop/"
             target="_blank"
             rel="noreferrer nofollow"
-            className="block w-full border border-neutral-300 py-2 px-4 text-center lowercase text-black hover:bg-neutral-100 active:bg-neutral-400"
+            className="block w-full border border-button-border py-2 px-4 text-center lowercase text-text hover:bg-button-hover active:bg-button-active"
             onClick={useEventCallback({
               name: "open-firefox-addons",
               data: { type: "click" },
@@ -42,7 +42,7 @@ export default function LinksIndexPage() {
           </a>
         </section>
 
-        <section className="mb-2 max-w-3xl border border-neutral-400 bg-white py-2 px-4">
+        <section className="mb-2 max-w-3xl border border-card-border bg-card py-2 px-4">
           <h3 className="mb-2 block break-words text-xl font-normal lowercase">
             Chrome Extension
           </h3>
@@ -58,7 +58,7 @@ export default function LinksIndexPage() {
             href="https://chrome.google.com/webstore/detail/linkdrop/afcdppbpfiecoomopjpcfmmhcackmpef"
             target="_blank"
             rel="noreferrer nofollow"
-            className="block w-full border border-neutral-300 py-2 px-4 text-center lowercase text-black hover:bg-neutral-100 active:bg-neutral-400"
+            className="block w-full border border-button-border py-2 px-4 text-center lowercase text-text hover:bg-button-hover active:bg-button-active"
             onClick={useEventCallback({
               name: "open-chrome-store",
               data: { type: "click" },
@@ -69,7 +69,7 @@ export default function LinksIndexPage() {
         </section>
 
         {canPrompt && (
-          <section className="mb-2 max-w-3xl border border-neutral-400 bg-white py-2 px-4">
+          <section className="mb-2 max-w-3xl border border-card-border bg-card py-2 px-4">
             <h3 className="mb-2 block break-words text-xl font-normal lowercase">
               Install
             </h3>
@@ -82,7 +82,7 @@ export default function LinksIndexPage() {
             </p>
             <button
               type="button"
-              className="w-full border border-neutral-300 py-2 px-4 lowercase text-black hover:bg-neutral-100 active:bg-neutral-400"
+              className="w-full border border-button-border py-2 px-4 lowercase text-text hover:bg-button-hover active:bg-button-active"
               onClick={() => {
                 sendInstallTracking();
                 prompt();

@@ -103,7 +103,7 @@ export default function LinksIndexPage() {
               Click the{" "}
               <Link
                 to="/links/new"
-                className="text-neutral-600 underline decoration-1 hover:text-neutral-600 hover:no-underline active:text-neutral-800"
+                className="text-nav-link underline decoration-1 hover:text-nav-link hover:no-underline active:text-nav-link-active"
               >
                 New link
               </Link>{" "}

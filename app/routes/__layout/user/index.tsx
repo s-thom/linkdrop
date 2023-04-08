@@ -1,6 +1,6 @@
 import { useUser } from "~/utils";
 
-export default function LinksIndexPage() {
+export default function ProfileSettingsPage() {
   const user = useUser();
 
   return (
@@ -11,12 +11,13 @@ export default function LinksIndexPage() {
           href={`mailto:${user.email}`}
           target="_blank"
           rel="noreferrer nofollow"
-          className="text-neutral-600 underline decoration-1 hover:text-neutral-600 hover:no-underline active:text-neutral-800"
+          className="text-nav-link underline decoration-1 hover:text-nav-link hover:no-underline active:text-nav-link-active"
         >
           {user.email}
         </a>
         .
       </h2>
+      <h3 className="text-xl font-normal lowercase">Settings</h3>
     </div>
   );
 }

@@ -28,7 +28,7 @@ export default function LinkDisplay({
   const shouldShowIcons = canShare || canEdit;
 
   return (
-    <div className="mb-2 max-w-3xl border border-neutral-400 bg-white py-2 px-4">
+    <div className="mb-2 max-w-3xl border border-card-border bg-card py-2 px-4">
       <a
         href={link.url}
         target="_blank"
@@ -62,7 +62,7 @@ export default function LinkDisplay({
           <div className="jusify-end -mr-2 flex flex-col justify-end">
             {canShare && (
               <LinkComponent
-                className="p-1 text-neutral-400 hover:text-neutral-600"
+                className="p-1 text-icon hover:text-icon-hover"
                 to={`/links/${link.id}`}
               >
                 <LinkIcon className="h-5 w-5" aria-label="Permalink" />
@@ -70,7 +70,7 @@ export default function LinkDisplay({
             )}
             {canEdit && (
               <LinkComponent
-                className="p-1 text-neutral-400 hover:text-neutral-600"
+                className="p-1 text-icon hover:text-icon-hover"
                 to={`/links/${link.id}/edit`}
               >
                 <Edit3 className="h-5 w-5" aria-label="Edit link" />

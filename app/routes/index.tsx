@@ -42,7 +42,7 @@ export default function Index() {
               href="https://sthom.kiwi"
               target="_blank"
               rel="noreferrer nofollow"
-              className="text-neutral-600 underline decoration-1 hover:text-neutral-600 hover:no-underline active:text-neutral-800"
+              className="text-nav-link underline decoration-1 hover:text-nav-link hover:no-underline active:text-nav-link-active"
               onClick={useEventCallback({
                 name: "sthom",
                 data: { type: "click" },
@@ -55,7 +55,7 @@ export default function Index() {
               href="https://github.com/s-thom/linkdrop"
               target="_blank"
               rel="noreferrer nofollow"
-              className="text-center lowercase text-neutral-400 underline decoration-1 hover:text-neutral-500 hover:no-underline active:bg-neutral-600"
+              className="text-center lowercase text-nav-link underline decoration-1 hover:text-nav-link hover:no-underline active:text-nav-link-active"
               onClick={useEventCallback({
                 name: "source-code",
                 data: { type: "click" },

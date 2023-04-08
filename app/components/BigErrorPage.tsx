@@ -26,7 +26,7 @@ export function BigErrorPage({ status }: BigErrorPageProps) {
         <Meta />
         <Links />
       </head>
-      <body className="h-full bg-neutral-50">
+      <body className="h-full bg-bg">
         <div className="flex min-h-full flex-col justify-center sm:pb-16 sm:pt-8">
           <Header
             size="large"

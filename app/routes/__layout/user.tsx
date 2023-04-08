@@ -18,45 +18,21 @@ export default function LinksIndexPage() {
         <nav>
           <ul>
             <li>
-              <NavigationLink
-                to="/user"
-                className="lowercase text-neutral-600 underline decoration-1 hover:text-neutral-600 hover:no-underline active:text-neutral-800"
-                end
-              >
+              <NavigationLink to="/user" end>
                 Profile & Settings
               </NavigationLink>
             </li>
             <li>
-              <NavigationLink
-                to="/user/account"
-                className="lowercase text-neutral-600 underline decoration-1 hover:text-neutral-600 hover:no-underline active:text-neutral-800"
-              >
-                Account
-              </NavigationLink>
+              <NavigationLink to="/user/account">Account</NavigationLink>
             </li>
             <li>
-              <NavigationLink
-                to="/user/stats"
-                className="lowercase text-neutral-600 underline decoration-1 hover:text-neutral-600 hover:no-underline active:text-neutral-800"
-              >
-                Stats
-              </NavigationLink>
+              <NavigationLink to="/user/stats">Stats</NavigationLink>
             </li>
             <li>
-              <NavigationLink
-                to="/user/help"
-                className="lowercase text-neutral-600 underline decoration-1 hover:text-neutral-600 hover:no-underline active:text-neutral-800"
-              >
-                Help
-              </NavigationLink>
+              <NavigationLink to="/user/help">Help</NavigationLink>
             </li>
             <li>
-              <NavigationLink
-                to="/user/extras"
-                className="lowercase text-neutral-600 underline decoration-1 hover:text-neutral-600 hover:no-underline active:text-neutral-800"
-              >
-                Extras
-              </NavigationLink>
+              <NavigationLink to="/user/extras">Extras</NavigationLink>
             </li>
           </ul>
           <Form
@@ -70,7 +46,7 @@ export default function LinksIndexPage() {
           >
             <button
               type="submit"
-              className="w-full border border-black py-2 px-4 lowercase text-black hover:bg-neutral-200 active:bg-neutral-400"
+              className="w-full border border-button-border bg-button py-2 px-4 lowercase text-text hover:bg-button-hover active:bg-button-active"
             >
               Log out
             </button>

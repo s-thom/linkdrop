@@ -1,0 +1,49 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root,
+[data-theme="light"] {
+  --color-link: #0000ee;
+  --color-link-visited: #551a8b;
+  --color-link-active: #ff0000;
+  --color-bg: theme(colors.neutral.50);
+  --color-card: theme(colors.white);
+  --color-card-border: theme(colors.neutral.400);
+  --color-card-error: theme(colors.red.50);
+  --color-card-error-border: theme(colors.red.400);
+  --color-button: theme(colors.white);
+  --color-button-hover: theme(colors.neutral.100);
+  --color-button-active: theme(colors.neutral.200);
+  --color-button-border: theme(colors.black);
+  --color-button-error: theme(colors.red.50);
+  --color-button-error-hover: theme(colors.red.100);
+  --color-button-error-active: theme(colors.red.200);
+  --color-button-error-border: theme(colors.red.400);
+  --color-input: theme(colors.white);
+  --color-input-border: theme(colors.neutral.600);
+  --color-icon: theme(colors.neutral.400);
+  --color-icon-hover: theme(colors.neutral.600);
+  --color-label: theme(colors.neutral.700);
+  --color-text: theme(colors.black);
+  --color-text-error: theme(colors.red.800);
+  --color-text-diminished: theme(colors.neutral.400);
+  --color-nav-link: theme(colors.neutral.600);
+  --color-nav-link-active: theme(colors.neutral.800);
+  --color-tag: theme(colors.neutral.200);
+  --color-tag-text: theme(colors.neutral.600);
+  --color-tag-border: theme(colors.neutral.400);
+  --color-tag-hover: theme(colors.neutral.300);
+  --color-tag-active: theme(colors.neutral.300);
+  --color-tag-active-text: theme(colors.neutral.700);
+  --color-tag-active-border: theme(colors.neutral.500);
+  --color-tag-active-hover: theme(colors.neutral.400);
+  --color-tag-positive: theme(colors.lime.200);
+  --color-tag-positive-text: theme(colors.lime.800);
+  --color-tag-positive-border: theme(colors.lime.400);
+  --color-tag-positive-hover: theme(colors.lime.300);
+  --color-tag-negative: theme(colors.red.200);
+  --color-tag-negative-text: theme(colors.red.800);
+  --color-tag-negative-border: theme(colors.red.400);
+  --color-tag-negative-hover: theme(colors.red.300);
+}

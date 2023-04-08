@@ -103,7 +103,7 @@ export default function LinkViewPage() {
           })}
           currentLinkId={data.link.id}
         />
-        <div className="mt-4 border border-red-200 bg-red-50 p-2">
+        <div className="border-card-error-border bg-card-error mt-4 border p-2">
           <Form
             method="delete"
             onSubmit={useEventCallback({
@@ -111,17 +111,17 @@ export default function LinkViewPage() {
               data: { type: "submit" },
             })}
           >
-            <h2 className="mb-2 text-xl font-normal lowercase text-red-800">
+            <h2 className="text-text-error mb-2 text-xl font-normal lowercase">
               Danger zone
             </h2>
             <input type="hidden" name="_method" value="delete" />
             <button
               type="submit"
-              className="md:1/3 mt-2 w-full border border-red-400 py-2 px-4 lowercase text-red-800 hover:bg-red-200 active:bg-red-300 sm:w-1/2"
+              className="md:1/3 border-button-error-border text-text-error hover:bg-button-error-hover active:bg-button-error-active mt-2 w-full border py-2 px-4 lowercase sm:w-1/2"
             >
               Delete link
             </button>
-            <p className="text-sm font-normal lowercase text-red-800">
+            <p className="text-text-error text-sm font-normal lowercase">
               This action can not be undone
             </p>
           </Form>

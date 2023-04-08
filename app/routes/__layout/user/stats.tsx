@@ -45,7 +45,7 @@ export default function UserStatsPage() {
           href="https://github.com/s-thom/linkdrop/issues/new/choose"
           target="_blank"
           rel="noreferrer nofollow"
-          className="text-neutral-600 underline decoration-1 hover:text-neutral-600 hover:no-underline active:text-neutral-800"
+          className="text-nav-link underline decoration-1 hover:text-nav-link hover:no-underline active:text-nav-link-active"
           onClick={sendClickGithubIssues}
         >
           creating an issue in GitHub

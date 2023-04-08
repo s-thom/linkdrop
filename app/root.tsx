@@ -159,7 +159,7 @@ export default function App() {
           src="https://analytics.sthom.kiwi/umami.js"
         ></script>
       </head>
-      <body className="h-full bg-neutral-50">
+      <body className="h-full bg-bg">
         <InstallContextProvider>
           <Outlet />
         </InstallContextProvider>

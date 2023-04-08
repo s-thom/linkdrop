@@ -15,7 +15,7 @@ export function CommonTags({ commonTags }: CommonTagsProps) {
   });
 
   return (
-    <section className="mb-2 max-w-3xl border border-neutral-400 bg-white py-2 px-4">
+    <section className="mb-2 max-w-3xl border border-card-border bg-card py-2 px-4">
       <h3 className="mb-2 block break-words text-xl font-normal lowercase">
         Most commonly used tags
       </h3>

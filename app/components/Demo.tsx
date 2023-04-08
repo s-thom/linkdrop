@@ -120,7 +120,7 @@ export default function Demo({ direction = "row" }: DemoProps) {
       <aside className="p-6 md:h-full md:w-80 md:pr-0">
         <label
           htmlFor="_tag_entry"
-          className="block text-sm font-medium lowercase text-gray-700"
+          className="text-label block text-sm font-medium lowercase"
         >
           Tags
         </label>
@@ -137,12 +137,12 @@ export default function Demo({ direction = "row" }: DemoProps) {
             ))}
           </ul>
         ) : (
-          <p className="py-2 text-sm text-neutral-400">No tags entered</p>
+          <p className="py-2 text-sm text-text-diminished">No tags entered</p>
         )}
         <div className="mt-1">{input}</div>
         {remainingCommonTags.length ? (
           <>
-            <span className="block text-sm font-medium lowercase text-neutral-400">
+            <span className="block text-sm font-medium lowercase text-text-diminished">
               Some tags to get you started
             </span>
             <ul className="flex flex-wrap gap-2 py-2">
