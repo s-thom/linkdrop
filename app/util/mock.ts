@@ -25,6 +25,7 @@ export function createLink(
     description,
     tags: tags.map(createTag),
     userId: "",
+    analyticsId: null,
   };
 }
 
