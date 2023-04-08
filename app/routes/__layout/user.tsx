@@ -1,6 +1,7 @@
 import type { LoaderFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import { Form, Link, Outlet } from "@remix-run/react";
+import { Form, Outlet } from "@remix-run/react";
+import { NavigationLink } from "~/components/Header/NavigationLink";
 import { requireUserId } from "~/session.server";
 import { useEventCallback } from "~/util/analytics";
 
@@ -12,41 +13,50 @@ export const loader: LoaderFunction = async ({ request }) => {
 export default function LinksIndexPage() {
   return (
     <div className="flex flex-col md:flex-row md:justify-center">
-      <aside className="p-6 md:h-full md:w-80 md:pr-0">
-        <h3 className="text-xl font-normal lowercase">Settings</h3>
+      <aside className="p-6 md:h-full md:w-60 md:pr-0">
+        <h3 className="text-xl font-normal lowercase">User</h3>
         <nav>
           <ul>
             <li>
-              <Link
+              <NavigationLink
                 to="/user"
                 className="lowercase text-neutral-600 underline decoration-1 hover:text-neutral-600 hover:no-underline active:text-neutral-800"
+                end
               >
-                Info
-              </Link>
+                Profile & Settings
+              </NavigationLink>
             </li>
             <li>
-              <Link
+              <NavigationLink
                 to="/user/account"
                 className="lowercase text-neutral-600 underline decoration-1 hover:text-neutral-600 hover:no-underline active:text-neutral-800"
               >
                 Account
-              </Link>
+              </NavigationLink>
             </li>
             <li>
-              <Link
+              <NavigationLink
+                to="/user/stats"
+                className="lowercase text-neutral-600 underline decoration-1 hover:text-neutral-600 hover:no-underline active:text-neutral-800"
+              >
+                Stats
+              </NavigationLink>
+            </li>
+            <li>
+              <NavigationLink
                 to="/user/help"
                 className="lowercase text-neutral-600 underline decoration-1 hover:text-neutral-600 hover:no-underline active:text-neutral-800"
               >
                 Help
-              </Link>
+              </NavigationLink>
             </li>
             <li>
-              <Link
+              <NavigationLink
                 to="/user/extras"
                 className="lowercase text-neutral-600 underline decoration-1 hover:text-neutral-600 hover:no-underline active:text-neutral-800"
               >
                 Extras
-              </Link>
+              </NavigationLink>
             </li>
           </ul>
           <Form
