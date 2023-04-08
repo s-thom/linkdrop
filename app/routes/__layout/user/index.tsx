@@ -53,7 +53,8 @@ export const loader: LoaderFunction = async ({ request }) => {
 
 export default function LinksIndexPage() {
   const data = useLoaderData<LoaderData>();
-  const { user, numLinks, commonTags, commonLinks } = data.summary;
+  const { user, numLinks, commonTags, commonLinks, countLinksGroupedByDay } =
+    data.summary;
 
   const sendClickGithubIssues = useEventCallback({
     name: "github-issues",

@@ -240,3 +240,42 @@ export async function checkDuplicateLinks({
     },
   });
 }
+
+interface GroupedQueryResult {
+  links: number;
+  created_date: string;
+}
+
+export async function getCountUserLinksGroupedByDay({
+  userId,
+  startDate,
+  endDate,
+}: {
+  userId: User["id"];
+  startDate: Date;
+  endDate: Date;
+}) {
+  const result = await prisma.$queryRaw<GroupedQueryResult[]>`
+    SELECT
+      count(l."id")::INTEGER links,
+      (l."createdAt"::DATE)::TEXT created_date
+    FROM
+      "Link" l
+    WHERE
+      "userId" = ${userId}
+      AND "createdAt" >= ${startDate}
+      AND "createdAt" < ${endDate}
+    GROUP BY
+      created_date;
+      `;
+
+  const map = result.reduce<Record<string, number>>(
+    (obj, { links, created_date }) => {
+      obj[created_date] = links;
+      return obj;
+    },
+    {}
+  );
+
+  return map;
+}
