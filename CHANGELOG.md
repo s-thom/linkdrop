@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Add theme selection on the settings page
 - Move user information to a new stats page
 - The stats page now shows a list of the most commonly clicked on links
 

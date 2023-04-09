@@ -2,8 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-:root,
-[data-theme="light"] {
+.internal__light-theme {
   --color-link: #0000ee;
   --color-link-visited: #551a8b;
   --color-link-active: #ff0000;
@@ -48,7 +47,7 @@
   --color-tag-negative-hover: theme(colors.red.300);
 }
 
-[data-theme="dark"] {
+.internal__dark-theme {
   --color-link: #758ffb;
   --color-link-visited: #a580ee;
   --color-link-active: #ea6976;
@@ -91,4 +90,24 @@
   --color-tag-negative-text: theme(colors.red.200);
   --color-tag-negative-border: theme(colors.red.700);
   --color-tag-negative-hover: theme(colors.red.800);
+}
+
+:root,
+[data-theme="auto"] {
+  @apply internal__light-theme;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root,
+  [data-theme="auto"] {
+    @apply internal__dark-theme;
+  }
+}
+
+[data-theme="light"] {
+  @apply internal__light-theme;
+}
+
+[data-theme="dark"] {
+  @apply internal__dark-theme;
 }
