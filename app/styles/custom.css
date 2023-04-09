@@ -47,3 +47,48 @@
   --color-tag-negative-border: theme(colors.red.400);
   --color-tag-negative-hover: theme(colors.red.300);
 }
+
+[data-theme="dark"] {
+  --color-link: #758ffb;
+  --color-link-visited: #a580ee;
+  --color-link-active: #ea6976;
+  --color-bg: theme(colors.neutral.900);
+  --color-card: theme(colors.neutral.800);
+  --color-card-border: theme(colors.neutral.600);
+  --color-card-error: theme(colors.neutral.900);
+  --color-card-error-border: theme(colors.red.600);
+  --color-button: theme(colors.neutral.900);
+  --color-button-hover: theme(colors.neutral.800);
+  --color-button-active: theme(colors.neutral.700);
+  --color-button-border: theme(colors.neutral.600);
+  --color-button-error: theme(colors.red.900);
+  --color-button-error-hover: theme(colors.red.800);
+  --color-button-error-active: theme(colors.red.700);
+  --color-button-error-border: theme(colors.red.600);
+  --color-input: theme(colors.neutral.900);
+  --color-input-border: theme(colors.neutral.700);
+  --color-icon: theme(colors.neutral.500);
+  --color-icon-hover: theme(colors.neutral.400);
+  --color-label: theme(colors.neutral.500);
+  --color-text: theme(colors.neutral.100);
+  --color-text-error: theme(colors.red.200);
+  --color-text-diminished: theme(colors.neutral.400);
+  --color-nav-link: theme(colors.neutral.400);
+  --color-nav-link-active: theme(colors.neutral.300);
+  --color-tag: theme(colors.neutral.900);
+  --color-tag-text: theme(colors.neutral.200);
+  --color-tag-border: theme(colors.neutral.700);
+  --color-tag-hover: theme(colors.neutral.800);
+  --color-tag-active: theme(colors.neutral.700);
+  --color-tag-active-text: theme(colors.neutral.50);
+  --color-tag-active-border: theme(colors.neutral.500);
+  --color-tag-active-hover: theme(colors.neutral.600);
+  --color-tag-positive: theme(colors.lime.900);
+  --color-tag-positive-text: theme(colors.lime.200);
+  --color-tag-positive-border: theme(colors.lime.700);
+  --color-tag-positive-hover: theme(colors.lime.800);
+  --color-tag-negative: theme(colors.red.900);
+  --color-tag-negative-text: theme(colors.red.200);
+  --color-tag-negative-border: theme(colors.red.700);
+  --color-tag-negative-hover: theme(colors.red.800);
+}
