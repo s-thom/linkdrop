@@ -19,7 +19,8 @@ export default function Header({
 }: HeaderProps) {
   const fontClasses =
     size === "large" ? "mb-6 text-6xl sm:text-8xl lg:text-9xl" : "text-3xl";
-  const containerClasses = size === "large" ? "" : "border-b";
+  const containerClasses =
+    size === "large" ? "" : "border-b border-card-border";
 
   return (
     <header

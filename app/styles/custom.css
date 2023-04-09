@@ -8,7 +8,7 @@
   --color-link-active: #ff0000;
   --color-bg: theme(colors.neutral.50);
   --color-card: theme(colors.white);
-  --color-card-border: theme(colors.neutral.400);
+  --color-card-border: theme(colors.neutral.300);
   --color-card-error: theme(colors.red.50);
   --color-card-error-border: theme(colors.red.400);
   --color-button: theme(colors.white);
