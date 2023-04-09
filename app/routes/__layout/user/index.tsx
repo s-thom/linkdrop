@@ -28,7 +28,7 @@ function ThemeOption({
         checked={checked}
         onChange={onChange}
       />
-      <div className="mb-2 max-w-3xl cursor-pointer border border-card-border bg-card py-2 px-4 text-text">
+      <div className="mb-2 max-w-3xl cursor-pointer border border-card-border bg-card px-4 py-2 text-text">
         <p className="mb-2 block break-words text-xl font-normal text-link underline">
           {name}
         </p>
@@ -61,7 +61,7 @@ function ThemeSelection() {
   }, []);
 
   return (
-    <div className="mb-2 max-w-3xl border border-card-border bg-card py-2 px-4">
+    <div className="mb-2 max-w-3xl border border-card-border bg-card px-4 py-2">
       <h4 className="text-xl font-normal lowercase">Theme selection</h4>
       <p className="mb-2 break-words text-text-diminished">
         This preference is saved to this device and is not synced between

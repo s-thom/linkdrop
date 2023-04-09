@@ -120,7 +120,7 @@ export default function Demo({ direction = "row" }: DemoProps) {
       <aside className="p-6 md:h-full md:w-80 md:pr-0">
         <label
           htmlFor="_tag_entry"
-          className="text-label block text-sm font-medium lowercase"
+          className="block text-sm font-medium lowercase text-label"
         >
           Tags
         </label>

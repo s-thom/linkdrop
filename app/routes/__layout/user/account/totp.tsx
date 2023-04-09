@@ -177,7 +177,7 @@ export default function SetUpTotpPage() {
         </div>
 
         {data.activation && (
-          <section className="mb-2 flex max-w-3xl flex-col items-center border border-card-border bg-card py-2 px-4">
+          <section className="mb-2 flex max-w-3xl flex-col items-center border border-card-border bg-card px-4 py-2">
             <p>
               Use the following code to save your authenticator secret. Once
               enabled, you will not see this again.
@@ -188,7 +188,7 @@ export default function SetUpTotpPage() {
             <p className="text-sm text-text-diminished">
               If you aren't able to scan the code, use the value below.
             </p>
-            <p className="select-all border py-1 px-2 text-center text-sm">
+            <p className="select-all border px-2 py-1 text-center text-sm">
               {data.activation.secret}
             </p>
           </section>
@@ -222,7 +222,7 @@ export default function SetUpTotpPage() {
 
         <button
           type="submit"
-          className="w-full border border-button-border bg-button py-2 px-4 lowercase text-text hover:bg-button-hover active:bg-button-active"
+          className="w-full border border-button-border bg-button px-4 py-2 lowercase text-text hover:bg-button-hover active:bg-button-active"
         >
           {data.activation ? "Enable 2FA" : "Disable 2FA"}
         </button>

@@ -35,7 +35,7 @@ export default function Tag({ name, state, className, ...props }: TagProps) {
   return (
     <button
       type={props.type ?? "button"}
-      className={`inline-block rounded border py-0 px-2 ${activeClasses} ${className}`}
+      className={`inline-block rounded border px-2 py-0 ${activeClasses} ${className}`}
       {...props}
     >
       {name}

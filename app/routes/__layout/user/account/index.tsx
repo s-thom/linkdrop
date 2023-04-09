@@ -27,20 +27,20 @@ export default function AccountIndexPage() {
       <h2 className="text-2xl font-normal lowercase">Account settings</h2>
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2">
-        <section className="mb-2 max-w-3xl border border-card-border bg-card py-2 px-4">
+        <section className="mb-2 max-w-3xl border border-card-border bg-card px-4 py-2">
           <h3 className="mb-2 block break-words text-xl font-normal lowercase">
             Change password
           </h3>
           <p className="mb-2 break-words">Need to change your password?</p>
           <Link
             to="/user/account/change-password"
-            className="block w-full border border-button-border bg-button py-2 px-4 text-center lowercase text-text hover:bg-button-hover active:bg-button-active"
+            className="block w-full border border-button-border bg-button px-4 py-2 text-center lowercase text-text hover:bg-button-hover active:bg-button-active"
           >
             Change password
           </Link>
         </section>
 
-        <section className="mb-2 max-w-3xl border border-card-border bg-card py-2 px-4">
+        <section className="mb-2 max-w-3xl border border-card-border bg-card px-4 py-2">
           <h3 className="mb-2 block break-words text-xl font-normal lowercase">
             2 Factor Authentication
           </h3>
@@ -57,13 +57,13 @@ export default function AccountIndexPage() {
           )}
           <Link
             to="/user/account/totp"
-            className="block w-full border border-button-border bg-button py-2 px-4 text-center lowercase text-text hover:bg-button-hover active:bg-button-active"
+            className="block w-full border border-button-border bg-button px-4 py-2 text-center lowercase text-text hover:bg-button-hover active:bg-button-active"
           >
             {data.mfa?.totp ? "Remove authenticator" : "Set up authenticator"}
           </Link>
         </section>
 
-        <section className="col-span-1 mb-2 max-w-3xl border border-card-error-border bg-card-error py-2 px-4 text-text-error">
+        <section className="col-span-1 mb-2 max-w-3xl border border-card-error-border bg-card-error px-4 py-2 text-text-error">
           <h3 className="mb-2 block break-words text-xl font-normal lowercase">
             Delete account
           </h3>
@@ -73,7 +73,7 @@ export default function AccountIndexPage() {
           </p>
           <Link
             to="/user/account/delete"
-            className="block w-full border border-button-error-border bg-button-error py-2 px-4 text-center lowercase text-text-error hover:bg-button-error-hover active:bg-button-error-active"
+            className="block w-full border border-button-error-border bg-button-error px-4 py-2 text-center lowercase text-text-error hover:bg-button-error-hover active:bg-button-error-active"
           >
             Delete account
           </Link>

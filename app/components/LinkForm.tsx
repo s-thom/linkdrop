@@ -233,7 +233,7 @@ export default function LinkForm({
 
       <button
         type="submit"
-        className="border-button-border hover:bg-button-hover active:bg-button-active w-full border py-2 px-4 lowercase text-text"
+        className="w-full border border-button-border px-4 py-2 lowercase text-text hover:bg-button-hover active:bg-button-active"
       >
         {i18n.submit}
       </button>
