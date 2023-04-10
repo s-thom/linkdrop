@@ -19,6 +19,7 @@ model User {
   links         Link[]
   tags          Tag[]
   linkAnalytics LinkAnalytics[]
+  userSettings  UserSettings?
 }
 
 model Password {
@@ -34,6 +35,25 @@ model Totp {
 
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   userId String @unique
+}
+
+model UserSettings {
+  id String @id @default(cuid())
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId String @unique
+
+  waybackSettings UserWaybackSettings?
+}
+
+model UserWaybackSettings {
+  id String @id @default(cuid())
+
+  userSettings   UserSettings @relation(fields: [userSettingsId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userSettingsId String       @unique
+
+  s3Key    String
+  s3Secret String
 }
 
 model Link {
