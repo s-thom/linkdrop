@@ -86,7 +86,7 @@ OFFSET 0;
   // Now we have the IDs, get the objects for real.
   // Yes, this is effectively querying the same information again.
   const links = await prisma.link.findMany({
-    include: { tags: true },
+    include: { tags: { orderBy: { name: "asc" } } },
     where: {
       userId,
       id: { in: sortedLinkIds },
@@ -103,7 +103,7 @@ OFFSET 0;
 
 export function getSingleLink({ id }: { id: Link["id"] }) {
   return prisma.link.findFirst({
-    include: { tags: true },
+    include: { tags: { orderBy: { name: "asc" } } },
     where: {
       id,
     },

@@ -32,7 +32,7 @@ export async function getUserMostClickedLinks({
     where: {
       userId,
     },
-    include: { link: { include: { tags: true } } },
+    include: { link: { include: { tags: { orderBy: { name: "asc" } } } } },
     orderBy: {
       clicks: "desc",
     },
