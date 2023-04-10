@@ -1,4 +1,5 @@
 import { ThemeSelector } from "~/components/user/settings/ThemeSelector";
+import { WaybackSettings } from "~/components/user/settings/WaybackSettings";
 import { useUser } from "~/utils";
 
 export default function ProfileSettingsPage() {
@@ -21,6 +22,7 @@ export default function ProfileSettingsPage() {
       <h3 className="text-2xl font-normal lowercase">Settings</h3>
 
       <ThemeSelector />
+      <WaybackSettings isSet={true} />
     </div>
   );
 }

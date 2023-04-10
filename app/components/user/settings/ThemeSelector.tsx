@@ -17,7 +17,7 @@ function ThemeOption({
   onChange,
 }: ThemeOptionProps) {
   return (
-    <label htmlFor={`theme_${id}`} data-theme={id}>
+    <>
       <input
         type="radio"
         name="theme"
@@ -27,19 +27,21 @@ function ThemeOption({
         checked={checked}
         onChange={onChange}
       />
-      <div className="mb-2 max-w-3xl cursor-pointer border border-card-border bg-card px-4 py-2 text-text">
-        <p className="mb-2 block break-words text-xl font-normal text-link underline">
-          {name}
-        </p>
-        <p className="mb-2">{description}</p>
-        <div className="flex gap-2">
-          <Tag name={id} state="inactive" />
-          <Tag name={id} state="active" />
-          <Tag name={`+${id}`} state="positive" />
-          <Tag name={`-${id}`} state="negative" />
+      <label htmlFor={`theme_${id}`} data-theme={id} tabIndex={0}>
+        <div className="max-w-3xl cursor-pointer border border-card-border bg-card px-4 py-2 text-text">
+          <p className="mb-2 block break-words text-xl font-normal text-link underline">
+            {name}
+          </p>
+          <p className="mb-2">{description}</p>
+          <div className="flex gap-2">
+            <Tag name={id} state="inactive" tabIndex={-1} />
+            <Tag name={id} state="active" tabIndex={-1} />
+            <Tag name={`+${id}`} state="positive" tabIndex={-1} />
+            <Tag name={`-${id}`} state="negative" tabIndex={-1} />
+          </div>
         </div>
-      </div>
-    </label>
+      </label>
+    </>
   );
 }
 
@@ -63,8 +65,8 @@ export function ThemeSelector() {
     <div className="mb-2 max-w-3xl border border-card-border bg-card px-4 py-2">
       <h4 className="text-xl font-normal lowercase">Theme selection</h4>
       <p className="mb-2 break-words text-text-diminished">
-        This preference is saved to this device and is not synced between
-        devices.
+        Change the appearance of linkdrop. This preference is saved to this
+        device and is not synced between devices.
       </p>
       <form className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2">
         <ThemeOption
