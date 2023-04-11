@@ -1,9 +1,28 @@
+import { useLoaderData } from "@remix-run/react";
+import type { LoaderFunction } from "@remix-run/server-runtime";
+import { json } from "@remix-run/server-runtime";
 import { ThemeSelector } from "~/components/user/settings/ThemeSelector";
 import { WaybackSettings } from "~/components/user/settings/WaybackSettings";
+import { getUserWaybackSettings } from "~/models/user.server";
+import { requireUserId } from "~/session.server";
 import { useUser } from "~/utils";
+
+type LoaderData = {
+  wayback: { isSet: boolean };
+};
+
+export const loader: LoaderFunction = async ({ request }) => {
+  const userId = await requireUserId(request);
+  const waybackSettings = await getUserWaybackSettings({ userId });
+
+  return json<LoaderData>({
+    wayback: { isSet: !!waybackSettings },
+  });
+};
 
 export default function ProfileSettingsPage() {
   const user = useUser();
+  const data = useLoaderData<LoaderData>();
 
   return (
     <div className="flex flex-col gap-4">
@@ -22,7 +41,7 @@ export default function ProfileSettingsPage() {
       <h3 className="text-2xl font-normal lowercase">Settings</h3>
 
       <ThemeSelector />
-      <WaybackSettings isSet={true} />
+      <WaybackSettings isSet={data.wayback.isSet} />
     </div>
   );
 }

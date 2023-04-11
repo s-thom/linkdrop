@@ -1,4 +1,4 @@
-import type { Password, Totp, User } from "@prisma/client";
+import type { Password, Totp, User, UserWaybackSettings } from "@prisma/client";
 import bcrypt from "bcryptjs";
 import { prisma } from "~/db.server";
 import { getUserMostClickedLinks } from "./linkanalytics.server.ts";
@@ -129,4 +129,64 @@ export async function verifyLogin(
   } = userWithPassword;
 
   return { success: true, user: userWithoutPassword };
+}
+
+export async function getUserWaybackSettings({
+  userId,
+}: {
+  userId: User["id"];
+}): Promise<UserWaybackSettings | undefined> {
+  const user = await prisma.user.findUnique({
+    where: { id: userId },
+    select: {
+      userSettings: { select: { waybackSettings: true } },
+    },
+  });
+
+  const waybackSettings = user?.userSettings?.waybackSettings ?? undefined;
+  return waybackSettings;
+}
+
+export async function setUserWaybackSettings({
+  userId,
+  key,
+  secret,
+}: {
+  userId: User["id"];
+  key: UserWaybackSettings["s3Key"];
+  secret: UserWaybackSettings["s3Secret"];
+}) {
+  const userSettings = await prisma.userSettings.upsert({
+    where: { id: userId },
+    create: {
+      userId: userId,
+    },
+    update: {},
+  });
+
+  const waybackSettings = await prisma.userWaybackSettings.upsert({
+    where: { userSettingsId: userSettings.id },
+    create: { userSettingsId: userSettings.id, s3Key: key, s3Secret: secret },
+    update: { s3Key: key, s3Secret: secret },
+  });
+
+  return waybackSettings;
+}
+
+export async function deleteUserWaybackSettings({
+  userId,
+}: {
+  userId: User["id"];
+}) {
+  const userSettings = await prisma.userSettings.findFirst({
+    where: { userId },
+  });
+
+  if (!userSettings) {
+    return;
+  }
+
+  await prisma.userWaybackSettings.delete({
+    where: { userSettingsId: userSettings.id },
+  });
 }

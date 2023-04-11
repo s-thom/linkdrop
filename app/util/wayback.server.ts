@@ -36,3 +36,20 @@ export async function savePageToWaybackMachine(
     url: `${ARCHIVE_URL_BASE}/${responseData.url}`,
   };
 }
+
+export function validateWaybackFormData(
+  formData: FormData
+):
+  | { status: "success"; values: { key: string; secret: string } }
+  | { status: "error"; errors: { key?: string; secret?: string } } {
+  const key = formData.get("key");
+  if (typeof key !== "string") {
+    return { status: "error", errors: { key: "Key is not valid" } };
+  }
+  const secret = formData.get("secret") ?? "";
+  if (typeof secret !== "string") {
+    return { status: "error", errors: { key: "Secret is not valid" } };
+  }
+
+  return { status: "success", values: { key, secret } };
+}

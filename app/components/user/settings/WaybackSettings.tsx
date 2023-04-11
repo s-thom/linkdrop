@@ -2,7 +2,7 @@ import { Form } from "@remix-run/react";
 
 function AddCredentialsForm() {
   return (
-    <Form method="POST" action="/user/settings/wayback">
+    <Form method="post" action="/user/settings/wayback" reloadDocument>
       <p className="mb-2">
         You can create credentials when logged in on the{" "}
         <a
@@ -15,7 +15,7 @@ function AddCredentialsForm() {
         .
       </p>
 
-      <div className="grid mb-2 grid-cols-1 gap-2 md:grid-cols-2">
+      <div className="mb-2 grid grid-cols-1 gap-2 md:grid-cols-2">
         <div>
           <label
             htmlFor="key"
@@ -65,7 +65,7 @@ function AddCredentialsForm() {
 
 function RemoveCredentialsForm() {
   return (
-    <Form method="POST" action="/user/settings/wayback">
+    <Form method="delete" action="/user/settings/wayback" reloadDocument>
       <p className="mb-2">
         You have credentials saved for the Internet Archive. You can also
         invalidate your existing credentials when logged in on the{" "}
@@ -78,6 +78,8 @@ function RemoveCredentialsForm() {
         </a>
         .
       </p>
+
+      <input type="hidden" name="_method" value="delete" />
 
       <button
         type="submit"
