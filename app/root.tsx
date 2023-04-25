@@ -155,8 +155,8 @@ export default function App() {
           data-auto-track="false"
           data-do-not-track="true"
           data-domains="linkdrop.sthom.kiwi"
-          data-website-id="8d5d5a05-af03-4ccf-86c1-0e6a0459518c"
-          src="https://analytics.sthom.kiwi/umami.js"
+          data-website-id="7e1118db-eac7-4a97-a9f6-a0549d5c8b56"
+          src="https://umami.sthom.kiwi/script.js"
         ></script>
       </head>
       <body className="h-full bg-bg text-text">

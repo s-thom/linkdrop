@@ -1,5 +1,16 @@
 import { useCallback, useEffect, useRef } from "react";
-import { useRoutePath } from "./useRoutePath";
+
+declare global {
+  interface Umami {
+    track: (name: string, data?: any) => void;
+  }
+
+  const umami: Umami | undefined;
+
+  interface Window {
+    umami: Umami | undefined;
+  }
+}
 
 export function pageView(path: string) {
   console.log({ e: "pageview", path });
@@ -7,11 +18,10 @@ export function pageView(path: string) {
     return;
   }
 
-  umami.trackView(path);
+  umami.track(path);
 }
 
 export interface EventData {
-  url?: string;
   name: string;
   data?: unknown;
 }
@@ -21,7 +31,7 @@ export function event(data: EventData) {
     return;
   }
 
-  umami.trackEvent(data.name, data.data ?? ({} as any), data.url);
+  umami.track(data.name, data.data ?? ({} as any));
 }
 
 /**
@@ -29,22 +39,11 @@ export function event(data: EventData) {
  * @param data Event data
  * @returns Memoised event callback
  */
-export function useEventCallback(
-  data: Omit<EventData, "url"> & Partial<Pick<EventData, "url">>
-) {
+export function useEventCallback(data: EventData) {
   const dataRef = useRef(data);
   useEffect(() => {
     dataRef.current = data;
   }, [data]);
 
-  const path = useRoutePath();
-  const pathRef = useRef(path);
-  useEffect(() => {
-    pathRef.current = path;
-  });
-
-  return useCallback(
-    () => event({ url: pathRef.current, ...dataRef.current }),
-    []
-  );
+  return useCallback(() => event({ ...dataRef.current }), []);
 }

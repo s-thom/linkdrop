@@ -14,6 +14,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased](https://github.com/s-thom/linkdrop/compare/v1.7.0...HEAD) - DATE
 
+### Changed
+
+- Updated analytics
+
 ### Fixed
 
 - Tags no longer appear out of order on links when searching

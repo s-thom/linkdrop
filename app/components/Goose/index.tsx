@@ -1,5 +1,4 @@
 import { useCallback, useRef } from "react";
-import { event } from "~/util/analytics";
 
 import styles from "./Goose.module.css";
 import goose from "./goose.png";
@@ -38,7 +37,7 @@ function createNote(index: number, count: number) {
   const heart = document.createElement("a");
   heart.href = "https://goose.sthom.kiwi";
   heart.rel = "external";
-  heart.classList.add("goose-heart", "umami--click--goose-note");
+  heart.dataset.umamiEvent = "goose-note";
   heart.textContent = NOTES[index]!;
   heart.ariaHidden = "true";
 
@@ -77,13 +76,6 @@ export function Goose() {
     }
 
     parent.appendChild(child);
-    if (
-      settings.count === 1 ||
-      settings.count === 5 ||
-      settings.count % 10 === 0
-    ) {
-      event({ name: "click", data: { type: "click", count: settings.count } });
-    }
 
     await delay(TOOLTIP_TIMEOUT);
     child.classList.add("goose-heart-exit");
@@ -99,6 +91,7 @@ export function Goose() {
       aria-label="Goose"
       onClick={onClick}
       ref={ref}
+      data-umami-event="goose"
     >
       <img src={goose} alt="" width={48} height={48} />
     </button>
