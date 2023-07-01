@@ -17,8 +17,7 @@ updates:
     groups:
       all:
         patterns:
-          - '*'
-        exclude-patterns: []
+          - "*"
   - package-ecosystem: "docker"
     directory: "/"
     schedule:
