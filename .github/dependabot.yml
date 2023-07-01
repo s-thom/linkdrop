@@ -14,6 +14,11 @@ updates:
       interval: "monthly"
       time: "19:00"
       timezone: "Pacific/Auckland"
+    groups:
+      all:
+        patterns:
+          - '*'
+        exclude-patterns: []
   - package-ecosystem: "docker"
     directory: "/"
     schedule:
