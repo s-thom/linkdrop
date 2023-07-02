@@ -1,11 +1,10 @@
 import type { FormMethod, FormProps } from "@remix-run/react";
-import { Form, useFetcher } from "@remix-run/react";
+import { Form, useFetcher, Link as LinkComponent } from "@remix-run/react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { encodeStringArray } from "~/util/stringArray";
 import { useDebounce } from "~/util/useDebounce";
 import { formValuesToSearchParams } from "~/util/useSearchFormState";
 import { useTagsInput } from "~/util/useTagsInput";
-import { Link as LinkComponent } from "@remix-run/react";
 import Tag from "./Tag";
 
 export interface FormValues {
