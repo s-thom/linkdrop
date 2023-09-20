@@ -12,7 +12,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 <!-- ### Fixed -->
 <!-- ### Security -->
 
-## [Unreleased](https://github.com/s-thom/linkdrop/compare/v1.7.1...HEAD) - DATE
+## [Unreleased](https://github.com/s-thom/linkdrop/compare/v1.8.0...HEAD) - DATE
+
+## [1.8.0](https://github.com/s-thom/linkdrop/compare/v1.7.1...v1.8.0) - 2023-09-21
+
+### Changed
+
+- Updated lots of dependencies
+  - This includes Remix, the framework the site is based on, which I think is a bit more than a patch release
 
 ## [1.7.1](https://github.com/s-thom/linkdrop/compare/v1.7.0...v1.7.1) - 2023-04-25
 
