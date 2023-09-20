@@ -64,15 +64,15 @@ export default function LinkForm({
   // #region Form state
   const [urlValue, setUrlValue] = useState(initialValues.url);
   const [descriptionValue, setDescriptionValue] = useState(
-    initialValues.description
+    initialValues.description,
   );
   const [tagsValue, setTagsValue] = useState<string[]>(
-    () => initialValues.tags
+    () => initialValues.tags,
   );
 
   useEffect(() => {
     tagsFetcher.load(
-      `/tags?${formValuesToSearchParams({ tags: tagsValue }).toString()}`
+      `/tags?${formValuesToSearchParams({ tags: tagsValue }).toString()}`,
     );
     // The eslint rule wants `fetcher` to be in the deps array.
     // This causes an infinite fetch loop.
@@ -95,7 +95,7 @@ export default function LinkForm({
     () =>
       tagsFetcher.data?.commonTags.filter((tag) => !tagsValue.includes(tag)) ??
       [],
-    [tagsFetcher.data, tagsValue]
+    [tagsFetcher.data, tagsValue],
   );
 
   // Duplicate link check
@@ -106,7 +106,7 @@ export default function LinkForm({
       duplicateFetcher.load(
         `/links/check-duplicate?${new URLSearchParams({
           url: debouncedUrl,
-        }).toString()}`
+        }).toString()}`,
       );
     }
     // The eslint rule wants `fetcher` to be in the deps array.
@@ -143,7 +143,7 @@ export default function LinkForm({
             value={urlValue}
             onChange={useCallback<React.ChangeEventHandler<HTMLInputElement>>(
               (event) => setUrlValue(event.target.value),
-              []
+              [],
             )}
           />
           {errors?.url && (

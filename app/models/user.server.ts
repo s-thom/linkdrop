@@ -65,7 +65,7 @@ export async function getUserSummary(userId: User["id"]) {
 }
 
 export async function getUser2faMethods(
-  userId: User["id"]
+  userId: User["id"],
 ): Promise<{ totp: boolean }> {
   const user = await prisma.user.findUnique({
     where: { id: userId },
@@ -82,7 +82,7 @@ export async function getUser2faMethods(
 export async function verifyLogin(
   email: User["email"],
   password: Password["hash"],
-  totp: Totp["secret"]
+  totp: Totp["secret"],
 ): Promise<
   | {
       success: false;
@@ -104,7 +104,7 @@ export async function verifyLogin(
 
   const isPasswordValid = await bcrypt.compare(
     password,
-    userWithPassword.password.hash
+    userWithPassword.password.hash,
   );
 
   if (!isPasswordValid) {

@@ -102,6 +102,6 @@ export let loader: LoaderFunction = () => {
       headers: {
         "Cache-Control": "public, max-age=600",
       },
-    }
+    },
   );
 };

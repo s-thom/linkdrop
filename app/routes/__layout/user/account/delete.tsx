@@ -42,21 +42,21 @@ export const action: ActionFunction = async ({ request }) => {
   if (typeof password !== "string") {
     return json<ActionData>(
       { errors: { password: "Password is required" } },
-      { status: 400 }
+      { status: 400 },
     );
   }
 
   if (password.length < 8) {
     return json<ActionData>(
       { errors: { password: "New password is too short" } },
-      { status: 400 }
+      { status: 400 },
     );
   }
 
   if (totp && typeof totp !== "string") {
     return json<ActionData>(
       { errors: { totp: "TOTP code is required" } },
-      { status: 400 }
+      { status: 400 },
     );
   }
 
@@ -69,7 +69,7 @@ export const action: ActionFunction = async ({ request }) => {
             "New password must not be the same as your current password",
         },
       },
-      { status: 400 }
+      { status: 400 },
     );
   }
 

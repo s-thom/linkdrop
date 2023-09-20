@@ -23,6 +23,10 @@ export function getUserTotp(userId: User["id"]) {
   return prisma.totp.findUnique({ where: { userId } });
 }
 
+export function generateNewTotpSecret() {
+  return authenticator.generateSecret();
+}
+
 export function createUserTotp(userId: User["id"], secret: string) {
   const encryptedSecret = encodeTotpSecret(secret);
   return prisma.totp.create({

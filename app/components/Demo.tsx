@@ -11,7 +11,7 @@ const EXAMPLE_TAGS = ["what", "who", "why"];
 const DEFAULT_LINK = createLink(
   "https://linkdrop.sthom.kiwi",
   "Try it out by using the tag search",
-  ["try-it-out"]
+  ["try-it-out"],
 );
 
 const EXAMPLE_LINKS: LinkWithTags[] = [
@@ -20,49 +20,49 @@ const EXAMPLE_LINKS: LinkWithTags[] = [
     "https://linkdrop.sthom.kiwi",
     "linkdrop is a website for storing links with tags, and then searching for them later.",
     ["linkdrop", "what"],
-    10
+    10,
   ),
   createLink(
     "https://linkdrop.sthom.kiwi",
     "I wanted a quick way to search for things I've found on the internet.",
     ["linkdrop", "why"],
-    20
+    20,
   ),
   createLink(
     "https://github.com/s-thom/the-index",
     "I had previously made something very similar, but I felt it was time to give the idea another attempt.",
     ["github", "the-index", "what", "why"],
-    25
+    25,
   ),
   createLink(
     "https://sthom.kiwi",
     "Hi, I'm Stuart Thomson and I made this thing.",
     ["stuart-thomson", "who"],
-    30
+    30,
   ),
   createLink(
     "https://zettelkasten.de/posts/overview/",
     "I've tried the Zettelkasten, but I found it quite overbearing to get into. I find linkdrop to be a lot more accessible and specialised, though I'm sure I'll need/want something as thorough as the Zettelkasten one day.",
     ["alternative", "why", "zettelkasten"],
-    35
+    35,
   ),
   createLink(
     "https://fortelabs.co/blog/para/",
     "The PARA Method is geared towards project organisation, and has some really good ideas for organising information. I needed something for just the 'Archive' side, and just for links around the internet. A full-blown system just wasn't necessary.",
     ["alternative", "para", "why"],
-    36
+    36,
   ),
   createLink(
     "https://github.com/s-thom/linkdrop",
     "This project is open source, and the source code is available on GitHub for anyone to contribute. That includes you!",
     ["github", "open-source", "what", "who"],
-    45
+    45,
   ),
   createLink(
     "https://www.youtube.com/watch?v=oHg5SJYRHA0",
     "Shhh. Don't tell anyone.",
     ["secret"],
-    50
+    50,
   ),
 ];
 
@@ -87,12 +87,12 @@ export default function Demo({ direction = "row" }: DemoProps) {
     (tag: string) => {
       tagsValue.includes(tag) ? removeTag(tag) : addTag(tag);
     },
-    [addTag, removeTag, tagsValue]
+    [addTag, removeTag, tagsValue],
   );
 
   const remainingCommonTags = useMemo(
     () => EXAMPLE_TAGS.filter((tag) => !tagsValue.includes(tag)) ?? [],
-    [tagsValue]
+    [tagsValue],
   );
 
   const { input } = useTagsInput({

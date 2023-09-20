@@ -2,7 +2,7 @@ import type { FormErrors, FormValues } from "~/components/LinkForm";
 import { decodeStringArray } from "./stringArray";
 
 export function validateFormData(
-  formData: FormData
+  formData: FormData,
 ):
   | { status: "success"; values: FormValues }
   | { status: "error"; errors: FormErrors } {

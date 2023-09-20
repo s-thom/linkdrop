@@ -46,7 +46,7 @@ export default function LinksIndexPage() {
     (tag: string) => {
       values.tags.includes(tag) ? removeTag(tag) : addTag(tag);
     },
-    [addTag, removeTag, values.tags]
+    [addTag, removeTag, values.tags],
   );
 
   const activeTags = useMemo(() => {
@@ -64,7 +64,7 @@ export default function LinksIndexPage() {
       navigator.sendBeacon(`/links/${linkId}/on`, formData);
       sendLinkClick();
     },
-    [sendLinkClick]
+    [sendLinkClick],
   );
 
   return (

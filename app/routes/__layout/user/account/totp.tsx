@@ -1,12 +1,12 @@
 import type { ActionFunction, LoaderFunction } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import { Form, useActionData, useLoaderData } from "@remix-run/react";
-import { authenticator } from "otplib";
 import { useEffect, useMemo, useRef } from "react";
 import {
   createUserTotp,
   decodeTotpSecret,
   deleteUserTotp,
+  generateNewTotpSecret,
   getUserTotp,
   setUserTotpActive,
 } from "~/models/totp.server";
@@ -37,7 +37,7 @@ export const loader: LoaderFunction = async ({ request }) => {
     if (totp?.secret) {
       secret = decodeTotpSecret(totp.secret);
     } else {
-      secret = authenticator.generateSecret();
+      secret = generateNewTotpSecret();
       await createUserTotp(userId, secret);
     }
 
@@ -69,14 +69,14 @@ export const action: ActionFunction = async ({ request }) => {
   if (typeof password !== "string") {
     return json<ActionData>(
       { errors: { password: "Password is required" } },
-      { status: 400 }
+      { status: 400 },
     );
   }
 
   if (totp && typeof totp !== "string") {
     return json<ActionData>(
       { errors: { totp: "TOTP code is required" } },
-      { status: 400 }
+      { status: 400 },
     );
   }
 
@@ -86,13 +86,13 @@ export const action: ActionFunction = async ({ request }) => {
       case "password_incorrect":
         return json<ActionData>(
           { errors: { password: "Invalid password" } },
-          { status: 400 }
+          { status: 400 },
         );
       case "requires_2fa":
       case "totp_incorrect":
         return json<ActionData>(
           { errors: { totp: "Incorrect code" } },
-          { status: 400 }
+          { status: 400 },
         );
     }
   }
@@ -129,7 +129,7 @@ export default function SetUpTotpPage() {
       return null;
     }
     return `otpauth://totp/${encodeURIComponent(
-      `linkdrop (${user.email})`
+      `linkdrop (${user.email})`,
     )}?secret=${data.activation.secret}`;
   }, [data.activation?.secret, user.email]);
 

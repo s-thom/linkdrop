@@ -15,12 +15,12 @@ export function useRoutePath() {
     const finalMatch = matches[matches.length - 1];
 
     const replacements = new Map(
-      Object.entries(finalMatch.params).map(([k, v]) => [v, k])
+      Object.entries(finalMatch.params).map(([k, v]) => [v, k]),
     );
     const parts = finalMatch.pathname.split("/");
 
     const replaced = parts.map((part) =>
-      replacements.has(part) ? `[${replacements.get(part)}]` : part
+      replacements.has(part) ? `[${replacements.get(part)}]` : part,
     );
     return replaced.join("/");
   }, [matches]);

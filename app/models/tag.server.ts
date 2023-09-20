@@ -69,7 +69,7 @@ export async function searchUserTags({
   const { include, exclude } = splitMap(
     tagsWithNegatives,
     (tag) => !tag.startsWith("-"),
-    (tag) => tag.replace(/^(-)/, "")
+    (tag) => tag.replace(/^(-)/, ""),
   );
 
   const related = await getRelatedTags({
@@ -88,7 +88,7 @@ export async function searchUserTags({
     exclude: ([] as string[]).concat(
       include,
       exclude,
-      related.map((tag) => tag.name)
+      related.map((tag) => tag.name),
     ),
     limit: limit - related.length,
   });

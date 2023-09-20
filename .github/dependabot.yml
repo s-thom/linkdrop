@@ -6,13 +6,13 @@ updates:
     schedule:
       interval: "weekly"
       day: "monday"
-      time: "19:00"
+      time: "17:30"
       timezone: "Pacific/Auckland"
   - package-ecosystem: "npm"
     directory: "/"
     schedule:
-      interval: "monthly"
-      time: "19:00"
+      interval: "weekly"
+      time: "17:30"
       timezone: "Pacific/Auckland"
     groups:
       all:
@@ -23,5 +23,5 @@ updates:
     schedule:
       interval: "weekly"
       day: "monday"
-      time: "19:00"
+      time: "17:30"
       timezone: "Pacific/Auckland"
