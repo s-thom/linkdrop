@@ -82,7 +82,7 @@
     "@vitest/coverage-c8": "^0.29.8",
     "autoprefixer": "^10.4.14",
     "c8": "^7.13.0",
-    "cypress": "^12.9.0",
+    "cypress": "^12.17.4",
     "dotenv": "^16.0.3",
     "esbuild": "^0.17.15",
     "eslint": "^8.38.0",
