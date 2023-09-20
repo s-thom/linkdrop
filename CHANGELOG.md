@@ -12,7 +12,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 <!-- ### Fixed -->
 <!-- ### Security -->
 
-## [Unreleased](https://github.com/s-thom/linkdrop/compare/v1.8.0...HEAD) - DATE
+## [Unreleased](https://github.com/s-thom/linkdrop/compare/v1.8.1...HEAD) - DATE
+
+## [1.8.1](https://github.com/s-thom/linkdrop/compare/v1.8.0...v1.8.1) - 2023-09-21
+
+### Fixed
+
+- Fix error that caused the app to not start
 
 ## [1.8.0](https://github.com/s-thom/linkdrop/compare/v1.7.1...v1.8.0) - 2023-09-21
 
