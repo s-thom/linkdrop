@@ -12,7 +12,7 @@ const SPECIAL_TEXT: Record<number, NonNullable<HeaderProps["text"]>> = {
 const MOCK_LINK = createLink(
   "https://linkdrop.sthom.kiwi",
   "linkdrop's home page",
-  ["linkdrop", "home"]
+  ["linkdrop", "home"],
 );
 
 export interface BigErrorPageProps {

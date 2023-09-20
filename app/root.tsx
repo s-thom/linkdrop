@@ -11,22 +11,20 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
-  useCatch,
+  isRouteErrorResponse,
   useLocation,
   useMatches,
+  useRouteError,
 } from "@remix-run/react";
-import type {
-  CatchBoundaryComponent,
-  ErrorBoundaryComponent,
-} from "@remix-run/react/dist/routeModules";
+import type { ErrorBoundaryComponent } from "@remix-run/react/dist/routeModules";
 import { useEffect, useRef } from "react";
 import { BigErrorPage } from "./components/BigErrorPage";
 import { InstallContextProvider } from "./components/InstallContext";
 import { getUser } from "./session.server";
 import tailwindStylesheetUrl from "./styles/tailwind.css";
 import { pageView } from "./util/analytics";
-import { useRoutePath } from "./util/useRoutePath";
 import { useInstallPrompt } from "./util/useInstallPrompt";
+import { useRoutePath } from "./util/useRoutePath";
 
 export const links: LinksFunction = () => {
   return [
@@ -78,14 +76,14 @@ export const links: LinksFunction = () => {
   ];
 };
 
-export const meta: MetaFunction = () => ({
-  charset: "utf-8",
-  title: "linkdrop",
-  description:
-    "An application to drop interesting links from around the internet.",
-  viewport: "width=device-width,initial-scale=1",
-  "application-name": "linkdrop",
-});
+export const meta: MetaFunction = () => [
+  { title: "linkdrop" },
+  {
+    name: "description",
+    content:
+      "An application to drop interesting links from around the internet.",
+  },
+];
 
 type LoaderData = {
   user: Awaited<ReturnType<typeof getUser>>;
@@ -137,7 +135,7 @@ export default function App() {
         return () => {
           navigator.serviceWorker.removeEventListener(
             "controllerchange",
-            listener
+            listener,
           );
         };
       }
@@ -147,6 +145,10 @@ export default function App() {
   return (
     <html lang="en" className="h-full">
       <head>
+        {" "}
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="width=device-width,initial-scale=1" />
+        <meta name="application-name" content="linkdrop" />
         <Meta />
         <Links />
         <script
@@ -173,11 +175,12 @@ export default function App() {
 }
 
 export const ErrorBoundary: ErrorBoundaryComponent = () => {
-  return <BigErrorPage status={500} />;
-};
+  const error = useRouteError();
 
-export const CatchBoundary: CatchBoundaryComponent = () => {
-  const caught = useCatch();
+  let status = 500;
+  if (isRouteErrorResponse(error)) {
+    status = error.status;
+  }
 
-  return <BigErrorPage status={caught.status} />;
+  return <BigErrorPage status={status} />;
 };

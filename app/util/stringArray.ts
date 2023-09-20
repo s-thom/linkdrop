@@ -36,7 +36,7 @@ export function decodeStringArray(str: string): string[] {
     //     a single plus
     //     any non-plus characters
     const matches = Array.from(
-      partial.matchAll(/((?:^\+)?[^+\n]+)|(?:\+(\+[^+\n]+))/g)
+      partial.matchAll(/((?:^\+)?[^+\n]+)|(?:\+(\+[^+\n]+))/g),
     );
     if (!matches) {
       return [];

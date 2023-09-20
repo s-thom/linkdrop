@@ -46,7 +46,7 @@ describe("smoke tests", () => {
 
     cy.findByRole("textbox", { name: /URL/i }).type(testLink.url);
     cy.findByRole("textbox", { name: /Description/i }).type(
-      testLink.description
+      testLink.description,
     );
     cy.findByRole("textbox", { name: /Tags/i }).type(testLink.tags);
     cy.findByRole("button", { name: /save/i }).click();
@@ -74,7 +74,7 @@ describe("smoke tests", () => {
     // Save initial link
     cy.findByRole("textbox", { name: /URL/i }).type(testLink.url);
     cy.findByRole("textbox", { name: /Description/i }).type(
-      testLink.description
+      testLink.description,
     );
     cy.findByRole("textbox", { name: /Tags/i }).type(testLink.tags);
     cy.findByRole("button", { name: /save/i }).click();

@@ -37,28 +37,28 @@ export const action: ActionFunction = async ({ request }) => {
   ) {
     return json<ActionData>(
       { errors: { email: "Sign up is not enabled" } },
-      { status: 400 }
+      { status: 400 },
     );
   }
 
   if (!validateEmail(email)) {
     return json<ActionData>(
       { errors: { email: "Email is invalid" } },
-      { status: 400 }
+      { status: 400 },
     );
   }
 
   if (typeof password !== "string") {
     return json<ActionData>(
       { errors: { password: "Password is required" } },
-      { status: 400 }
+      { status: 400 },
     );
   }
 
   if (password.length < 8) {
     return json<ActionData>(
       { errors: { password: "Password is too short" } },
-      { status: 400 }
+      { status: 400 },
     );
   }
 
@@ -66,7 +66,7 @@ export const action: ActionFunction = async ({ request }) => {
   if (existingUser) {
     return json<ActionData>(
       { errors: { email: "A user already exists with this email" } },
-      { status: 400 }
+      { status: 400 },
     );
   }
 
@@ -80,11 +80,7 @@ export const action: ActionFunction = async ({ request }) => {
   });
 };
 
-export const meta: MetaFunction = () => {
-  return {
-    title: "Sign Up",
-  };
-};
+export const meta: MetaFunction = () => [{ title: "Sign Up" }];
 
 export default function Join() {
   const [searchParams] = useSearchParams();

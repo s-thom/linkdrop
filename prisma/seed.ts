@@ -31,8 +31,8 @@ async function seed() {
           name,
           userId: user.id,
         },
-      })
-    )
+      }),
+    ),
   );
 
   await Promise.all([

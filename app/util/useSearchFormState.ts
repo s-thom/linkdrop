@@ -19,7 +19,7 @@ function editArray<T>(arr: T[], changes: Edit<T[]>): T[] {
   return deduplicateArray(
     arr
       .filter((item) => !changes.remove?.includes(item))
-      .concat(changes.add ?? [])
+      .concat(changes.add ?? []),
   );
 }
 
@@ -62,7 +62,7 @@ export function useSearchFormState() {
   const setFormState = useCallback(
     (values: FormValues) =>
       setSearchParams(formValuesToSearchParams(values), { replace: true }),
-    [setSearchParams]
+    [setSearchParams],
   );
 
   const addTag = useCallback(
@@ -70,14 +70,14 @@ export function useSearchFormState() {
       const newValues = editObject(values, { tags: { add: [tag] } });
       setFormState(newValues);
     },
-    [values, setFormState]
+    [values, setFormState],
   );
   const removeTag = useCallback(
     (tag: string) => {
       const newValues = editObject(values, { tags: { remove: [tag] } });
       setFormState(newValues);
     },
-    [values, setFormState]
+    [values, setFormState],
   );
 
   return { values, addTag, removeTag };

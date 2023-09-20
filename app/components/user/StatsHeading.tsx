@@ -39,7 +39,7 @@ export interface StatsHeadingProps {
 
 export function StatsHeading({ user, numLinks }: StatsHeadingProps) {
   const { node: numLinksDescription } = NUM_LINKS_TEXT.find(
-    (f) => f.lessThan >= numLinks
+    (f) => f.lessThan >= numLinks,
   )!;
 
   return (

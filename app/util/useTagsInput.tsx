@@ -48,7 +48,7 @@ export function useTagsInput({
         }
       }
     },
-    [addTag, allowNegative, allowPositive, tagInputValue]
+    [addTag, allowNegative, allowPositive, tagInputValue],
   );
 
   const input = (

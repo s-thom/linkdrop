@@ -29,28 +29,28 @@ export const action: ActionFunction = async ({ request }) => {
   if (!validateEmail(email)) {
     return json<ActionData>(
       { errors: { email: "Email is invalid" } },
-      { status: 400 }
+      { status: 400 },
     );
   }
 
   if (typeof password !== "string") {
     return json<ActionData>(
       { errors: { password: "Password is required" } },
-      { status: 400 }
+      { status: 400 },
     );
   }
 
   if (totp && typeof totp !== "string") {
     return json<ActionData>(
       { errors: { totp: "TOTP code is required" } },
-      { status: 400 }
+      { status: 400 },
     );
   }
 
   if (password.length < 8) {
     return json<ActionData>(
       { errors: { password: "Password is too short" } },
-      { status: 400 }
+      { status: 400 },
     );
   }
 
@@ -60,17 +60,17 @@ export const action: ActionFunction = async ({ request }) => {
       case "password_incorrect":
         return json<ActionData>(
           { errors: { email: "Invalid email or password" } },
-          { status: 400 }
+          { status: 400 },
         );
       case "requires_2fa":
         return json<ActionData>(
           { errors: {}, extra: { totp: true } },
-          { status: 400 }
+          { status: 400 },
         );
       case "totp_incorrect":
         return json<ActionData>(
           { errors: { totp: "Incorrect code" }, extra: { totp: true } },
-          { status: 400 }
+          { status: 400 },
         );
     }
   }
@@ -83,11 +83,7 @@ export const action: ActionFunction = async ({ request }) => {
   });
 };
 
-export const meta: MetaFunction = () => {
-  return {
-    title: "Login",
-  };
-};
+export const meta: MetaFunction = () => [{ title: "Log In" }];
 
 export default function LoginPage() {
   const [searchParams] = useSearchParams();

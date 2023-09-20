@@ -26,7 +26,7 @@ export async function searchUserLinks({
   const { include, exclude } = splitMap(
     tags,
     (tag) => !tag.startsWith("-"),
-    (tag) => tag.replace(/^([-+])/, "")
+    (tag) => tag.replace(/^([-+])/, ""),
   );
   const requiredTags = tags
     .filter((tag) => tag.startsWith("+"))
@@ -95,7 +95,7 @@ OFFSET 0;
 
   // The list from the findMany is not in the correct order, so it must be sorted in-memory.
   links.sort(
-    (a, b) => sortedLinkIds.indexOf(a.id) - sortedLinkIds.indexOf(b.id)
+    (a, b) => sortedLinkIds.indexOf(a.id) - sortedLinkIds.indexOf(b.id),
   );
 
   return links;
@@ -130,7 +130,7 @@ export async function createLink({
       map[tag.name] = tag;
       return map;
     },
-    {}
+    {},
   );
 
   return prisma.link.create({
@@ -187,7 +187,7 @@ export async function editLink({
       map[tag.name] = tag;
       return map;
     },
-    {}
+    {},
   );
 
   // Determine which tags to add/remove

@@ -24,7 +24,7 @@ export function useInstallPrompt() {
   const prompt = useCallback(async () => {
     if (!event) {
       throw new Error(
-        'You must wait for the "beforeinstallprompt" event before calling this function'
+        'You must wait for the "beforeinstallprompt" event before calling this function',
       );
     }
 

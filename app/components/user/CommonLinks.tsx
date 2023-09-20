@@ -21,7 +21,7 @@ export function CommonLinks({ commonLinks }: CommonLinksProps) {
       navigator.sendBeacon(`/links/${linkId}/on`, formData);
       sendLinkClick();
     },
-    [sendLinkClick]
+    [sendLinkClick],
   );
 
   return (
