@@ -108,7 +108,10 @@
   },
   "overrides": {
     "@testing-library/cypress": {
-      "cypress": "^13.0.0"
+      "cypress": "$cypress"
+    },
+    "msw": {
+      "typescript": "$typescript"
     }
   }
 }
