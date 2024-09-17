@@ -20,7 +20,7 @@ export function getUserCommonTags({
       userId,
       NOT: { name: { in: exclude } },
     },
-    select: { id: true, name: true, _count: includeCount },
+    select: { id: true, name: true, _count: !!includeCount },
     orderBy: [{ links: { _count: "desc" } }, { name: "asc" }],
     take: Math.min(limit, TAGS_QUERY_RESULTS_LIMIT),
   });
