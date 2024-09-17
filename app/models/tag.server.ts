@@ -2,12 +2,31 @@ import type { Tag } from "@prisma/client";
 import { prisma } from "~/db.server";
 import { splitMap } from "~/util/array";
 
-const TAGS_QUERY_RESULTS_LIMIT = 25;
+const ALL_TAGS_LIMIT = 500;
+const COMMON_TAGS_LIMIT = 25;
+
+export function getUserTags({
+  userId,
+  limit = ALL_TAGS_LIMIT,
+}: {
+  userId: Tag["id"];
+  limit?: number;
+}) {
+  return prisma.tag.findMany({
+    where: {
+      userId,
+    },
+    select: { id: true, name: true },
+    orderBy: [{ name: "asc" }],
+    take: Math.min(limit, COMMON_TAGS_LIMIT),
+  });
+}
+
 
 export function getUserCommonTags({
   userId,
   exclude = [],
-  limit = TAGS_QUERY_RESULTS_LIMIT,
+  limit = COMMON_TAGS_LIMIT,
   includeCount,
 }: {
   userId: Tag["id"];
@@ -22,7 +41,7 @@ export function getUserCommonTags({
     },
     select: { id: true, name: true, _count: !!includeCount },
     orderBy: [{ links: { _count: "desc" } }, { name: "asc" }],
-    take: Math.min(limit, TAGS_QUERY_RESULTS_LIMIT),
+    take: Math.min(limit, COMMON_TAGS_LIMIT),
   });
 }
 
@@ -30,7 +49,7 @@ export function getRelatedTags({
   userId,
   tags,
   exclude,
-  limit = TAGS_QUERY_RESULTS_LIMIT,
+  limit = COMMON_TAGS_LIMIT,
 }: {
   userId: Tag["id"];
   tags: string[];
@@ -53,14 +72,14 @@ WHERE
   (t2.name = ANY(${exclude})) = FALSE
 GROUP BY t2.id
 ORDER BY count(ltt2."B") DESC, t2."name"
-LIMIT ${Math.min(limit, TAGS_QUERY_RESULTS_LIMIT)};
+LIMIT ${Math.min(limit, COMMON_TAGS_LIMIT)};
 `;
 }
 
 export async function searchUserTags({
   userId,
   tags: tagsWithNegatives,
-  limit = TAGS_QUERY_RESULTS_LIMIT,
+  limit = COMMON_TAGS_LIMIT,
 }: {
   userId: Tag["id"];
   tags: string[];
@@ -79,7 +98,7 @@ export async function searchUserTags({
     limit,
   });
 
-  if (related.length >= TAGS_QUERY_RESULTS_LIMIT) {
+  if (related.length >= COMMON_TAGS_LIMIT) {
     return related;
   }
 

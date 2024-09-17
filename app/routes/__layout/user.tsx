@@ -23,6 +23,9 @@ export default function LinksIndexPage() {
               </NavigationLink>
             </li>
             <li>
+              <NavigationLink to="/user/tags">Tags</NavigationLink>
+            </li>
+            <li>
               <NavigationLink to="/user/account">Account</NavigationLink>
             </li>
             <li>
