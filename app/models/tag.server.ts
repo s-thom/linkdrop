@@ -22,6 +22,36 @@ export function getUserTags({
   });
 }
 
+export function getUserTag({
+  userId,
+  name,
+}: {
+  userId: Tag["id"];
+  name: Tag["name"];
+}) {
+  return prisma.tag.findFirst({
+    where: {
+      userId,
+      name,
+    },
+    select: { id: true, name: true },
+  });
+}
+
+export function renameUserTag({
+  userId,
+  tagId,
+  newName,
+}: {
+  userId: Tag["userId"];
+  tagId: Tag["id"];
+  newName: Tag["name"];
+}) {
+  return prisma.tag.update({
+    where: { userId, id: tagId },
+    data: { name: newName },
+  });
+}
 
 export function getUserCommonTags({
   userId,

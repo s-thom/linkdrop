@@ -23,10 +23,12 @@ export default function LinksIndexPage() {
               </NavigationLink>
             </li>
             <li>
-              <NavigationLink to="/user/tags">Tags</NavigationLink>
+              <NavigationLink to="/user/account">
+                Account & Security
+              </NavigationLink>
             </li>
             <li>
-              <NavigationLink to="/user/account">Account</NavigationLink>
+              <NavigationLink to="/user/tags">Tags</NavigationLink>
             </li>
             <li>
               <NavigationLink to="/user/stats">Stats</NavigationLink>

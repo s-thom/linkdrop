@@ -110,6 +110,22 @@ export function getSingleLink({ id }: { id: Link["id"] }) {
   });
 }
 
+export function getLinksForTag({
+  userId,
+  name,
+}: {
+  userId: Tag["userId"];
+  name: Tag["name"];
+}) {
+  return prisma.link.findMany({
+    include: { tags: { orderBy: { name: "asc" } } },
+    where: {
+      userId,
+      tags: { some: { name } },
+    },
+  });
+}
+
 export async function createLink({
   url,
   description,
