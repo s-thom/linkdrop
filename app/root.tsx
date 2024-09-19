@@ -23,9 +23,7 @@ import stylesheet from "~/styles/custom.css";
 import { BigErrorPage } from "./components/BigErrorPage";
 import { InstallContextProvider } from "./components/InstallContext";
 import { getUser } from "./session.server";
-import { pageView } from "./util/analytics";
 import { useInstallPrompt } from "./util/useInstallPrompt";
-import { useRoutePath } from "./util/useRoutePath";
 
 export const links: LinksFunction = () => {
   return [
@@ -103,11 +101,6 @@ export default function App() {
 
   useInstallPrompt();
 
-  const path = useRoutePath();
-  useEffect(() => {
-    pageView(path);
-  }, [path]);
-
   const mountedRef = useRef(false);
   useEffect(() => {
     // Whether this effect is running on first mount
@@ -156,8 +149,7 @@ export default function App() {
         <script
           async
           defer
-          data-auto-track="false"
-          data-do-not-track="true"
+          data-auto-track="true"
           data-domains="linkdrop.sthom.kiwi"
           data-website-id="3301ea45-665c-4140-9a64-ac5a9eae2112"
           src="https://stats.sthom.kiwi/script.js"

@@ -12,15 +12,6 @@ declare global {
   }
 }
 
-export function pageView(path: string) {
-  console.log({ e: "pageview", path });
-  if (typeof umami === "undefined") {
-    return;
-  }
-
-  umami.track(path);
-}
-
 export interface EventData {
   name: string;
   data?: unknown;
