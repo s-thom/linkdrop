@@ -3,6 +3,7 @@ import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import LinkDisplay from "~/components/LinkDisplay";
 import { getSingleLink } from "~/models/link.server";
+import { requireUserId } from "~/session.server";
 import { useEventCallback } from "~/util/analytics";
 import { useOptionalUser } from "~/utils";
 
@@ -11,6 +12,7 @@ type LoaderData = {
 };
 
 export const loader: LoaderFunction = async ({ request, params }) => {
+  const userId = await requireUserId(request);
   const id = params.id;
   if (!id) {
     throw new Response("Not Found", {
@@ -19,7 +21,7 @@ export const loader: LoaderFunction = async ({ request, params }) => {
   }
 
   const link = await getSingleLink({ id });
-  if (!link) {
+  if (!link || link.userId !== userId) {
     throw new Response("Not Found", {
       status: 404,
     });
