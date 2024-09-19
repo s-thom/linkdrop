@@ -2,8 +2,8 @@ import type { Tag } from "@prisma/client";
 import { prisma } from "~/db.server";
 import { splitMap } from "~/util/array";
 
-const ALL_TAGS_LIMIT = 500;
-const COMMON_TAGS_LIMIT = 25;
+export const ALL_TAGS_LIMIT = 500;
+export const COMMON_TAGS_LIMIT = 25;
 
 export function getUserTags({
   userId,
@@ -18,7 +18,7 @@ export function getUserTags({
     },
     select: { id: true, name: true },
     orderBy: [{ name: "asc" }],
-    take: Math.min(limit, COMMON_TAGS_LIMIT),
+    take: Math.min(limit, ALL_TAGS_LIMIT),
   });
 }
 

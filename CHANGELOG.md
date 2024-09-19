@@ -12,7 +12,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 <!-- ### Fixed -->
 <!-- ### Security -->
 
-## [Unreleased](https://github.com/s-thom/linkdrop/compare/v1.9.0...HEAD) - DATE
+## [Unreleased](https://github.com/s-thom/linkdrop/compare/v1.9.1...HEAD) - DATE
+
+## [1.9.1](https://github.com/s-thom/linkdrop/compare/v1.9.0...v1.9.1) - 2024-09-19
+
+### Added
+
+- Warning for when the number of tags listed on the user tags page reaches the defined limit.
+  - Note: this does not prevent you from adding more tags. It only prevents you from being able to see them in this list.
+  - This is an initial limit, it may be raised based on usage.
+
+### Changed
+
+- Number of tags listed on the user tags page has been raised.
+  - It should have been higher, but the wrong value was used in the query.
 
 ## [1.9.0](https://github.com/s-thom/linkdrop/compare/v1.8.1...v1.9.0) - 2024-09-19
 
