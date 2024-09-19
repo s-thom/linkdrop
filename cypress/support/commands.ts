@@ -43,7 +43,7 @@ declare global {
 }
 
 export function login({
-  email = faker.internet.email(undefined, undefined, "example.com"),
+  email = faker.internet.email({ provider: "example.com" }),
 }: {
   email?: string;
 } = {}) {
