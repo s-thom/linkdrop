@@ -12,7 +12,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 <!-- ### Fixed -->
 <!-- ### Security -->
 
-## [Unreleased](https://github.com/s-thom/linkdrop/compare/v1.8.1...HEAD) - DATE
+## [Unreleased](https://github.com/s-thom/linkdrop/compare/v1.9.0...HEAD) - DATE
+
+## [1.9.0](https://github.com/s-thom/linkdrop/compare/v1.8.1...v1.9.0) - 2024-09-19
+
+Almost a year from the last release!
+
+### Added
+
+- New page in settings to edit tags
+  - Tags can be renamed, affecting all links that use that tag
+  - Tags can be deleted as long as there are no links for which this is the only tag
+    - This restriction is in place to prevent links from being inaccessible
 
 ## [1.8.1](https://github.com/s-thom/linkdrop/compare/v1.8.0...v1.8.1) - 2023-09-21
 
