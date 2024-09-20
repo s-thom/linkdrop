@@ -14,6 +14,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased](https://github.com/s-thom/linkdrop/compare/v1.9.1...HEAD) - DATE
 
+### Changed
+
+- Increased window for 2FA codes.
+  - This should reduce the number of mismatches based on server time.
+
 ## [1.9.1](https://github.com/s-thom/linkdrop/compare/v1.9.0...v1.9.1) - 2024-09-19
 
 ### Added

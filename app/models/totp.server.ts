@@ -6,6 +6,8 @@ import { decode, encode } from "~/util/aes.server";
 
 invariant(process.env.TOTP_SECRET, "TOTP_SECRET must be set");
 
+authenticator.options = { window: 1 };
+
 export function encodeTotpSecret(cleartext: string) {
   return encode(cleartext, process.env.TOTP_SECRET!);
 }
