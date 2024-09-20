@@ -10,6 +10,11 @@ export async function getAllUsersSummary() {
       isAdmin: true,
       totp: { select: { active: true } },
       _count: { select: { links: true, tags: true } },
+      links: {
+        take: 1,
+        select: { createdAt: true },
+        orderBy: { createdAt: "desc" },
+      },
     },
     orderBy: { createdAt: "asc" },
   });

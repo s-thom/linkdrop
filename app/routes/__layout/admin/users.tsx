@@ -11,6 +11,7 @@ type LoaderData = {
     email: string;
     createdAt: Date;
     isAdmin: boolean;
+    mostRecentLinkCreatedAt: Date | undefined;
     numLinks: number;
     numTags: number;
     hasTotp: boolean;
@@ -35,6 +36,7 @@ export const loader: LoaderFunction = async ({ request }) => {
       email: user.email,
       createdAt: user.createdAt,
       isAdmin: user.isAdmin,
+      mostRecentLinkCreatedAt: user.links[0]?.createdAt ?? undefined,
       numLinks: user._count.links,
       numTags: user._count.tags,
       hasTotp: user.totp?.active ?? false,
@@ -55,6 +57,9 @@ export default function AdminUsersPage() {
               <th className="p-1 border border-card-border">Created (UTC)</th>
               <th className="p-1 border border-card-border">Number of links</th>
               <th className="p-1 border border-card-border">Number of tags</th>
+              <th className="p-1 border border-card-border">
+                Most recent link
+              </th>
               <th className="p-1 border border-card-border">TOTP Setup</th>
               <th className="p-1 border border-card-border">Is Admin</th>
             </tr>
@@ -73,6 +78,18 @@ export default function AdminUsersPage() {
                 </td>
                 <td className="p-1 border border-card-border">
                   {user.numTags}
+                </td>
+                <td className="p-1 border border-card-border">
+                  <time
+                    dateTime={user.mostRecentLinkCreatedAt}
+                    title={user.mostRecentLinkCreatedAt}
+                  >
+                    {user.mostRecentLinkCreatedAt
+                      ? new Date(
+                          user.mostRecentLinkCreatedAt,
+                        ).toLocaleDateString("en-NZ")
+                      : ""}
+                  </time>
                 </td>
                 <td className="p-1 border border-card-border">
                   <input
