@@ -1,27 +1,21 @@
 import type { ShouldRevalidateFunction } from "@remix-run/react";
-import { Outlet, useLoaderData } from "@remix-run/react";
-import type { LoaderFunction } from "@remix-run/server-runtime";
-import { json } from "@remix-run/server-runtime";
+import { Outlet } from "@remix-run/react";
+import { useEffect } from "react";
 import Header from "~/components/Header";
-
-type LoaderData = {
-  allowSignUp: boolean;
-};
-
-export const loader: LoaderFunction = async ({ request }) => {
-  const allowSignUp = process.env.ALLOW_EMAIL_JOIN === "true";
-
-  return json<LoaderData>({ allowSignUp });
-};
+import { useUser } from "~/utils";
 
 export const shouldRevalidate: ShouldRevalidateFunction = () => false;
 
 export default function Layout() {
-  const data = useLoaderData<LoaderData>();
+  const user = useUser();
+
+  useEffect(() => {
+    (window.umami as any)?.identify({ id: user.id });
+  }, [user.id]);
 
   return (
     <div className="flex h-full min-h-screen flex-col">
-      <Header size="small" mode="user" allowSignUp={data.allowSignUp} />
+      <Header size="small" mode="user" />
 
       <main className="flex-1">
         <Outlet />
