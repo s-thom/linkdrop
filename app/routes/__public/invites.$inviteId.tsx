@@ -3,54 +3,59 @@ import type {
   LoaderFunction,
   MetaFunction,
 } from "@remix-run/node";
-import { json, redirect } from "@remix-run/node";
-import {
-  Form,
-  useActionData,
-  useLoaderData,
-  useSearchParams,
-} from "@remix-run/react";
+import { json } from "@remix-run/node";
+import { Form, useActionData } from "@remix-run/react";
 import { useEffect, useRef } from "react";
+import { LinkDropText } from "~/components/LinkDropText";
+import { getUserInvite } from "~/models/invites.server";
 import { createUser, getUserByEmail } from "~/models/user.server";
-import { createUserSession, getUserId } from "~/session.server";
+import { createUserSession, getUser } from "~/session.server";
 import { useEventCallback } from "~/util/analytics";
-import { safeRedirect, validateEmail } from "~/utils";
+import { useOptionalUser, validateEmail } from "~/utils";
 
-interface LoaderData {
-  allowEmailJoin: boolean;
-}
+export const loader: LoaderFunction = async ({ params }) => {
+  const inviteId = params.inviteId;
+  if (!inviteId) {
+    throw new Response("Not Found", {
+      status: 404,
+    });
+  }
 
-export const loader: LoaderFunction = async ({ request }) => {
-  const userId = await getUserId(request);
-  if (userId) return redirect("/");
+  const invite = await getUserInvite({ id: inviteId });
+  if (!invite || invite.inviteeUserId) {
+    throw new Response("Not Found", {
+      status: 404,
+    });
+  }
 
-  const allowEmailJoin = process.env.ALLOW_EMAIL_JOIN === "true";
-  return json<LoaderData>({ allowEmailJoin });
+  return json({});
 };
 
 interface ActionData {
   errors: {
     email?: string;
     password?: string;
+    submit?: string;
   };
 }
 
-export const action: ActionFunction = async ({ request }) => {
-  const formData = await request.formData();
-  const email = formData.get("email");
-  const password = formData.get("password");
-  const superuserSecret = formData.get("__");
-  const redirectTo = safeRedirect(formData.get("redirectTo"), "/");
-
-  if (
-    process.env.ALLOW_EMAIL_JOIN !== "true" &&
-    superuserSecret !== process.env.SUPERUSER_SECRET
-  ) {
+export const action: ActionFunction = async ({ request, params }) => {
+  const user = await getUser(request);
+  if (user) {
     return json<ActionData>(
-      { errors: { email: "Sign up is not enabled" } },
+      {
+        errors: {
+          submit:
+            "You already have an account! Send this link to someone else so they can sign up.",
+        },
+      },
       { status: 400 },
     );
   }
+
+  const formData = await request.formData();
+  const email = formData.get("email");
+  const password = formData.get("password");
 
   if (!validateEmail(email)) {
     return json<ActionData>(
@@ -81,42 +86,47 @@ export const action: ActionFunction = async ({ request }) => {
     );
   }
 
-  const user = await createUser(email, password);
+  const newUser = await createUser(email, password, params.inviteId);
 
   return createUserSession({
     request,
-    userId: user.id,
+    userId: newUser.id,
     remember: false,
-    redirectTo,
+    redirectTo: "/links",
   });
 };
 
 export const meta: MetaFunction = () => [{ title: "Sign Up" }];
 
-export default function Join() {
-  const [searchParams] = useSearchParams();
-  const redirectTo = searchParams.get("redirectTo") ?? undefined;
+export default function InvitePage() {
+  const user = useOptionalUser();
 
-  const data = useLoaderData<LoaderData>();
   const actionData = useActionData<ActionData>();
-
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
+  const submitErrorRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (actionData?.errors?.email) {
       emailRef.current?.focus();
     } else if (actionData?.errors?.password) {
       passwordRef.current?.focus();
+    } else if (actionData?.errors?.submit) {
+      submitErrorRef.current?.focus();
     }
   }, [actionData]);
 
   return (
     <div className="mx-auto w-full max-w-md px-8">
-      {data.allowEmailJoin && (
+      {user === undefined ? (
+        <p className="my-2 lowercase">
+          You've been invited to try <LinkDropText />, where you can save and
+          search for the links you find around the internet.
+        </p>
+      ) : (
         <p className="my-2 text-text-error lowercase">
-          Sign up is currently disabled. Invite links still work, so if you get
-          one of those be sure to use it!
+          You already have an account! Send this link to someone else so they
+          can sign up.
         </p>
       )}
       <Form
@@ -147,6 +157,7 @@ export default function Join() {
               aria-invalid={actionData?.errors?.email ? true : undefined}
               aria-describedby="email-error"
               className="w-full border border-input-border bg-input px-2 py-1 text-lg"
+              readOnly={user !== undefined}
             />
             {actionData?.errors?.email && (
               <div className="pt-1 text-text-error" id="email-error">
@@ -173,6 +184,7 @@ export default function Join() {
               aria-invalid={actionData?.errors?.password ? true : undefined}
               aria-describedby="password-error"
               className="w-full border border-input-border bg-input px-2 py-1 text-lg"
+              readOnly={user !== undefined}
             />
             {actionData?.errors?.password && (
               <div className="pt-1 text-text-error" id="password-error">
@@ -182,14 +194,18 @@ export default function Join() {
           </div>
         </div>
 
-        <input type="hidden" name="redirectTo" value={redirectTo} />
-        <input type="hidden" name="__" value="" />
         <button
           type="submit"
-          className="w-full border border-button-border bg-button px-4 py-2 lowercase text-text hover:bg-button-hover active:bg-button-active"
+          className="w-full border border-button-border bg-button px-4 py-2 lowercase text-text enabled:hover:bg-button-hover enabled:active:bg-button-active"
+          disabled={user !== undefined}
         >
           Sign up
         </button>
+        {actionData?.errors?.submit && (
+          <div className="pt-1 text-text-error" id="submit-error">
+            {actionData.errors.submit}
+          </div>
+        )}
       </Form>
     </div>
   );

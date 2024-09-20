@@ -19,3 +19,17 @@ export async function getAllUsersSummary() {
     orderBy: { createdAt: "asc" },
   });
 }
+
+export async function getAllUnusedInvites() {
+  return prisma.userInvite.findMany({
+    select: {
+      id: true,
+      createdAt: true,
+      updatedAt: true,
+      creatorUserId: true,
+      inviteeUserId: true,
+    },
+    where: { inviteeUserId: { equals: null } },
+    orderBy: { createdAt: "asc" },
+  });
+}

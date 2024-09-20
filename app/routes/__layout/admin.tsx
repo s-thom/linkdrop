@@ -33,6 +33,9 @@ export default function AdminIndexPage() {
             <li>
               <NavigationLink to="/admin/users">Users</NavigationLink>
             </li>
+            <li>
+              <NavigationLink to="/admin/invites">Invites</NavigationLink>
+            </li>
           </ul>
         </nav>
       </aside>

@@ -21,7 +21,7 @@ export default function AdminIndexPage() {
   return (
     <div className="flex flex-col md:flex-row md:justify-center">
       <main className="flex-1 p-6 md:max-w-xl lg:max-w-2xl">
-        <h2 className="mb-6 text-6xl sm:text-8xl lg:text-9xl italic">
+        <h2 className="mb-6 text-6xl sm:text-8xl lg:text-9xl">
           <LinkDropText link="ad" drop="min" />
         </h2>
       </main>

@@ -8,7 +8,7 @@ export function LinkDropText({
   drop = "drop",
 }: LinkDropTextProps) {
   return (
-    <span>
+    <span className="italic">
       <span>{link}</span>
       <span className="inline-block translate-y-[0.06em] rotate-heading">
         {drop}

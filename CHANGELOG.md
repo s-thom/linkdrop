@@ -14,6 +14,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased](https://github.com/s-thom/linkdrop/compare/v1.9.1...HEAD) - DATE
 
+### Added
+
+- Invite system.
+  - Invites are unique links that allow users to sign up even when the normal email sign up flow is disabled.
+  - For now invites can only be created by the site admins. This may change in the future.
+
 ### Changed
 
 - Increased window for 2FA codes.

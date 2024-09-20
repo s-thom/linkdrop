@@ -28,7 +28,7 @@ export default function Header({
       className={`flex flex-col items-center justify-between p-2 ${containerClasses}`}
     >
       <h1
-        className={`whitespace-nowrap text-center font-normal italic tracking-tight ${fontClasses}`}
+        className={`whitespace-nowrap text-center font-normal tracking-tight ${fontClasses}`}
       >
         <Link to="/">
           <LinkDropText link={text.link} drop={text.drop} />
