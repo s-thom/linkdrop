@@ -19,6 +19,8 @@ model User {
   links         Link[]
   tags          Tag[]
   linkAnalytics LinkAnalytics[]
+
+  isAdmin Boolean @default(false)
 }
 
 model Password {

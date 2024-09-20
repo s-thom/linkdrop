@@ -1,6 +1,7 @@
 import { Link } from "@remix-run/react";
 import { PublicNav } from "./PublicNav";
 import { UserNav } from "./UserNav";
+import { LinkDropText } from "../LinkDropText";
 
 const DEFAULT_TEXT = { link: "link", drop: "drop" };
 
@@ -30,10 +31,7 @@ export default function Header({
         className={`whitespace-nowrap text-center font-normal italic tracking-tight ${fontClasses}`}
       >
         <Link to="/">
-          <span>{text.link}</span>
-          <span className="inline-block translate-y-[0.06em] rotate-heading">
-            {text.drop}
-          </span>
+          <LinkDropText link={text.link} drop={text.drop} />
         </Link>
       </h1>
       {mode !== "none" && (
