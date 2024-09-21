@@ -12,7 +12,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 <!-- ### Fixed -->
 <!-- ### Security -->
 
-## [Unreleased](https://github.com/s-thom/linkdrop/compare/v1.9.1...HEAD) - DATE
+## [Unreleased](https://github.com/s-thom/linkdrop/compare/v2.0.0...HEAD) - DATE
+
+## [v2.0.0](https://github.com/s-thom/linkdrop/compare/v1.9.1...v2.0.0) - 2024-09-21
+
+The big `2.0`. It's not actually a big update, but it just felt like a good enough time to increment that major version number. Of course, future major versions might include bigger updates that require more care, but since you're the kind of person that reads changelog entries I'm sure that won't be an issue.
 
 ### Added
 
