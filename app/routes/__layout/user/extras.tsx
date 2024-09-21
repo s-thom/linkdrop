@@ -1,10 +1,8 @@
-import { Goose, links as gooseLinks } from "~/components/Goose";
+import { Goose } from "~/components/Goose";
 import { useInstallContext } from "~/components/InstallContext";
 import { useEventCallback } from "~/util/analytics";
 
-export const links = () => [...gooseLinks()];
-
-export default function LinksIndexPage() {
+export default function UserExtrasPage() {
   const { canPrompt, prompt } = useInstallContext();
   const sendInstallTracking = useEventCallback({
     name: "install-pwa",
@@ -13,8 +11,7 @@ export default function LinksIndexPage() {
 
   return (
     <div className="flex flex-col gap-4">
-      <h2 className="text-2xl font-normal lowercase">Extras</h2>
-
+      <h2 className="text-2xl font-normal lowercase">Extensions</h2>
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2">
         <section className="mb-2 max-w-3xl border border-card-border bg-card px-4 py-2">
           <h3 className="mb-2 block break-words text-xl font-normal lowercase">
@@ -51,8 +48,8 @@ export default function LinksIndexPage() {
             save the current tab in the extensions menu near your search bar.
           </p>
           <p className="mb-2 break-words">
-            Once installed, clicking the "Pin" icon in the extensions menu will
-            keep it visible at all times.
+            Once installed, open the Extensions menu and pin the extension to
+            your toolbar for it to be visible at all times.
           </p>
           <a
             href="https://chrome.google.com/webstore/detail/linkdrop/afcdppbpfiecoomopjpcfmmhcackmpef"
@@ -67,32 +64,37 @@ export default function LinksIndexPage() {
             Go to Chrome Web Store
           </a>
         </section>
-
-        {canPrompt && (
-          <section className="mb-2 max-w-3xl border border-card-border bg-card px-4 py-2">
-            <h3 className="mb-2 block break-words text-xl font-normal lowercase">
-              Install
-            </h3>
-            <p className="mb-2 break-words">
-              linkdrop can be installed to your device as a web application.
-            </p>
-            <p className="mb-2 break-words">
-              This is most effective on mobile, as it allows you to share links
-              to linkdrop from any app in order to save them.
-            </p>
-            <button
-              type="button"
-              className="w-full border border-button-border px-4 py-2 lowercase text-text hover:bg-button-hover active:bg-button-active"
-              onClick={() => {
-                sendInstallTracking();
-                prompt();
-              }}
-            >
-              Install
-            </button>
-          </section>
-        )}
       </div>
+
+      {canPrompt && (
+        <>
+          <h2 className="text-2xl font-normal lowercase">Install</h2>
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2">
+            <section className="mb-2 max-w-3xl border border-card-border bg-card px-4 py-2">
+              <h3 className="mb-2 block break-words text-xl font-normal lowercase">
+                Install
+              </h3>
+              <p className="mb-2 break-words">
+                linkdrop can be installed to your device as if it were an app.
+              </p>
+              <p className="mb-2 break-words">
+                This is most effective on mobile, as it allows you to share
+                links directly to linkdrop from any app in order to save them.
+              </p>
+              <button
+                type="button"
+                className="w-full border border-button-border px-4 py-2 lowercase text-text hover:bg-button-hover active:bg-button-active"
+                onClick={() => {
+                  sendInstallTracking();
+                  prompt();
+                }}
+              >
+                Install
+              </button>
+            </section>
+          </div>
+        </>
+      )}
 
       <p className="text-center text-sm">
         <Goose />
