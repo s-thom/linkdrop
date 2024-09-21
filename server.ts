@@ -79,9 +79,11 @@ app.use(morgan("tiny"));
 app.all(
   "*",
   createRequestHandler({
+    // @ts-ignore
     build: viteDevServer
       ? () => viteDevServer.ssrLoadModule("virtual:remix/server-build")
-      : await import("./build/server/index.js"),
+      : // @ts-ignore
+        await import("./build/server/index.js"),
   }),
 );
 
