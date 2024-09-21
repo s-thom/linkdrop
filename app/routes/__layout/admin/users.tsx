@@ -1,6 +1,6 @@
 import type { LoaderFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
+import { Link, useLoaderData } from "@remix-run/react";
 import { getAllUsersSummary } from "~/models/admin.server";
 import { getUserById } from "~/models/user.server";
 import { requireUserId } from "~/session.server";
@@ -67,7 +67,14 @@ export default function AdminUsersPage() {
           <tbody>
             {data.users.map((user) => (
               <tr key={user.id} className="hover:bg-button-active">
-                <td className="p-1 border border-card-border">{user.email}</td>
+                <td className="p-1 border border-card-border">
+                  <Link
+                    to={`/admin/users/${user.id}`}
+                    className="text-nav-link underline decoration-1 hover:text-nav-link hover:no-underline active:text-nav-link-active"
+                  >
+                    {user.email}
+                  </Link>
+                </td>
                 <td className="p-1 border border-card-border">
                   <time dateTime={user.createdAt} title={user.createdAt}>
                     {new Date(user.createdAt).toLocaleDateString("en-NZ")}

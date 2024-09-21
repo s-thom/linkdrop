@@ -105,7 +105,14 @@ export default function AdminInvitesPage() {
                   </time>
                 </td>
                 <td className="p-1 border border-card-border">
-                  {invite.creatorUserId ?? (
+                  {invite.creatorUserId ? (
+                    <Link
+                      to={`/admin/users/${invite.creatorUserId}`}
+                      className="text-nav-link underline decoration-1 hover:text-nav-link hover:no-underline active:text-nav-link-active"
+                    >
+                      {invite.creatorUserId}
+                    </Link>
+                  ) : (
                     <span className="italic">admin</span>
                   )}
                 </td>

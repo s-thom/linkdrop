@@ -12,3 +12,20 @@ export async function createUserInvite({
 export async function getUserInvite({ id }: { id: UserInvite["id"] }) {
   return prisma.userInvite.findFirst({ where: { id } });
 }
+
+export async function getUserCreatedInvites({
+  userId,
+}: {
+  userId: User["id"];
+}) {
+  return prisma.userInvite.findMany({
+    select: {
+      id: true,
+      createdAt: true,
+      updatedAt: true,
+      invitee: { select: { id: true, email: true, createdAt: true } },
+    },
+    where: { creatorUserId: userId },
+    orderBy: { createdAt: "asc" },
+  });
+}
