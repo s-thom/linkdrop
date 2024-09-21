@@ -3,10 +3,6 @@ import { useCallback, useRef } from "react";
 import styles from "./Goose.module.css";
 import goose from "./goose.png";
 
-export function links() {
-  return [{ rel: "stylesheet", href: styles }];
-}
-
 const TOOLTIP_TIMEOUT = 3000;
 const TRANSITION_DURATION = 200;
 const SCALE_SCALE = 100;
@@ -19,7 +15,7 @@ function delay(ms: number) {
 
 function createHeart(index: number, count: number) {
   const heart = document.createElement("div");
-  heart.classList.add("goose-heart");
+  heart.classList.add(styles["goose-heart"]);
   heart.textContent = HEARTS[index]!;
   heart.ariaHidden = "true";
 
@@ -35,6 +31,7 @@ function createHeart(index: number, count: number) {
 
 function createNote(index: number, count: number) {
   const heart = document.createElement("a");
+  heart.classList.add(styles["goose-heart"]);
   heart.href = "https://goose.sthom.kiwi";
   heart.rel = "external";
   heart.dataset.umamiEvent = "goose-note";
@@ -78,7 +75,7 @@ export function Goose() {
     parent.appendChild(child);
 
     await delay(TOOLTIP_TIMEOUT);
-    child.classList.add("goose-heart-exit");
+    child.classList.add(styles["goose-heart-exit"]);
 
     await delay(TRANSITION_DURATION);
     parent.removeChild(child);
@@ -87,7 +84,7 @@ export function Goose() {
   return (
     <button
       id="goose"
-      className="goose-button"
+      className={styles["goose-button"]}
       aria-label="Goose"
       onClick={onClick}
       ref={ref}
