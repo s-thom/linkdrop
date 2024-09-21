@@ -12,7 +12,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 <!-- ### Fixed -->
 <!-- ### Security -->
 
-## [Unreleased](https://github.com/s-thom/linkdrop/compare/v2.0.0...HEAD) - DATE
+## [Unreleased](https://github.com/s-thom/linkdrop/compare/v2.0.1...HEAD) - DATE
+
+## [Unreleased](https://github.com/s-thom/linkdrop/compare/v2.0.0...v2.0.1) - 2024-09-21
+
+### Fixed
+
+- Error when starting app from Docker container
 
 ## [v2.0.0](https://github.com/s-thom/linkdrop/compare/v1.9.1...v2.0.0) - 2024-09-21
 
