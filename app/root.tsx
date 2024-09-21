@@ -1,4 +1,3 @@
-import { cssBundleHref } from "@remix-run/css-bundle";
 import type {
   LinksFunction,
   LoaderFunction,
@@ -7,7 +6,6 @@ import type {
 import { json } from "@remix-run/node";
 import {
   Links,
-  LiveReload,
   Meta,
   Outlet,
   Scripts,
@@ -19,7 +17,7 @@ import {
 } from "@remix-run/react";
 import type { ErrorBoundaryComponent } from "@remix-run/react/dist/routeModules";
 import { useEffect, useRef } from "react";
-import stylesheet from "~/styles/custom.css";
+import stylesheet from "~/styles/custom.css?url";
 import { BigErrorPage } from "./components/BigErrorPage";
 import { InstallContextProvider } from "./components/InstallContext";
 import { getUser } from "./session.server";
@@ -28,7 +26,6 @@ import { useInstallPrompt } from "./util/useInstallPrompt";
 export const links: LinksFunction = () => {
   return [
     { rel: "stylesheet", href: stylesheet },
-    ...(cssBundleHref ? [{ rel: "stylesheet", href: cssBundleHref }] : []),
     { rel: "manifest", href: "/resources/manifest.json" },
     { rel: "author", type: "text/plain", href: "/humans.txt" },
     {
@@ -162,7 +159,6 @@ export default function App() {
         </InstallContextProvider>
         <ScrollRestoration />
         <Scripts />
-        <LiveReload />
       </body>
     </html>
   );

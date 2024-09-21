@@ -1,4 +1,4 @@
-import { Links, LiveReload, Meta, Scripts } from "@remix-run/react";
+import { Links, Meta, Scripts } from "@remix-run/react";
 import { useEventCallback } from "~/util/analytics";
 import { createLink } from "~/util/mock";
 import type { HeaderProps } from "./Header";
@@ -52,7 +52,6 @@ export function BigErrorPage({ status }: BigErrorPageProps) {
           </main>
         </div>
         <Scripts />
-        <LiveReload />
       </body>
     </html>
   );
