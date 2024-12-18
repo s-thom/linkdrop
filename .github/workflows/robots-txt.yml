@@ -21,7 +21,7 @@ jobs:
         with:
           output-file: public/robots.txt
           input-file: app/base-robots.txt
-          append-allow-rule: true
+          append-allow-rule: false
           allowed-bot-names: |
             Chrome-Lighthouse
           cloudflare-api-token: ${{ secrets.CLOUDFLARE_RADAR_API_TOKEN }}
