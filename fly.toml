@@ -1,7 +1,6 @@
 app          = "linkdrop-d071"
 kill_signal  = "SIGINT"
 kill_timeout = 5
-processes    = []
 
 [env]
   PORT = "8080"
@@ -14,10 +13,13 @@ processes    = []
   auto_rollback        = true
 
 [[services]]
-  internal_port = 8_080
-  processes     = ["app"]
-  protocol      = "tcp"
-  script_checks = []
+  internal_port        = 8_080
+  processes            = ["app"]
+  protocol             = "tcp"
+  script_checks        = []
+  auto_stop_machines   = "stop"
+  auto_start_machines  = true
+  min_machines_running = 0
 
   [services.concurrency]
     hard_limit = 25
