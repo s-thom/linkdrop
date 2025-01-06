@@ -12,7 +12,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 <!-- ### Fixed -->
 <!-- ### Security -->
 
-## [Unreleased](https://github.com/s-thom/linkdrop/compare/v2.0.1...HEAD) - DATE
+## [Unreleased](https://github.com/s-thom/linkdrop/compare/v2.0.2...HEAD) - DATE
+
+## [v2.0.2](https://github.com/s-thom/linkdrop/compare/v2.0.1...v2.0.2) - 2025-01-06
+
+### Changed
+
+- Default deployment settings for Fly
+
+### Fixed
+
+- Build error
 
 ## [v2.0.1](https://github.com/s-thom/linkdrop/compare/v2.0.0...v2.0.1) - 2024-09-21
 
