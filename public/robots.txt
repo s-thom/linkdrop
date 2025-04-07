@@ -53,7 +53,6 @@ User-agent: InternetArchiveBot
 User-agent: Jagged Pixel UptimeBot
 User-agent: Jetpack
 User-agent: Kangaroo Bot
-User-agent: LINER Bot
 User-agent: Macrobondbot
 User-agent: MediaMonitoringBot
 User-agent: Medialogia Bot
@@ -66,9 +65,11 @@ User-agent: New Relic
 User-agent: Nodeping
 User-agent: OAI-SearchBot
 User-agent: Oh Dear
+User-agent: Onetrust CMP Scanner
 User-agent: Outbrain
 User-agent: PanguBot
 User-agent: Parse.ly
+User-agent: Perplexity-User
 User-agent: PerplexityBot
 User-agent: Perplexity‑User
 User-agent: PetalBot
@@ -86,6 +87,7 @@ User-agent: SalesViewerBot
 User-agent: Site24x7
 User-agent: Spectate
 User-agent: Splunk
+User-agent: StatsDroneBot
 User-agent: StatusCake
 User-agent: Swifteq Link Checker
 User-agent: Synthetic Bot
@@ -106,7 +108,6 @@ User-agent: YouBot
 User-agent: cohere-training-data-crawler
 User-agent: deadlinkchecker
 User-agent: eMoney Advisor
-User-agent: eRepublik.tools
 User-agent: elmah.io Uptime Monitoring
 User-agent: klaviyo
 User-agent: omgili
