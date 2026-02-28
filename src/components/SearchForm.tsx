@@ -32,6 +32,7 @@ export default function SearchForm({
           {values.tags.map((tag) => (
             <Tag
               key={tag}
+              component="button"
               name={tag}
               state={inferTagStateFromName(tag) ?? "active"}
               disabled={!removeTag}
@@ -57,6 +58,7 @@ export default function SearchForm({
               .map((tag) => (
                 <Tag
                   key={tag}
+                  component="button"
                   name={tag}
                   state="inactive"
                   disabled={!addTag}

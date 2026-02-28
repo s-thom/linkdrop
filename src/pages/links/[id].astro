@@ -16,10 +16,6 @@ if (!link || link.userId !== userId) {
 
 <AuthLayout title="Link">
   <div class="mx-auto mt-4 w-full max-w-md px-8 md:max-w-lg">
-    <LinkDisplay
-      link={link}
-      canEdit={userId === link.userId}
-      client:load
-    />
+    <LinkDisplay link={link} canEdit={userId === link.userId} />
   </div>
 </AuthLayout>

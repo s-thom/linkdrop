@@ -28,6 +28,7 @@ export function CommonTags({ commonTags }: CommonTagsProps) {
               onClick={sendClickCommonTag}
             >
               <Tag
+                component="span"
                 name={`${tag.name} (${tag._count.links})`}
                 className="cursor-pointer"
                 state="inactive"

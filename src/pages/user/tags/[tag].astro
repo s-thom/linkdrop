@@ -76,8 +76,8 @@ if (Astro.request.method === "POST") {
         <div class="flex-1 md:max-w-xl lg:max-w-2xl">
           <p>
             There are {numLinks} links with the tag{" "}
-            <TagComponent name={tag.name} state="inactive" client:load />. Making changes
-            on this page will affect those links.
+            <TagComponent component="span" name={tag.name} state="inactive" />.
+            Making changes on this page will affect those links.
           </p>
           <form method="post">
             <h2 class="mb-2 text-xl font-normal lowercase">Rename</h2>
@@ -114,7 +114,11 @@ if (Astro.request.method === "POST") {
               type="submit"
               class="w-full border border-button-border px-4 py-2 lowercase text-text hover:bg-button-hover active:bg-button-active"
             >
-              Rename <TagComponent name={tag.name} state="inactive" client:load />
+              Rename <TagComponent
+                component="span"
+                name={tag.name}
+                state="inactive"
+              />
             </button>
           </form>
           <div class="mt-4 border border-card-error-border bg-card-error p-2">
@@ -129,7 +133,11 @@ if (Astro.request.method === "POST") {
                 class="md:1/3 mt-2 w-full border border-button-error-border px-4 py-2 lowercase text-text-error enabled:hover:bg-button-error-hover enabled:active:bg-button-error-active sm:w-1/2"
                 disabled={numLinksOnly > 0}
               >
-                Delete <TagComponent name={tag.name} state="negative" client:load />
+                Delete <TagComponent
+                  component="span"
+                  name={tag.name}
+                  state="negative"
+                />
               </button>
               {
                 numLinksOnly > 0 ? (

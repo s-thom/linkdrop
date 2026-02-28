@@ -50,15 +50,17 @@ if (!user) return new Response("Not Found", { status: 404 });
               <div
                 class="mb-2 max-w-3xl cursor-pointer border border-card-border bg-card px-4 py-2 text-text"
               >
-                <p class="mb-2 block break-words text-xl font-normal text-link underline">
+                <p
+                  class="mb-2 block break-words text-xl font-normal text-link underline"
+                >
                   System
                 </p>
                 <p class="mb-2">Automatically sync with system theme</p>
                 <div class="flex gap-2">
-                  <Tag name="auto" state="inactive" client:load />
-                  <Tag name="auto" state="active" client:load />
-                  <Tag name="+auto" state="positive" client:load />
-                  <Tag name="-auto" state="negative" client:load />
+                  <Tag component="span" name="auto" state="inactive" />
+                  <Tag component="span" name="auto" state="active" />
+                  <Tag component="span" name="+auto" state="positive" />
+                  <Tag component="span" name="-auto" state="negative" />
                 </div>
               </div>
             </label>
@@ -73,15 +75,17 @@ if (!user) return new Response("Not Found", { status: 404 });
               <div
                 class="mb-2 max-w-3xl cursor-pointer border border-card-border bg-card px-4 py-2 text-text"
               >
-                <p class="mb-2 block break-words text-xl font-normal text-link underline">
+                <p
+                  class="mb-2 block break-words text-xl font-normal text-link underline"
+                >
                   Light
                 </p>
                 <p class="mb-2">Always light theme</p>
                 <div class="flex gap-2">
-                  <Tag name="light" state="inactive" client:load />
-                  <Tag name="light" state="active" client:load />
-                  <Tag name="+light" state="positive" client:load />
-                  <Tag name="-light" state="negative" client:load />
+                  <Tag component="span" name="light" state="inactive" />
+                  <Tag component="span" name="light" state="active" />
+                  <Tag component="span" name="+light" state="positive" />
+                  <Tag component="span" name="-light" state="negative" />
                 </div>
               </div>
             </label>
@@ -96,15 +100,17 @@ if (!user) return new Response("Not Found", { status: 404 });
               <div
                 class="mb-2 max-w-3xl cursor-pointer border border-card-border bg-card px-4 py-2 text-text"
               >
-                <p class="mb-2 block break-words text-xl font-normal text-link underline">
+                <p
+                  class="mb-2 block break-words text-xl font-normal text-link underline"
+                >
                   Dark
                 </p>
                 <p class="mb-2">Always dark theme</p>
                 <div class="flex gap-2">
-                  <Tag name="dark" state="inactive" client:load />
-                  <Tag name="dark" state="active" client:load />
-                  <Tag name="+dark" state="positive" client:load />
-                  <Tag name="-dark" state="negative" client:load />
+                  <Tag component="span" name="dark" state="inactive" />
+                  <Tag component="span" name="dark" state="active" />
+                  <Tag component="span" name="+dark" state="positive" />
+                  <Tag component="span" name="-dark" state="negative" />
                 </div>
               </div>
             </label>

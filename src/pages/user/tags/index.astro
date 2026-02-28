@@ -32,10 +32,10 @@ const tags = await getUserTags({ userId });
               <li>
                 <a href={`/user/tags/${encodeURIComponent(tag.name)}`}>
                   <Tag
+                    component="span"
                     name={tag.name}
                     className="cursor-pointer"
                     state="inactive"
-                    client:load
                   />
                 </a>
               </li>

@@ -6,9 +6,16 @@ export interface TagProps extends React.DetailedHTMLProps<
 > {
   name: string;
   state: TagState;
+  component: "button" | "span";
 }
 
-export default function Tag({ name, state, className, ...props }: TagProps) {
+export default function Tag({
+  name,
+  state,
+  className,
+  component = "button",
+  ...props
+}: TagProps) {
   let activeClasses: string;
   switch (state) {
     case "active":
@@ -29,6 +36,17 @@ export default function Tag({ name, state, className, ...props }: TagProps) {
       break;
     default:
       activeClasses = "hover:text-text";
+  }
+
+  if (component === "span") {
+    return (
+      <span
+        className={`inline-block rounded border px-2 py-0 ${activeClasses} ${className}`}
+        {...props}
+      >
+        {name}
+      </span>
+    );
   }
 
   return (

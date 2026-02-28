@@ -22,9 +22,7 @@ if (!user) return new Response("Not Found", { status: 404 });
           <section
             class="mb-2 max-w-3xl border border-card-border bg-card px-4 py-2"
           >
-            <h3
-              class="mb-2 block break-words text-xl font-normal lowercase"
-            >
+            <h3 class="mb-2 block break-words text-xl font-normal lowercase">
               Links
             </h3>
             <p class="mb-2 break-words">
@@ -41,9 +39,7 @@ if (!user) return new Response("Not Found", { status: 404 });
           <section
             class="mb-2 max-w-3xl border border-card-border bg-card px-4 py-2"
           >
-            <h3
-              class="mb-2 block break-words text-xl font-normal lowercase"
-            >
+            <h3 class="mb-2 block break-words text-xl font-normal lowercase">
               Tags
             </h3>
             <p class="mb-2 break-words">
@@ -56,7 +52,7 @@ if (!user) return new Response("Not Found", { status: 404 });
               linkdrop is meant to save you time, not cost it.
             </p>
             <p>
-              <Tag name="example" state="inactive" client:load />
+              <Tag component="span" name="example" state="inactive" />
             </p>
           </section>
         </div>
@@ -67,9 +63,7 @@ if (!user) return new Response("Not Found", { status: 404 });
           <section
             class="mb-2 max-w-3xl border border-card-border bg-card px-4 py-2"
           >
-            <h3
-              class="mb-2 block break-words text-xl font-normal lowercase"
-            >
+            <h3 class="mb-2 block break-words text-xl font-normal lowercase">
               How search works
             </h3>
             <p class="mb-2 break-words">
@@ -77,16 +71,14 @@ if (!user) return new Response("Not Found", { status: 404 });
               match any of the tags you've specified and return them as a list.
             </p>
             <p>
-              <Tag name="matched" state="active" client:load />{" "}
-              <Tag name="not-matched" state="inactive" client:load />
+              <Tag component="span" name="matched" state="active" />{" "}
+              <Tag component="span" name="not-matched" state="inactive" />
             </p>
           </section>
           <section
             class="mb-2 max-w-3xl border border-card-border bg-card px-4 py-2"
           >
-            <h3
-              class="mb-2 block break-words text-xl font-normal lowercase"
-            >
+            <h3 class="mb-2 block break-words text-xl font-normal lowercase">
               Including certain tags
             </h3>
             <p class="mb-2 break-words">
@@ -94,15 +86,13 @@ if (!user) return new Response("Not Found", { status: 404 });
               will appear in your search results.
             </p>
             <p>
-              <Tag name="+included" state="positive" client:load />
+              <Tag component="span" name="+included" state="positive" />
             </p>
           </section>
           <section
             class="mb-2 max-w-3xl border border-card-border bg-card px-4 py-2"
           >
-            <h3
-              class="mb-2 block break-words text-xl font-normal lowercase"
-            >
+            <h3 class="mb-2 block break-words text-xl font-normal lowercase">
               Excluding certain tags
             </h3>
             <p class="mb-2 break-words">
@@ -110,13 +100,11 @@ if (!user) return new Response("Not Found", { status: 404 });
               tag will appear in your search results.
             </p>
             <p>
-              <Tag name="-excluded" state="negative" client:load />
+              <Tag component="span" name="-excluded" state="negative" />
             </p>
           </section>
         </div>
-        <h3
-          class="mb-2 block break-words text-xl font-normal lowercase"
-        >
+        <h3 class="mb-2 block break-words text-xl font-normal lowercase">
           Searching demo
         </h3>
         <div>

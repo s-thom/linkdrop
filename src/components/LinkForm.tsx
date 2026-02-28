@@ -187,6 +187,7 @@ export default function LinkForm({
           <ul className="flex flex-wrap gap-2 py-2">
             {tagsValue.map((tag) => (
               <Tag
+                component="button"
                 key={tag}
                 name={tag}
                 state="active"
@@ -207,6 +208,7 @@ export default function LinkForm({
             <ul className="flex flex-wrap gap-2 py-2">
               {remainingCommonTags.map((tag) => (
                 <Tag
+                  component="button"
                   key={tag}
                   name={tag}
                   state="inactive"

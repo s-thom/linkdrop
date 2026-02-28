@@ -116,10 +116,14 @@ if (!methods?.totp) {
             secret && qrDataUrl && (
               <section class="mb-2 flex max-w-3xl flex-col items-center border border-card-border bg-card px-4 py-2">
                 <p>
-                  Use the following code to save your authenticator secret.
-                  Once enabled, you will not see this again.
+                  Use the following code to save your authenticator secret. Once
+                  enabled, you will not see this again.
                 </p>
-                <img src={qrDataUrl} alt="QR code for authenticator" class="my-2" />
+                <img
+                  src={qrDataUrl}
+                  alt="QR code for authenticator"
+                  class="my-2"
+                />
                 <p class="text-sm text-text-diminished">
                   If you aren't able to scan the code, use the value below.
                 </p>

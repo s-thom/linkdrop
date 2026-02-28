@@ -47,6 +47,7 @@ export default function LinkDisplay({
             {link.tags.map((tag) => (
               <li key={tag.id}>
                 <TagComponent
+                  component="button"
                   name={tag.name}
                   disabled={!onTagClick}
                   state={activeTags?.includes(tag.name) ? "active" : "inactive"}
