@@ -34,7 +34,9 @@ jobs:
         run: npm ci
 
       - name: ⚙️ Prisma
-        run: npx prisma generate
+        run: |
+          cp .env.example .env
+          npx prisma generate
 
       - name: 🔬 Lint
         run: npm run lint
@@ -55,7 +57,9 @@ jobs:
         run: npm ci
 
       - name: ⚙️ Prisma
-        run: npx prisma generate
+        run: |
+          cp .env.example .env
+          npx prisma generate
 
       - name: 🔎 Type check
         run: npm run typecheck --if-present
@@ -76,7 +80,9 @@ jobs:
         run: npm ci
 
       - name: ⚙️ Prisma
-        run: npx prisma generate
+        run: |
+          cp .env.example .env
+          npx prisma generate
 
       - name: ⚡ Run vitest
         run: npm run test -- --coverage
