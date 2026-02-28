@@ -1,10 +1,7 @@
 import { sealData, unsealData } from "iron-session";
-import invariant from "tiny-invariant";
-
-invariant(process.env.SESSION_SECRET, "SESSION_SECRET must be set");
+import { SESSION_SECRET } from "astro:env/server";
 
 const SESSION_COOKIE = "__session";
-const SESSION_SECRET = process.env.SESSION_SECRET!;
 
 interface SessionData {
   userId?: string;
@@ -49,7 +46,7 @@ async function createSetCookieHeader(
   if (maxAge !== undefined) {
     parts.push(`Max-Age=${maxAge}`);
   }
-  if (process.env.NODE_ENV === "production") {
+  if (import.meta.env.PROD) {
     parts.push("Secure");
   }
   return parts.join("; ");
@@ -63,7 +60,7 @@ async function createDestroyCookieHeader(): Promise<string> {
     "Path=/",
     "Max-Age=0",
   ];
-  if (process.env.NODE_ENV === "production") {
+  if (import.meta.env.PROD) {
     parts.push("Secure");
   }
   return parts.join("; ");

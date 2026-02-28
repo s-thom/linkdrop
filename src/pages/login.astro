@@ -3,6 +3,7 @@ import { createUserSession, getUserId } from "~/lib/session";
 import { verifyLogin } from "~/lib/models/user.server";
 import { safeRedirect, validateEmail } from "~/utils";
 import PublicLayout from "~/layouts/PublicLayout.astro";
+import { ALLOW_EMAIL_JOIN } from "astro:env/server";
 
 // Redirect if already logged in
 const existingUserId = await getUserId(Astro.request);
@@ -10,7 +11,7 @@ if (existingUserId) {
   return Astro.redirect("/links");
 }
 
-const allowSignUp = process.env.ALLOW_EMAIL_JOIN === "true";
+const allowSignUp = ALLOW_EMAIL_JOIN;
 
 interface ActionErrors {
   email?: string;

@@ -1,19 +1,17 @@
 import type { User } from "@prisma/client";
 import { authenticator } from "otplib";
-import invariant from "tiny-invariant";
 import { prisma } from "~/lib/db";
 import { decode, encode } from "~/lib/util/aes.server";
-
-invariant(process.env.TOTP_SECRET, "TOTP_SECRET must be set");
+import { TOTP_SECRET } from "astro:env/server";
 
 authenticator.options = { window: 1 };
 
 export function encodeTotpSecret(cleartext: string) {
-  return encode(cleartext, process.env.TOTP_SECRET!);
+  return encode(cleartext, TOTP_SECRET);
 }
 
 export function decodeTotpSecret(ciphertext: string) {
-  return decode(ciphertext, process.env.TOTP_SECRET!);
+  return decode(ciphertext, TOTP_SECRET);
 }
 
 export function validateTotp(token: string, ciphertext: string) {

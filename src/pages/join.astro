@@ -3,11 +3,12 @@ import { createUserSession, getUserId } from "~/lib/session";
 import { createUser, getUserByEmail } from "~/lib/models/user.server";
 import { safeRedirect, validateEmail } from "~/utils";
 import PublicLayout from "~/layouts/PublicLayout.astro";
+import { ALLOW_EMAIL_JOIN, SUPERUSER_SECRET } from "astro:env/server";
 
 const userId = await getUserId(Astro.request);
 if (userId) return Astro.redirect("/");
 
-const allowEmailJoin = process.env.ALLOW_EMAIL_JOIN === "true";
+const allowEmailJoin = ALLOW_EMAIL_JOIN;
 
 interface ActionErrors {
   email?: string;
@@ -23,10 +24,7 @@ if (Astro.request.method === "POST") {
   const superuserSecret = formData.get("__");
   const redirectTo = safeRedirect(formData.get("redirectTo"), "/");
 
-  if (
-    process.env.ALLOW_EMAIL_JOIN !== "true" &&
-    superuserSecret !== process.env.SUPERUSER_SECRET
-  ) {
+  if (!ALLOW_EMAIL_JOIN && superuserSecret !== SUPERUSER_SECRET) {
     errors.email = "Sign up is not enabled";
   } else if (!validateEmail(email)) {
     errors.email = "Email is invalid";
