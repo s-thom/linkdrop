@@ -23,7 +23,8 @@ model User {
   createdInvites UserInvite[] @relation("UserCreatedInvites")
   invitedInvite  UserInvite?  @relation("UserInviteeInvites")
 
-  isAdmin Boolean @default(false)
+  isAdmin        Boolean @default(false)
+  sessionVersion Int     @default(0)
 
   @@index([createdAt])
 }

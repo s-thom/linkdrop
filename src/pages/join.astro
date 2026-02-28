@@ -4,6 +4,12 @@ import { createUser, getUserByEmail } from "~/lib/models/user.server";
 import { safeRedirect, validateEmail } from "~/utils";
 import PublicLayout from "~/layouts/PublicLayout.astro";
 import { ALLOW_EMAIL_JOIN, SUPERUSER_SECRET } from "astro:env/server";
+import { checkRateLimit, getClientIp } from "~/lib/util/rateLimit.server";
+import {
+  ensureCsrfToken,
+  csrfCookieHeader,
+  validateCsrf,
+} from "~/lib/util/csrf.server";
 
 const userId = await getUserId(Astro.request);
 if (userId) return Astro.redirect("/");
@@ -17,8 +23,26 @@ interface ActionErrors {
 
 let errors: ActionErrors = {};
 
+const { token: csrfToken, isNew: csrfIsNew } = ensureCsrfToken(Astro.request);
+if (csrfIsNew) {
+  Astro.response.headers.append("Set-Cookie", csrfCookieHeader(csrfToken));
+}
+
 if (Astro.request.method === "POST") {
+  const ip = getClientIp(Astro.request);
+  const rateLimit = checkRateLimit(ip, 5, 60 * 60 * 1000);
+  if (!rateLimit.allowed) {
+    return new Response(
+      `Too many registration attempts. Try again in ${rateLimit.retryAfter} seconds.`,
+      { status: 429, headers: { "Retry-After": String(rateLimit.retryAfter) } },
+    );
+  }
+
   const formData = await Astro.request.formData();
+  if (!validateCsrf(Astro.request, formData)) {
+    return new Response("Forbidden", { status: 403 });
+  }
+
   const email = formData.get("email");
   const password = formData.get("password");
   const superuserSecret = formData.get("__");
@@ -32,6 +56,8 @@ if (Astro.request.method === "POST") {
     errors.password = "Password is required";
   } else if (password.length < 8) {
     errors.password = "Password is too short";
+  } else if (password.length > 128) {
+    errors.password = "Password must be 128 characters or fewer";
   } else {
     const existingUser = await getUserByEmail(email);
     if (existingUser) {
@@ -40,6 +66,7 @@ if (Astro.request.method === "POST") {
       const user = await createUser(email, password);
       return createUserSession({
         userId: user.id,
+        sessionVersion: user.sessionVersion,
         remember: false,
         redirectTo,
       });
@@ -118,6 +145,7 @@ const searchRedirectTo =
       </div>
       <input type="hidden" name="redirectTo" value={searchRedirectTo} />
       <input type="hidden" name="__" value="" />
+      <input type="hidden" name="__csrf" value={csrfToken} />
       <button
         type="submit"
         class="w-full border border-button-border bg-button px-4 py-2 lowercase text-text hover:bg-button-hover active:bg-button-active"

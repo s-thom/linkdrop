@@ -1,8 +1,11 @@
 ---
+import { ensureCsrfToken } from "~/lib/util/csrf.server";
+
 export interface Props {
   isAdmin?: boolean;
 }
 const { isAdmin = false } = Astro.props;
+const { token: csrfToken } = ensureCsrfToken(Astro.request);
 ---
 
 <aside class="p-6 md:h-full md:w-60 md:pr-0">
@@ -71,6 +74,7 @@ const { isAdmin = false } = Astro.props;
       }
     </ul>
     <form action="/logout" method="post" class="mt-6 inline-block items-center">
+      <input type="hidden" name="__csrf" value={csrfToken} />
       <button
         type="submit"
         class="w-full border border-button-border bg-button px-4 py-2 lowercase text-text hover:bg-button-hover active:bg-button-active"

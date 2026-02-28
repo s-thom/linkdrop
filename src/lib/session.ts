@@ -5,6 +5,7 @@ const SESSION_COOKIE = "__session";
 
 interface SessionData {
   userId?: string;
+  sessionVersion?: number;
 }
 
 function parseCookies(cookieHeader: string): Record<string, string> {
@@ -52,7 +53,7 @@ async function createSetCookieHeader(
   return parts.join("; ");
 }
 
-async function createDestroyCookieHeader(): Promise<string> {
+export async function createDestroyCookieHeader(): Promise<string> {
   const parts = [
     `${SESSION_COOKIE}=`,
     "HttpOnly",
@@ -73,6 +74,12 @@ export async function getUserId(
   return session.userId;
 }
 
+export async function getSessionInfo(
+  request: Request,
+): Promise<{ userId?: string; sessionVersion?: number }> {
+  return getSessionData(request);
+}
+
 export async function getUser(request: Request) {
   const userId = await getUserId(request);
   if (!userId) return null;
@@ -84,15 +91,20 @@ export async function getUser(request: Request) {
 
 export async function createUserSession({
   userId,
+  sessionVersion,
   remember,
   redirectTo,
 }: {
   userId: string;
+  sessionVersion: number;
   remember: boolean;
   redirectTo: string;
 }): Promise<Response> {
   const maxAge = remember ? 60 * 60 * 24 * 30 : undefined; // 30 days or session
-  const cookieHeader = await createSetCookieHeader({ userId }, maxAge);
+  const cookieHeader = await createSetCookieHeader(
+    { userId, sessionVersion },
+    maxAge,
+  );
 
   return new Response(null, {
     status: 302,

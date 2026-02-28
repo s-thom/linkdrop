@@ -20,6 +20,7 @@ export async function createUser(
   password: string,
   inviteId?: string,
 ) {
+  if (password.length > 128) throw new Error("Password too long");
   const hashedPassword = await bcrypt.hash(password, 10);
 
   return prisma.user.create({
@@ -43,11 +44,17 @@ export async function updateUserPassword({
   userId: User["id"];
   password: string;
 }) {
+  if (password.length > 128) throw new Error("Password too long");
   const hashedPassword = await bcrypt.hash(password, 10);
 
-  return prisma.password.update({
+  await prisma.password.update({
     where: { userId },
     data: { hash: hashedPassword },
+  });
+
+  return prisma.user.update({
+    where: { id: userId },
+    data: { sessionVersion: { increment: 1 } },
   });
 }
 

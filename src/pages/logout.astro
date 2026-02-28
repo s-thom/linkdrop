@@ -1,7 +1,12 @@
 ---
 import { logout } from "~/lib/session";
+import { validateCsrf } from "~/lib/util/csrf.server";
 
 if (Astro.request.method === "POST") {
+  const formData = await Astro.request.formData();
+  if (!validateCsrf(Astro.request, formData)) {
+    return new Response("Forbidden", { status: 403 });
+  }
   return logout();
 }
 
