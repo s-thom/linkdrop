@@ -61,6 +61,10 @@ jobs:
           cp .env.example .env
           npx prisma generate
 
+      - name: 🚀 Astro
+        run: |
+          npx astro sync
+
       - name: 🔎 Type check
         run: npm run typecheck --if-present
 
