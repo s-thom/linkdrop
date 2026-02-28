@@ -2,6 +2,7 @@ node_modules
 
 /build
 /dist
+/coverage
 /public/build
 /public/entry.worker.js
 .env
