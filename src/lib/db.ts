@@ -41,7 +41,7 @@ function getClient() {
 
   console.log(`🔌 setting up prisma client to ${databaseUrl.host}`);
   const adapter = new PrismaPg({
-    connectionString: process.env.DATABASE_URL,
+    connectionString: DATABASE_URL,
   });
   const client = new PrismaClient({
     adapter,

@@ -129,7 +129,7 @@ export async function verifyLogin(
       return { success: false, errorType: "requires_2fa" };
     }
 
-    const isTotpValid = validateTotp(totp, userWithPassword.totp.secret);
+    const isTotpValid = await validateTotp(totp, userWithPassword.totp.secret);
     if (!isTotpValid) {
       return { success: false, errorType: "totp_incorrect" };
     }
