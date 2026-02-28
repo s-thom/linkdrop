@@ -88,8 +88,7 @@ export default function LinkForm({
   }, []);
 
   const remainingCommonTags = useMemo(
-    () =>
-      tagsData?.commonTags.filter((tag) => !tagsValue.includes(tag)) ?? [],
+    () => tagsData?.commonTags.filter((tag) => !tagsValue.includes(tag)) ?? [],
     [tagsData, tagsValue],
   );
 
@@ -106,8 +105,7 @@ export default function LinkForm({
   }, [debouncedUrl]);
 
   const duplicateLinks = duplicateData?.duplicateLinkIds ?? [];
-  const isCurrentLink =
-    currentLinkId && duplicateLinks.includes(currentLinkId);
+  const isCurrentLink = currentLinkId && duplicateLinks.includes(currentLinkId);
 
   const { input } = useTagsInput({ id: "_tag_entry", addTag });
 
@@ -220,9 +218,7 @@ export default function LinkForm({
           </>
         ) : null}
         <input type="hidden" name="tags" value={encodeStringArray(tagsValue)} />
-        {csrfToken && (
-          <input type="hidden" name="__csrf" value={csrfToken} />
-        )}
+        {csrfToken && <input type="hidden" name="__csrf" value={csrfToken} />}
       </div>
 
       <button

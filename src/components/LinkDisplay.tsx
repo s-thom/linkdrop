@@ -1,4 +1,4 @@
-import type { Link, Tag } from "@prisma/client";
+import type { Link, Tag } from "../../prisma/generated/prisma/client";
 import { Edit3, Link as LinkIcon } from "lucide-react";
 import TagComponent from "./Tag";
 

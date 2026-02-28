@@ -47,7 +47,7 @@ function createNote(index: number, count: number) {
   return heart;
 }
 
-export function Goose({children}:PropsWithChildren) {
+export function Goose({ children }: PropsWithChildren) {
   const ref = useRef<HTMLButtonElement>(null);
   const settingsRef = useRef({ current: 0, count: 0 });
 
@@ -61,7 +61,6 @@ export function Goose({children}:PropsWithChildren) {
     // The hearts are looped over backwards. Why didn't I just reverse the array?
     // ¯\_(ツ)_/¯
     settings.current = (settings.current - 1 + HEARTS.length) % HEARTS.length;
-    // eslint-disable-next-line no-plusplus
     settings.count++;
 
     let child: Element;

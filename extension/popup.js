@@ -1,5 +1,4 @@
 async function loadFrame() {
-  // eslint-disable-next-line no-undef
   const [tab] = await chrome.tabs.query({
     active: true,
     currentWindow: true,

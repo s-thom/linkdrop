@@ -11,9 +11,7 @@ export function useInstallContext() {
   return useContext(InstallContext);
 }
 
-export function InstallContextProvider({
-  children,
-}: React.PropsWithChildren<{}>) {
+export function InstallContextProvider({ children }: React.PropsWithChildren) {
   const value = useInstallPrompt();
 
   return (

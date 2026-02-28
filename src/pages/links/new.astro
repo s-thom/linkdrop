@@ -27,7 +27,7 @@ if (Astro.request.method === "POST") {
 
 // Parse query params for pre-fill (e.g., from browser extension / share target)
 const reqUrl = new URL(Astro.request.url);
-const initialUrl = reqUrl.searchParams.get("url") ?? "";
+let initialUrl = reqUrl.searchParams.get("url") ?? "";
 const initialTitle = reqUrl.searchParams.get("title") ?? "";
 let initialDescription = reqUrl.searchParams.get("description") ?? "";
 const tagsRaw = reqUrl.searchParams.get("tags") ?? undefined;
@@ -37,10 +37,14 @@ const initialTags = tagsRaw
 
 // Android share: description may contain URL + text
 if (!initialUrl && initialDescription) {
-  const match = initialDescription.match(/^(?:([\S\s]*)\s+)?(https?:\/\/[^\s]+)$/);
+  const match = initialDescription.match(
+    /^(?:([\S\s]*)\s+)?(https?:\/\/[^\s]+)$/,
+  );
   if (match) {
     const [, desc, link] = match;
     // Use link as URL - but since we're server-side, we just pass them through
+    initialUrl = link;
+    initialDescription = desc;
   }
 }
 ---

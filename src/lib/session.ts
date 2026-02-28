@@ -67,9 +67,7 @@ export async function createDestroyCookieHeader(): Promise<string> {
   return parts.join("; ");
 }
 
-export async function getUserId(
-  request: Request,
-): Promise<string | undefined> {
+export async function getUserId(request: Request): Promise<string | undefined> {
   const session = await getSessionData(request);
   return session.userId;
 }

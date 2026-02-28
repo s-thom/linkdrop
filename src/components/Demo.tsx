@@ -85,6 +85,7 @@ export default function Demo({ direction = "row" }: DemoProps) {
   }, []);
   const toggleTag = useCallback(
     (tag: string) => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-expressions
       tagsValue.includes(tag) ? removeTag(tag) : addTag(tag);
     },
     [addTag, removeTag, tagsValue],

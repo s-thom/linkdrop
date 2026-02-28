@@ -44,11 +44,7 @@ export function ensureCsrfToken(request: Request): {
 }
 
 export function csrfCookieHeader(token: string): string {
-  const parts = [
-    `${CSRF_COOKIE}=${token}`,
-    "SameSite=Strict",
-    "Path=/",
-  ];
+  const parts = [`${CSRF_COOKIE}=${token}`, "SameSite=Strict", "Path=/"];
   if (import.meta.env.PROD) {
     parts.push("Secure");
   }

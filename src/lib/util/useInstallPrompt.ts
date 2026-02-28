@@ -46,12 +46,12 @@ export function useInstallPrompt() {
   }, []);
 
   useEffect(() => {
-    window.addEventListener("beforeinstallprompt" as any, onPrompt);
-    window.addEventListener("appinstalled" as any, onInstall);
+    window.addEventListener("beforeinstallprompt" as never, onPrompt);
+    window.addEventListener("appinstalled" as never, onInstall);
 
     return () => {
-      window.removeEventListener("beforeinstallprompt" as any, onPrompt);
-      window.removeEventListener("appinstalled" as any, onInstall);
+      window.removeEventListener("beforeinstallprompt" as never, onPrompt);
+      window.removeEventListener("appinstalled" as never, onInstall);
     };
   });
 

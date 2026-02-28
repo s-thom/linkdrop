@@ -1,4 +1,4 @@
-import type { User } from "@prisma/client";
+import type { User } from "../../../prisma/generated/prisma/client";
 
 const NUM_LINKS_TEXT: { lessThan: number; node: React.ReactNode }[] = [
   { lessThan: -1, node: "I have no idea how you did this." },

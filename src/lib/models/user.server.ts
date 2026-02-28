@@ -1,4 +1,8 @@
-import type { Password, Totp, User } from "../../../prisma/generated/prisma/client";
+import type {
+  Password,
+  Totp,
+  User,
+} from "../../../prisma/generated/prisma/client";
 import bcrypt from "bcryptjs";
 import { prisma } from "~/lib/db";
 import { getUserMostClickedLinks } from "./linkanalytics.server.ts";
@@ -136,7 +140,9 @@ export async function verifyLogin(
   }
 
   const {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     password: _password,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     totp: _totp,
     ...userWithoutPassword
   } = userWithPassword;

@@ -4,11 +4,12 @@ import { useMemoCompare } from "~/utils";
 import type { FormValues } from "~/components/SearchForm";
 import { decodeStringArray, encodeStringArray } from "./stringArray";
 
-type Edit<T> = T extends Array<infer U>
-  ? { add?: U[]; remove?: U[] }
-  : T extends object
-    ? { [x in keyof T]?: Edit<T[x]> }
-    : T;
+type Edit<T> =
+  T extends Array<infer U>
+    ? { add?: U[]; remove?: U[] }
+    : T extends object
+      ? { [x in keyof T]?: Edit<T[x]> }
+      : T;
 
 function deduplicateArray<T>(arr: T[]): T[] {
   return Array.from(new Set(arr));
@@ -56,11 +57,10 @@ function useUrlSearchParams(): [
   URLSearchParams,
   (params: URLSearchParams, options?: { replace?: boolean }) => void,
 ] {
-  const [searchParams, setSearchParamsState] = useState<URLSearchParams>(
-    () =>
-      typeof window !== "undefined"
-        ? new URLSearchParams(window.location.search)
-        : new URLSearchParams(),
+  const [searchParams, setSearchParamsState] = useState<URLSearchParams>(() =>
+    typeof window !== "undefined"
+      ? new URLSearchParams(window.location.search)
+      : new URLSearchParams(),
   );
 
   const setSearchParams = useCallback(

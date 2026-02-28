@@ -1,10 +1,9 @@
 export type TagState = "inactive" | "active" | "positive" | "negative";
 
-export interface TagProps
-  extends React.DetailedHTMLProps<
-    React.ButtonHTMLAttributes<HTMLButtonElement>,
-    HTMLButtonElement
-  > {
+export interface TagProps extends React.DetailedHTMLProps<
+  React.ButtonHTMLAttributes<HTMLButtonElement>,
+  HTMLButtonElement
+> {
   name: string;
   state: TagState;
 }

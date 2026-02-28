@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef } from "react";
 
 interface Umami {
-  track: (name: string, data?: any) => void;
+  track: (name: string, data?: unknown) => void;
 }
 
 declare global {
@@ -20,7 +20,7 @@ export function event(data: EventData) {
     return;
   }
 
-  window.umami.track(data.name, data.data ?? ({} as any));
+  window.umami.track(data.name, data.data ?? {});
 }
 
 /**

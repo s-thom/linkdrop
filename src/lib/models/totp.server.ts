@@ -1,5 +1,5 @@
 import type { User } from "../../../prisma/generated/prisma/client";
-import { generateSecret,verify, } from "otplib";
+import { generateSecret, verify } from "otplib";
 import { prisma } from "~/lib/db";
 import { decode, encode } from "~/lib/util/aes.server";
 import { TOTP_SECRET } from "astro:env/server";
@@ -14,7 +14,7 @@ export function decodeTotpSecret(ciphertext: string) {
 
 export function validateTotp(token: string, ciphertext: string) {
   const secret = decodeTotpSecret(ciphertext);
-  return verify({token, secret, epochTolerance: 30});
+  return verify({ token, secret, epochTolerance: 30 });
 }
 
 export function getUserTotp(userId: User["id"]) {
