@@ -35,7 +35,7 @@ export function useMemoCompare<T>(
   next: T,
   compare: (prev: T | undefined, next: T) => boolean,
 ) {
-  const previousRef = useRef<T>();
+  const previousRef = useRef<T>(undefined);
   const previous = previousRef.current;
   const isEqual = compare(previous, next);
   useEffect(() => {
