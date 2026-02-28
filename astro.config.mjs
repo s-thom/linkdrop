@@ -5,8 +5,26 @@ import tailwind from "@astrojs/tailwind";
 
 export default defineConfig({
   output: "server",
+  site: "https://linkdrop.sthom.kiwi",
   adapter: node({ mode: "standalone" }),
   integrations: [react(), tailwind({ applyBaseStyles: false })],
+  security: {
+    checkOrigin: process.env.NODE_ENV === "production",
+    allowedDomains: [
+      {
+        hostname: "linkdrop.sthom.kiwi",
+        protocol: "https",
+      },
+    ].concat(
+      process.env.NODE_ENV === "production"
+        ? []
+        : {
+            hostname: "localhost",
+            protocol: "http",
+            port: "4321",
+          },
+    ),
+  },
   env: {
     schema: {
       DATABASE_URL: envField.string({ context: "server", access: "secret" }),
