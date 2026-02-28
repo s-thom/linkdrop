@@ -1,5 +1,5 @@
-import type { Link, Tag, User } from "@prisma/client";
-import { Prisma } from "@prisma/client";
+import type { Link, Tag, User } from "../../../prisma/generated/prisma/client";
+import { Prisma } from "../../../prisma/generated/prisma/client";
 import { prisma } from "~/lib/db";
 import { splitMap } from "~/lib/util/array";
 

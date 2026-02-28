@@ -1,4 +1,4 @@
-import type { Tag } from "@prisma/client";
+import type { Tag } from "../../../prisma/generated/prisma/client";
 import { prisma } from "~/lib/db";
 import { splitMap } from "~/lib/util/array";
 

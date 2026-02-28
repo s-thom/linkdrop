@@ -1,5 +1,6 @@
-import { PrismaClient } from "@prisma/client";
-import { DATABASE_URL, PRIMARY_REGION, FLY_REGION } from "astro:env/server";
+import { PrismaPg } from "@prisma/adapter-pg";
+import { DATABASE_URL, FLY_REGION, PRIMARY_REGION } from "astro:env/server";
+import { PrismaClient } from "../../prisma/generated/prisma/client";
 
 let prisma: PrismaClient;
 
@@ -39,12 +40,11 @@ function getClient() {
   }
 
   console.log(`🔌 setting up prisma client to ${databaseUrl.host}`);
+  const adapter = new PrismaPg({
+    connectionString: process.env.DATABASE_URL,
+  });
   const client = new PrismaClient({
-    datasources: {
-      db: {
-        url: databaseUrl.toString(),
-      },
-    },
+    adapter,
   });
   // connect eagerly
   client.$connect();

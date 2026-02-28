@@ -1,4 +1,4 @@
-import type { Link, User } from "@prisma/client";
+import type { Link, User } from "../../../prisma/generated/prisma/client";
 import { prisma } from "~/lib/db";
 
 const COMMON_LINKS_QUERY_RESULTS_LIMIT = 5;

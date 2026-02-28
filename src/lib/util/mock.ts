@@ -1,4 +1,4 @@
-import type { Tag } from "@prisma/client";
+import type { Tag } from "../../../prisma/generated/prisma/client";
 import type { LinkWithTags } from "~/components/LinkDisplay";
 
 export function createTag(name: string): Tag {

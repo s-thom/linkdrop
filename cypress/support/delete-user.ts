@@ -3,7 +3,7 @@
 // npx tsx ./cypress/support/delete-user.ts username@example.com
 // and that user will get deleted
 
-import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
+import { PrismaClientKnownRequestError } from "../../../prisma/generated/prisma/client/runtime/library";
 import { installGlobals } from "@remix-run/node";
 
 import { prisma } from "~/db.server";

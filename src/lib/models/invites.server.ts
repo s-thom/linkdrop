@@ -1,4 +1,4 @@
-import type { User, UserInvite } from "@prisma/client";
+import type { User, UserInvite } from "../../../prisma/generated/prisma/client";
 import { prisma } from "~/lib/db";
 
 export async function createUserInvite({

@@ -1,6 +1,7 @@
 node_modules
 
 /build
+/dist
 /public/build
 /public/entry.worker.js
 .env
@@ -12,3 +13,4 @@ node_modules
 /app/styles/tailwind.css
 
 .astro
+/prisma/generated

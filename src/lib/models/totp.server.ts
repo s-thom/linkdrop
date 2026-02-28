@@ -1,4 +1,4 @@
-import type { User } from "@prisma/client";
+import type { User } from "../../../prisma/generated/prisma/client";
 import { authenticator } from "otplib";
 import { prisma } from "~/lib/db";
 import { decode, encode } from "~/lib/util/aes.server";

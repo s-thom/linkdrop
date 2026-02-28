@@ -1,4 +1,4 @@
-import type { User } from "@prisma/client";
+import type { User } from "../../../prisma/generated/prisma/client";
 import { prisma } from "~/lib/db";
 
 export async function getAllUsersSummary() {

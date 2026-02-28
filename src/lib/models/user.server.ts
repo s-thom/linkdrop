@@ -1,11 +1,11 @@
-import type { Password, Totp, User } from "@prisma/client";
+import type { Password, Totp, User } from "../../../prisma/generated/prisma/client";
 import bcrypt from "bcryptjs";
 import { prisma } from "~/lib/db";
 import { getUserMostClickedLinks } from "./linkanalytics.server.ts";
 import { getUserCommonTags } from "./tag.server";
 import { validateTotp } from "./totp.server";
 
-export type { User } from "@prisma/client";
+export type { User } from "../../../prisma/generated/prisma/client";
 
 export async function getUserById(id: User["id"]) {
   return prisma.user.findUnique({ where: { id } });
