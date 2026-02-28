@@ -1,0 +1,66 @@
+---
+import AuthLayout from "~/layouts/AuthLayout.astro";
+import LinkDisplay from "~/components/LinkDisplay";
+import SearchForm from "~/components/SearchForm";
+import { searchUserLinks } from "~/lib/models/link.server";
+import { searchUserTags } from "~/lib/models/tag.server";
+import { searchParamsToFormValues } from "~/lib/util/useSearchFormState";
+
+const userId = Astro.locals.userId!;
+const url = new URL(Astro.request.url);
+const { tags } = searchParamsToFormValues(url.searchParams);
+
+const [commonTags, links] = await Promise.all([
+  searchUserTags({ userId, tags }),
+  searchUserLinks({ userId, tags }),
+]);
+
+const commonTagNames = commonTags.map((tag) => tag.name);
+---
+
+<AuthLayout title="Your Links">
+  <div class="flex flex-col md:flex-row md:justify-center">
+    <aside class="p-6 md:h-full md:w-80 md:pr-0">
+      <SearchForm
+        commonTags={commonTagNames}
+        values={{ tags }}
+        client:load
+      />
+    </aside>
+    <main class="flex-1 p-6 md:max-w-xl lg:max-w-2xl">
+      {
+        links.length ? (
+          <ul id="links-list" data-user-id={userId} data-links={JSON.stringify(links)}>
+            {links.map((link) => (
+              <li>
+                <LinkDisplay
+                  link={link}
+                  activeTags={tags.map((t) => t.replace(/^[-+]/, ""))}
+                  canShare
+                  canEdit={userId === link.userId}
+                  client:load
+                />
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <div>
+            <p class="mx-auto max-w-lg text-center text-xl lowercase sm:max-w-3xl">
+              You haven't added any links yet.
+            </p>
+            <p class="mx-auto max-w-lg text-center text-xl lowercase sm:max-w-3xl">
+              Click the{" "}
+              <a
+                href="/links/new"
+                class="text-nav-link underline decoration-1 hover:text-nav-link hover:no-underline active:text-nav-link-active"
+              >
+                New link
+              </a>{" "}
+              link above to get started.
+            </p>
+          </div>
+        )
+      }
+    </main>
+  </div>
+</AuthLayout>

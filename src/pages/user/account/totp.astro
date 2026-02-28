@@ -1,0 +1,171 @@
+---
+import AuthLayout from "~/layouts/AuthLayout.astro";
+import UserSidebar from "~/components/UserSidebar.astro";
+import {
+  createUserTotp,
+  decodeTotpSecret,
+  deleteUserTotp,
+  generateNewTotpSecret,
+  getUserTotp,
+  setUserTotpActive,
+} from "~/lib/models/totp.server";
+import {
+  getUser2faMethods,
+  getUserById,
+  verifyLogin,
+} from "~/lib/models/user.server";
+import qr from "qrcode";
+
+const userId = Astro.locals.userId!;
+const user = await getUserById(userId);
+if (!user) return new Response("Not Found", { status: 404 });
+
+const methods = await getUser2faMethods(userId);
+
+interface ActionErrors {
+  password?: string;
+  totp?: string;
+}
+
+let errors: ActionErrors = {};
+
+if (Astro.request.method === "POST") {
+  const formData = await Astro.request.formData();
+  const password = formData.get("password");
+  const totp = formData.get("totp") ?? "";
+  const action = formData.get("_action");
+
+  if (typeof password !== "string") {
+    errors.password = "Password is required";
+  } else {
+    const result = await verifyLogin(user.email, password, totp as string);
+    if (!result.success) {
+      switch (result.errorType) {
+        case "password_incorrect":
+          errors.password = "Invalid password";
+          break;
+        case "requires_2fa":
+        case "totp_incorrect":
+          errors.totp = "Incorrect code";
+          break;
+      }
+    } else {
+      if (action === "delete") {
+        await deleteUserTotp(userId);
+      } else {
+        await setUserTotpActive(userId);
+      }
+      return Astro.redirect("/user/account");
+    }
+  }
+}
+
+// Load TOTP setup data if not yet enabled
+let secret: string | undefined;
+let qrDataUrl: string | undefined;
+let totpUrl: string | undefined;
+
+if (!methods?.totp) {
+  const totpRecord = await getUserTotp(userId);
+  if (totpRecord?.secret) {
+    secret = decodeTotpSecret(totpRecord.secret);
+  } else {
+    secret = generateNewTotpSecret();
+    await createUserTotp(userId, secret);
+  }
+  totpUrl = `otpauth://totp/${encodeURIComponent(`linkdrop (${user.email})`)}?secret=${secret}`;
+  qrDataUrl = await qr.toDataURL(totpUrl);
+}
+---
+
+<AuthLayout title="TOTP Setup">
+  <div class="flex flex-col md:flex-row md:justify-center">
+    <UserSidebar isAdmin={user.isAdmin} />
+    <main class="flex-1 p-6 md:max-w-xl lg:max-w-2xl">
+      <div class="mx-auto w-full max-w-md px-8">
+        <form method="post" class="space-y-6" novalidate>
+          <div>
+            <label
+              for="password"
+              class="block text-sm font-medium lowercase text-label"
+            >
+              Current Password
+            </label>
+            <div class="mt-1">
+              <input
+                id="password"
+                name="password"
+                type="password"
+                autocomplete="current-password"
+                aria-invalid={errors.password ? "true" : undefined}
+                aria-describedby="password-error"
+                class="w-full border border-input-border bg-input px-2 py-1 text-lg"
+              />
+              {
+                errors.password && (
+                  <div class="pt-1 text-text-error" id="password-error">
+                    {errors.password}
+                  </div>
+                )
+              }
+            </div>
+          </div>
+          {
+            secret && qrDataUrl && (
+              <section class="mb-2 flex max-w-3xl flex-col items-center border border-card-border bg-card px-4 py-2">
+                <p>
+                  Use the following code to save your authenticator secret.
+                  Once enabled, you will not see this again.
+                </p>
+                <img src={qrDataUrl} alt="QR code for authenticator" class="my-2" />
+                <p class="text-sm text-text-diminished">
+                  If you aren't able to scan the code, use the value below.
+                </p>
+                <p class="select-all border px-2 py-1 text-center text-sm">
+                  {secret}
+                </p>
+              </section>
+            )
+          }
+          <div>
+            <label
+              for="totp"
+              class="block text-sm font-medium lowercase text-label"
+            >
+              Authenticator Code
+            </label>
+            <div class="mt-1">
+              <input
+                id="totp"
+                name="totp"
+                type="text"
+                autocomplete="one-time-code"
+                aria-invalid={errors.totp ? "true" : undefined}
+                aria-describedby="totp-error"
+                class="w-full border border-input-border bg-input px-2 py-1 text-lg"
+              />
+              {
+                errors.totp && (
+                  <div class="pt-1 text-text-error" id="totp-error">
+                    {errors.totp}
+                  </div>
+                )
+              }
+            </div>
+          </div>
+          {
+            !secret ? (
+              <input type="hidden" name="_action" value="delete" />
+            ) : null
+          }
+          <button
+            type="submit"
+            class="w-full border border-button-border bg-button px-4 py-2 lowercase text-text hover:bg-button-hover active:bg-button-active"
+          >
+            {secret ? "Enable 2FA" : "Disable 2FA"}
+          </button>
+        </form>
+      </div>
+    </main>
+  </div>
+</AuthLayout>

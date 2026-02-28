@@ -1,0 +1,138 @@
+---
+import AuthLayout from "~/layouts/AuthLayout.astro";
+import UserSidebar from "~/components/UserSidebar.astro";
+import Tag from "~/components/Tag";
+import { getUserById } from "~/lib/models/user.server";
+
+const userId = Astro.locals.userId!;
+const user = await getUserById(userId);
+if (!user) return new Response("Not Found", { status: 404 });
+
+const THEME_KEY = "linkdrop-theme";
+---
+
+<AuthLayout title="Profile & Settings">
+  <div class="flex flex-col md:flex-row md:justify-center">
+    <UserSidebar isAdmin={user.isAdmin} />
+    <main class="flex-1 p-6 md:max-w-xl lg:max-w-2xl">
+      <div class="flex flex-col gap-4">
+        <h2 class="text-2xl font-normal lowercase">
+          Hi,{" "}
+          <a
+            href={`mailto:${user.email}`}
+            target="_blank"
+            rel="noreferrer nofollow"
+            class="text-nav-link underline decoration-1 hover:text-nav-link hover:no-underline active:text-nav-link-active"
+          >
+            {user.email}
+          </a>.
+        </h2>
+        <h3 class="text-2xl font-normal lowercase">Settings</h3>
+        <div
+          id="theme-selection"
+          class="mb-2 max-w-3xl border border-card-border bg-card px-4 py-2"
+        >
+          <h4 class="text-xl font-normal lowercase">Theme selection</h4>
+          <p class="mb-2 break-words text-text-diminished">
+            This preference is saved to this device and is not synced between
+            devices.
+          </p>
+          <form
+            id="theme-form"
+            class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2"
+          >
+            <label for="theme_auto" data-theme="auto">
+              <input
+                type="radio"
+                name="theme"
+                value="auto"
+                id="theme_auto"
+                class="hidden"
+              />
+              <div
+                class="mb-2 max-w-3xl cursor-pointer border border-card-border bg-card px-4 py-2 text-text"
+              >
+                <p class="mb-2 block break-words text-xl font-normal text-link underline">
+                  System
+                </p>
+                <p class="mb-2">Automatically sync with system theme</p>
+                <div class="flex gap-2">
+                  <Tag name="auto" state="inactive" client:load />
+                  <Tag name="auto" state="active" client:load />
+                  <Tag name="+auto" state="positive" client:load />
+                  <Tag name="-auto" state="negative" client:load />
+                </div>
+              </div>
+            </label>
+            <label for="theme_light" data-theme="light">
+              <input
+                type="radio"
+                name="theme"
+                value="light"
+                id="theme_light"
+                class="hidden"
+              />
+              <div
+                class="mb-2 max-w-3xl cursor-pointer border border-card-border bg-card px-4 py-2 text-text"
+              >
+                <p class="mb-2 block break-words text-xl font-normal text-link underline">
+                  Light
+                </p>
+                <p class="mb-2">Always light theme</p>
+                <div class="flex gap-2">
+                  <Tag name="light" state="inactive" client:load />
+                  <Tag name="light" state="active" client:load />
+                  <Tag name="+light" state="positive" client:load />
+                  <Tag name="-light" state="negative" client:load />
+                </div>
+              </div>
+            </label>
+            <label for="theme_dark" data-theme="dark">
+              <input
+                type="radio"
+                name="theme"
+                value="dark"
+                id="theme_dark"
+                class="hidden"
+              />
+              <div
+                class="mb-2 max-w-3xl cursor-pointer border border-card-border bg-card px-4 py-2 text-text"
+              >
+                <p class="mb-2 block break-words text-xl font-normal text-link underline">
+                  Dark
+                </p>
+                <p class="mb-2">Always dark theme</p>
+                <div class="flex gap-2">
+                  <Tag name="dark" state="inactive" client:load />
+                  <Tag name="dark" state="active" client:load />
+                  <Tag name="+dark" state="positive" client:load />
+                  <Tag name="-dark" state="negative" client:load />
+                </div>
+              </div>
+            </label>
+          </form>
+        </div>
+      </div>
+    </main>
+  </div>
+</AuthLayout>
+
+<script>
+  const THEME_KEY = "linkdrop-theme";
+  const form = document.getElementById("theme-form") as HTMLFormElement;
+  if (form) {
+    const saved = localStorage.getItem(THEME_KEY) ?? "auto";
+    const input = form.querySelector<HTMLInputElement>(
+      `input[value="${saved}"]`,
+    );
+    if (input) input.checked = true;
+
+    form.addEventListener("change", (e) => {
+      const target = e.target as HTMLInputElement;
+      if (target.name === "theme") {
+        localStorage.setItem(THEME_KEY, target.value);
+        document.body.dataset.theme = target.value;
+      }
+    });
+  }
+</script>

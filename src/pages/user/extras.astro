@@ -1,0 +1,127 @@
+---
+import { Image } from "astro:assets";
+import { Goose } from "~/components/Goose";
+import UserSidebar from "~/components/UserSidebar.astro";
+import AuthLayout from "~/layouts/AuthLayout.astro";
+import { getUserById } from "~/lib/models/user.server";
+import goose from "../../components/Goose/goose.png";
+
+const userId = Astro.locals.userId!;
+const user = await getUserById(userId);
+if (!user) return new Response("Not Found", { status: 404 });
+---
+
+<AuthLayout title="Extras">
+  <div class="flex flex-col md:flex-row md:justify-center">
+    <UserSidebar isAdmin={user.isAdmin} />
+    <main class="flex-1 p-6 md:max-w-xl lg:max-w-2xl">
+      <div class="flex flex-col gap-4">
+        <h2 class="text-2xl font-normal lowercase">Extensions</h2>
+        <div
+          class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2"
+        >
+          <section
+            class="mb-2 max-w-3xl border border-card-border bg-card px-4 py-2"
+          >
+            <h3 class="mb-2 block break-words text-xl font-normal lowercase">
+              Firefox Extension
+            </h3>
+            <p class="mb-2 break-words">
+              linkdrop has a companion Firefox extension, which adds a button to
+              save the current tab in the extensions menu near your search bar.
+            </p>
+            <p class="mb-2 break-words">
+              Once installed, open the Extensions menu and pin the extension to
+              your toolbar for it to be visible at all times.
+            </p>
+            <a
+              href="https://addons.mozilla.org/firefox/addon/linkdrop/"
+              target="_blank"
+              rel="noreferrer nofollow"
+              class="block w-full border border-button-border px-4 py-2 text-center lowercase text-text hover:bg-button-hover active:bg-button-active"
+            >
+              Go to Firefox add-ons
+            </a>
+          </section>
+          <section
+            class="mb-2 max-w-3xl border border-card-border bg-card px-4 py-2"
+          >
+            <h3 class="mb-2 block break-words text-xl font-normal lowercase">
+              Chrome Extension
+            </h3>
+            <p class="mb-2 break-words">
+              linkdrop has a companion Chrome extension, which adds a button to
+              save the current tab in the extensions menu near your search bar.
+            </p>
+            <p class="mb-2 break-words">
+              Once installed, open the Extensions menu and pin the extension to
+              your toolbar for it to be visible at all times.
+            </p>
+            <a
+              href="https://chrome.google.com/webstore/detail/linkdrop/afcdppbpfiecoomopjpcfmmhcackmpef"
+              target="_blank"
+              rel="noreferrer nofollow"
+              class="block w-full border border-button-border px-4 py-2 text-center lowercase text-text hover:bg-button-hover active:bg-button-active"
+            >
+              Go to Chrome Web Store
+            </a>
+          </section>
+        </div>
+        <div id="pwa-install-section" class="hidden">
+          <h2 class="text-2xl font-normal lowercase">Install</h2>
+          <div
+            class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2"
+          >
+            <section
+              class="mb-2 max-w-3xl border border-card-border bg-card px-4 py-2"
+            >
+              <h3 class="mb-2 block break-words text-xl font-normal lowercase">
+                Install
+              </h3>
+              <p class="mb-2 break-words">
+                linkdrop can be installed to your device as if it were an app.
+              </p>
+              <p class="mb-2 break-words">
+                This is most effective on mobile, as it allows you to share
+                links directly to linkdrop from any app in order to save them.
+              </p>
+              <button
+                id="pwa-install-btn"
+                type="button"
+                class="w-full border border-button-border px-4 py-2 lowercase text-text hover:bg-button-hover active:bg-button-active"
+              >
+                Install
+              </button>
+            </section>
+          </div>
+        </div>
+        <p class="text-center text-sm">
+          <Goose client:load>
+            <Image src={goose} alt="" width={48} height={48} />
+          </Goose>
+        </p>
+      </div>
+    </main>
+  </div>
+</AuthLayout>
+
+<script>
+  let deferredPrompt: any = null;
+  window.addEventListener("beforeinstallprompt", (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    const section = document.getElementById("pwa-install-section");
+    if (section) section.classList.remove("hidden");
+  });
+
+  const btn = document.getElementById("pwa-install-btn");
+  if (btn) {
+    btn.addEventListener("click", async () => {
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        await deferredPrompt.userChoice;
+        deferredPrompt = null;
+      }
+    });
+  }
+</script>

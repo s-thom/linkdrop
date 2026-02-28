@@ -1,0 +1,62 @@
+---
+import BaseLayout from "~/layouts/BaseLayout.astro";
+import Demo from "~/components/Demo";
+import Header from "~/components/Header";
+import { getUserId } from "~/lib/session";
+
+const userId = await getUserId(Astro.request);
+const allowSignUp = process.env.ALLOW_EMAIL_JOIN === "true";
+---
+
+<BaseLayout title="linkdrop">
+  <div class="flex min-h-full flex-col justify-center px-2 sm:pb-16 sm:pt-8">
+    <div
+      class={`flex flex-col justify-center ${userId ? "min-h-full" : "min-h-[85vh]"}`}
+    >
+      <Header
+        size="large"
+        mode={userId ? "user" : "public"}
+        allowSignUp={allowSignUp}
+        client:load
+      />
+      <main
+        class="mx-auto flex max-w-7xl flex-col items-center gap-4 sm:px-6 lg:px-8"
+      >
+        <p class="mx-auto max-w-lg text-center text-xl lowercase sm:max-w-3xl">
+          An application to drop interesting links from around the internet.
+          <br />a small project by{" "}
+          <a
+            href="https://sthom.kiwi"
+            target="_blank"
+            rel="noreferrer nofollow"
+            class="text-nav-link underline decoration-1 hover:text-nav-link hover:no-underline active:text-nav-link-active"
+          >
+            Stuart Thomson
+          </a>.{" "}
+          <a
+            href="https://github.com/s-thom/linkdrop"
+            target="_blank"
+            rel="noreferrer nofollow"
+            class="text-center lowercase text-nav-link underline decoration-1 hover:text-nav-link hover:no-underline active:text-nav-link-active"
+          >
+            (Source code)
+          </a>
+        </p>
+      </main>
+    </div>
+
+    {
+      !userId && (
+        <aside class="mx-auto inline-block w-full max-w-lg sm:max-w-4xl">
+          <hr class="my-4" />
+          <p class="text-center lowercase">
+            {allowSignUp
+              ? "Before signing up, you can get the idea with a little demo"
+              : "Signing up is currently disabled, but you can get the idea with a little demo"}
+          </p>
+          <Demo client:load />
+        </aside>
+      )
+    }
+  </div>
+</BaseLayout>

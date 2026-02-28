@@ -1,0 +1,96 @@
+---
+import AuthLayout from "~/layouts/AuthLayout.astro";
+import AdminSidebar from "~/components/AdminSidebar.astro";
+import { getAllUnusedInvites } from "~/lib/models/admin.server";
+import { createUserInvite } from "~/lib/models/invites.server";
+import { getUserById } from "~/lib/models/user.server";
+
+const userId = Astro.locals.userId!;
+const user = await getUserById(userId);
+
+if (!user || !user.isAdmin) {
+  return new Response("Not Found", { status: 404 });
+}
+
+interface ActionErrors {
+  create?: string;
+}
+let errors: ActionErrors = {};
+
+if (Astro.request.method === "POST") {
+  await createUserInvite({ creator: null });
+  return Astro.redirect("/admin/invites");
+}
+
+const invites = await getAllUnusedInvites();
+---
+
+<AuthLayout title="Admin - Invites">
+  <div class="flex flex-col md:flex-row md:justify-center">
+    <AdminSidebar />
+    <main class="flex-1 p-6 md:max-w-xl lg:max-w-2xl flex flex-col gap-4">
+      <div>
+        <form method="post">
+          <button
+            type="submit"
+            class="w-full border border-button-border px-4 py-2 lowercase text-text hover:bg-button-hover active:bg-button-active"
+          >
+            Create invite
+          </button>
+          {
+            errors.create && (
+              <div class="pt-1 text-red-700" id="create-error">
+                {errors.create}
+              </div>
+            )
+          }
+        </form>
+      </div>
+      <table class="border-spacing-1 border border-card-border bg-card">
+        <thead>
+          <tr>
+            <th class="border border-card-border p-1">ID</th>
+            <th class="border border-card-border p-1">Created (UTC)</th>
+            <th class="border border-card-border p-1">Created By</th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            invites.map((invite) => (
+              <tr class="hover:bg-button-active">
+                <td class="border border-card-border p-1">
+                  <a
+                    href={`/invites/${invite.id}`}
+                    class="text-nav-link underline decoration-1 hover:text-nav-link hover:no-underline active:text-nav-link-active"
+                  >
+                    {invite.id}
+                  </a>
+                </td>
+                <td class="border border-card-border p-1">
+                  <time
+                    datetime={invite.createdAt.toISOString()}
+                    title={invite.createdAt.toISOString()}
+                  >
+                    {invite.createdAt.toLocaleDateString("en-NZ")}
+                  </time>
+                </td>
+                <td class="border border-card-border p-1">
+                  {invite.creatorUserId ? (
+                    <a
+                      href={`/admin/users/${invite.creatorUserId}`}
+                      class="text-nav-link underline decoration-1 hover:text-nav-link hover:no-underline active:text-nav-link-active"
+                    >
+                      {invite.creatorUserId}
+                    </a>
+                  ) : (
+                    <span class="italic">admin</span>
+                  )}
+                </td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+    </main>
+  </div>
+</AuthLayout>

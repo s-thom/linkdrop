@@ -1,4 +1,0 @@
-# beep boop
-
-User-agent: *
-Disallow: /links/

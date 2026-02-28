@@ -1,0 +1,9 @@
+---
+import { logout } from "~/lib/session";
+
+if (Astro.request.method === "POST") {
+  return logout();
+}
+
+return Astro.redirect("/");
+---

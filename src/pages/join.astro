@@ -1,0 +1,131 @@
+---
+import { createUserSession, getUserId } from "~/lib/session";
+import { createUser, getUserByEmail } from "~/lib/models/user.server";
+import { safeRedirect, validateEmail } from "~/utils";
+import PublicLayout from "~/layouts/PublicLayout.astro";
+
+const userId = await getUserId(Astro.request);
+if (userId) return Astro.redirect("/");
+
+const allowEmailJoin = process.env.ALLOW_EMAIL_JOIN === "true";
+
+interface ActionErrors {
+  email?: string;
+  password?: string;
+}
+
+let errors: ActionErrors = {};
+
+if (Astro.request.method === "POST") {
+  const formData = await Astro.request.formData();
+  const email = formData.get("email");
+  const password = formData.get("password");
+  const superuserSecret = formData.get("__");
+  const redirectTo = safeRedirect(formData.get("redirectTo"), "/");
+
+  if (
+    process.env.ALLOW_EMAIL_JOIN !== "true" &&
+    superuserSecret !== process.env.SUPERUSER_SECRET
+  ) {
+    errors.email = "Sign up is not enabled";
+  } else if (!validateEmail(email)) {
+    errors.email = "Email is invalid";
+  } else if (typeof password !== "string") {
+    errors.password = "Password is required";
+  } else if (password.length < 8) {
+    errors.password = "Password is too short";
+  } else {
+    const existingUser = await getUserByEmail(email);
+    if (existingUser) {
+      errors.email = "A user already exists with this email";
+    } else {
+      const user = await createUser(email, password);
+      return createUserSession({
+        userId: user.id,
+        remember: false,
+        redirectTo,
+      });
+    }
+  }
+}
+
+const searchRedirectTo =
+  new URL(Astro.request.url).searchParams.get("redirectTo") ?? undefined;
+---
+
+<PublicLayout title="Sign Up" allowSignUp={allowEmailJoin}>
+  <div class="mx-auto w-full max-w-md px-8">
+    {
+      !allowEmailJoin && (
+        <p class="my-2 text-text-error lowercase">
+          Sign up is currently disabled. Invite links still work, so if you get
+          one of those be sure to use it!
+        </p>
+      )
+    }
+    <form method="post" class="space-y-6" novalidate>
+      <div>
+        <label
+          for="email"
+          class="block text-sm font-medium lowercase text-label"
+        >
+          Email address
+        </label>
+        <div class="mt-1">
+          <input
+            id="email"
+            required
+            autofocus
+            name="email"
+            type="email"
+            autocomplete="email"
+            aria-invalid={errors.email ? "true" : undefined}
+            aria-describedby="email-error"
+            class="w-full border border-input-border bg-input px-2 py-1 text-lg"
+          />
+          {
+            errors.email && (
+              <div class="pt-1 text-text-error" id="email-error">
+                {errors.email}
+              </div>
+            )
+          }
+        </div>
+      </div>
+      <div>
+        <label
+          for="password"
+          class="block text-sm font-medium lowercase text-label"
+        >
+          Password
+        </label>
+        <div class="mt-1">
+          <input
+            id="password"
+            name="password"
+            type="password"
+            autocomplete="new-password"
+            aria-invalid={errors.password ? "true" : undefined}
+            aria-describedby="password-error"
+            class="w-full border border-input-border bg-input px-2 py-1 text-lg"
+          />
+          {
+            errors.password && (
+              <div class="pt-1 text-text-error" id="password-error">
+                {errors.password}
+              </div>
+            )
+          }
+        </div>
+      </div>
+      <input type="hidden" name="redirectTo" value={searchRedirectTo} />
+      <input type="hidden" name="__" value="" />
+      <button
+        type="submit"
+        class="w-full border border-button-border bg-button px-4 py-2 lowercase text-text hover:bg-button-hover active:bg-button-active"
+      >
+        Sign up
+      </button>
+    </form>
+  </div>
+</PublicLayout>

@@ -1,0 +1,206 @@
+---
+import AuthLayout from "~/layouts/AuthLayout.astro";
+import AdminSidebar from "~/components/AdminSidebar.astro";
+import { getAdminUserSummary } from "~/lib/models/admin.server";
+import { getUserCreatedInvites } from "~/lib/models/invites.server";
+import { getUserById } from "~/lib/models/user.server";
+
+const currentUserId = Astro.locals.userId!;
+const currentUser = await getUserById(currentUserId);
+
+if (!currentUser || !currentUser.isAdmin) {
+  return new Response("Not Found", { status: 404 });
+}
+
+const { userId } = Astro.params;
+if (!userId) return new Response("Not Found", { status: 404 });
+
+const userSummary = await getAdminUserSummary({ id: userId });
+if (!userSummary) return new Response("Not Found", { status: 404 });
+
+const invites = await getUserCreatedInvites({ userId });
+
+const userData = {
+  id: userSummary.id,
+  email: userSummary.email,
+  createdAt: userSummary.createdAt,
+  isAdmin: userSummary.isAdmin,
+  mostRecentLinkCreatedAt: userSummary.links[0]?.createdAt ?? undefined,
+  numLinks: userSummary._count.links,
+  numTags: userSummary._count.tags,
+  hasTotp: userSummary.totp?.active ?? false,
+  wasInvited: userSummary.invitedInvite !== null,
+  invitedBy:
+    userSummary.invitedInvite && userSummary.invitedInvite.creator
+      ? {
+          id: userSummary.invitedInvite.creator.id,
+          email: userSummary.invitedInvite.creator.email,
+        }
+      : undefined,
+};
+---
+
+<AuthLayout title={`Admin - ${userData.email}`}>
+  <div class="flex flex-col md:flex-row md:justify-center">
+    <AdminSidebar />
+    <main class="flex-1 p-6 md:max-w-xl lg:max-w-2xl">
+      <h2 class="mb-1 text-2xl font-normal lowercase">{userData.email}</h2>
+      <table class="border-spacing-1 border border-card-border bg-card">
+        <thead>
+          <tr>
+            <th class="border border-card-border p-1">Info</th>
+            <th class="border border-card-border p-1">Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="hover:bg-button-active">
+            <td class="border border-card-border p-1">Created (UTC)</td>
+            <td class="border border-card-border p-1">
+              <time
+                datetime={userData.createdAt.toISOString()}
+                title={userData.createdAt.toISOString()}
+              >
+                {userData.createdAt.toLocaleDateString("en-NZ")}
+              </time>
+            </td>
+          </tr>
+          <tr class="hover:bg-button-active">
+            <td class="border border-card-border p-1">Number of links</td>
+            <td class="border border-card-border p-1">{userData.numLinks}</td>
+          </tr>
+          <tr class="hover:bg-button-active">
+            <td class="border border-card-border p-1">Number of tags</td>
+            <td class="border border-card-border p-1">{userData.numTags}</td>
+          </tr>
+          <tr class="hover:bg-button-active">
+            <td class="border border-card-border p-1">
+              Most recently created link (UTC)
+            </td>
+            <td class="border border-card-border p-1">
+              {
+                userData.mostRecentLinkCreatedAt ? (
+                  <time
+                    datetime={userData.mostRecentLinkCreatedAt.toISOString()}
+                    title={userData.mostRecentLinkCreatedAt.toISOString()}
+                  >
+                    {userData.mostRecentLinkCreatedAt.toLocaleDateString(
+                      "en-NZ",
+                    )}
+                  </time>
+                ) : (
+                  ""
+                )
+              }
+            </td>
+          </tr>
+          <tr class="hover:bg-button-active">
+            <td class="border border-card-border p-1">Invited by</td>
+            <td class="border border-card-border p-1">
+              {
+                userData.wasInvited ? (
+                  userData.invitedBy ? (
+                    <a
+                      href={`/admin/users/${userData.invitedBy.id}`}
+                      class="text-nav-link underline decoration-1 hover:text-nav-link hover:no-underline active:text-nav-link-active"
+                    >
+                      {userData.invitedBy.email}
+                    </a>
+                  ) : (
+                    <span class="italic">admin</span>
+                  )
+                ) : (
+                  <span class="italic">none</span>
+                )
+              }
+            </td>
+          </tr>
+          <tr class="hover:bg-button-active">
+            <td class="border border-card-border p-1">Has setup TOTP</td>
+            <td class="border border-card-border p-1">
+              <input
+                type="checkbox"
+                name={`${userData.id}-totp`}
+                readonly
+                checked={userData.hasTotp}
+              />
+            </td>
+          </tr>
+          <tr class="hover:bg-button-active">
+            <td class="border border-card-border p-1">Is admin</td>
+            <td class="border border-card-border p-1">
+              <input
+                type="checkbox"
+                name={`${userData.id}-admin`}
+                readonly
+                checked={userData.isAdmin}
+              />
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <h3 class="mb-1 mt-2 text-xl font-normal lowercase">Invites</h3>
+      <table class="border-spacing-1 border border-card-border bg-card">
+        <thead>
+          <tr>
+            <th class="border border-card-border p-1">ID</th>
+            <th class="border border-card-border p-1">Created (UTC)</th>
+            <th class="border border-card-border p-1">Invitee</th>
+            <th class="border border-card-border p-1">Accepted (UTC)</th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            invites.map((invite) => (
+              <tr class="hover:bg-button-active">
+                <td class="border border-card-border p-1">
+                  {invite.invitee ? (
+                    invite.id
+                  ) : (
+                    <a
+                      href={`/invites/${invite.id}`}
+                      class="text-nav-link underline decoration-1 hover:text-nav-link hover:no-underline active:text-nav-link-active"
+                    >
+                      {invite.id}
+                    </a>
+                  )}
+                </td>
+                <td class="border border-card-border p-1">
+                  <time
+                    datetime={invite.createdAt.toISOString()}
+                    title={invite.createdAt.toISOString()}
+                  >
+                    {invite.createdAt.toLocaleDateString("en-NZ")}
+                  </time>
+                </td>
+                <td class="border border-card-border p-1">
+                  {invite.invitee ? (
+                    <a
+                      href={`/admin/users/${invite.invitee.id}`}
+                      class="text-nav-link underline decoration-1 hover:text-nav-link hover:no-underline active:text-nav-link-active"
+                    >
+                      {invite.invitee.email}
+                    </a>
+                  ) : (
+                    <span class="italic">pending</span>
+                  )}
+                </td>
+                <td class="border border-card-border p-1">
+                  {invite.invitee ? (
+                    <time
+                      datetime={invite.invitee.createdAt.toISOString()}
+                      title={invite.invitee.createdAt.toISOString()}
+                    >
+                      {invite.invitee.createdAt.toLocaleDateString("en-NZ")}
+                    </time>
+                  ) : (
+                    ""
+                  )}
+                </td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+    </main>
+  </div>
+</AuthLayout>

@@ -1,0 +1,82 @@
+---
+export interface Props {
+  isAdmin?: boolean;
+}
+const { isAdmin = false } = Astro.props;
+---
+
+<aside class="p-6 md:h-full md:w-60 md:pr-0">
+  <h3 class="text-xl font-normal lowercase">User</h3>
+  <nav>
+    <ul>
+      <li>
+        <a
+          href="/user"
+          class="lowercase text-nav-link underline decoration-1 hover:text-nav-link hover:no-underline active:text-nav-link-active"
+        >
+          Profile & Settings
+        </a>
+      </li>
+      <li>
+        <a
+          href="/user/account"
+          class="lowercase text-nav-link underline decoration-1 hover:text-nav-link hover:no-underline active:text-nav-link-active"
+        >
+          Account & Security
+        </a>
+      </li>
+      <li>
+        <a
+          href="/user/tags"
+          class="lowercase text-nav-link underline decoration-1 hover:text-nav-link hover:no-underline active:text-nav-link-active"
+        >
+          Tags
+        </a>
+      </li>
+      <li>
+        <a
+          href="/user/stats"
+          class="lowercase text-nav-link underline decoration-1 hover:text-nav-link hover:no-underline active:text-nav-link-active"
+        >
+          Stats
+        </a>
+      </li>
+      <li>
+        <a
+          href="/user/help"
+          class="lowercase text-nav-link underline decoration-1 hover:text-nav-link hover:no-underline active:text-nav-link-active"
+        >
+          Help
+        </a>
+      </li>
+      <li>
+        <a
+          href="/user/extras"
+          class="lowercase text-nav-link underline decoration-1 hover:text-nav-link hover:no-underline active:text-nav-link-active"
+        >
+          Extras
+        </a>
+      </li>
+      {
+        isAdmin && (
+          <li>
+            <a
+              href="/admin"
+              class="lowercase text-nav-link underline decoration-1 hover:text-nav-link hover:no-underline active:text-nav-link-active"
+            >
+              Admin
+            </a>
+          </li>
+        )
+      }
+    </ul>
+    <form action="/logout" method="post" class="mt-6 inline-block items-center">
+      <button
+        type="submit"
+        class="w-full border border-button-border bg-button px-4 py-2 lowercase text-text hover:bg-button-hover active:bg-button-active"
+      >
+        Log out
+      </button>
+    </form>
+  </nav>
+</aside>

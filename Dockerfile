@@ -45,8 +45,8 @@ WORKDIR /myapp
 COPY --from=production-deps /myapp/node_modules /myapp/node_modules
 COPY --from=build /myapp/node_modules/.prisma /myapp/node_modules/.prisma
 
-COPY --from=build /myapp/build/server /myapp/build/server
-COPY --from=build /myapp/build/client /myapp/build/client
+COPY --from=build /myapp/dist/server /myapp/dist/server
+COPY --from=build /myapp/dist/client /myapp/dist/client
 ADD . .
 
 CMD ["npm", "start"]

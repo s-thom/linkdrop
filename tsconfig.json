@@ -1,9 +1,17 @@
 {
-  "exclude": ["./cypress", "./cypress.config.ts"],
-  "include": ["remix.env.d.ts", "**/*.ts", "**/*.tsx", "vitest.config.mts"],
+  "extends": "astro/tsconfigs/strict",
+  "exclude": [
+    "./cypress",
+    "./cypress.config.ts",
+    "./app",
+    "./server.ts",
+    "./vite.config.ts",
+    "./test"
+  ],
+  "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.astro", "vitest.config.mts"],
   "compilerOptions": {
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
-    "types": ["@remix-run/node", "vite/client", "vitest/globals"],
+    "types": ["vitest/globals"],
     "isolatedModules": true,
     "esModuleInterop": true,
     "jsx": "react-jsx",
@@ -14,7 +22,7 @@
     "strict": true,
     "baseUrl": ".",
     "paths": {
-      "~/*": ["./app/*"]
+      "~/*": ["./src/*"]
     },
     "skipLibCheck": true,
     "noEmit": true,

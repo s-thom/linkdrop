@@ -1,0 +1,187 @@
+---
+import { createUserSession, getUserId } from "~/lib/session";
+import { verifyLogin } from "~/lib/models/user.server";
+import { safeRedirect, validateEmail } from "~/utils";
+import PublicLayout from "~/layouts/PublicLayout.astro";
+
+// Redirect if already logged in
+const existingUserId = await getUserId(Astro.request);
+if (existingUserId) {
+  return Astro.redirect("/links");
+}
+
+const allowSignUp = process.env.ALLOW_EMAIL_JOIN === "true";
+
+interface ActionErrors {
+  email?: string;
+  password?: string;
+  totp?: string;
+}
+interface ActionExtra {
+  totp?: boolean;
+}
+
+let errors: ActionErrors = {};
+let extra: ActionExtra = {};
+let redirectTo = "/links";
+let showTotp = false;
+
+if (Astro.request.method === "POST") {
+  const formData = await Astro.request.formData();
+  const email = formData.get("email");
+  const password = formData.get("password");
+  const totp = formData.get("totp") ?? "";
+  redirectTo = safeRedirect(formData.get("redirectTo"), "/links");
+  const remember = formData.get("remember");
+
+  if (!validateEmail(email)) {
+    errors.email = "Email is invalid";
+  } else if (typeof password !== "string") {
+    errors.password = "Password is required";
+  } else if (totp && typeof totp !== "string") {
+    errors.totp = "TOTP code is required";
+  } else if (password.length < 8) {
+    errors.password = "Password is too short";
+  } else {
+    const result = await verifyLogin(email, password, totp as string);
+    if (!result.success) {
+      switch (result.errorType) {
+        case "password_incorrect":
+          errors.email = "Invalid email or password";
+          break;
+        case "requires_2fa":
+          extra.totp = true;
+          showTotp = true;
+          break;
+        case "totp_incorrect":
+          errors.totp = "Incorrect code";
+          extra.totp = true;
+          showTotp = true;
+          break;
+      }
+    } else {
+      return createUserSession({
+        userId: result.user.id,
+        remember: remember === "on",
+        redirectTo,
+      });
+    }
+  }
+}
+
+const searchRedirectTo =
+  new URL(Astro.request.url).searchParams.get("redirectTo") || "/links";
+if (!redirectTo || redirectTo === "/links") redirectTo = searchRedirectTo;
+---
+
+<PublicLayout title="Log In" allowSignUp={allowSignUp}>
+  <div class="mx-auto w-full max-w-md px-8">
+    <form method="post" class="space-y-6" novalidate>
+      <div>
+        <label
+          for="email"
+          class="block text-sm font-medium lowercase text-label"
+        >
+          Email address
+        </label>
+        <div class="mt-1">
+          <input
+            id="email"
+            required
+            autofocus
+            name="email"
+            type="email"
+            autocomplete="email"
+            aria-invalid={errors.email ? "true" : undefined}
+            aria-describedby="email-error"
+            class="w-full border border-input-border bg-input px-2 py-1 text-lg"
+          />
+          {
+            errors.email && (
+              <div class="pt-1 text-text-error" id="email-error">
+                {errors.email}
+              </div>
+            )
+          }
+        </div>
+      </div>
+
+      <div>
+        <label
+          for="password"
+          class="block text-sm font-medium lowercase text-label"
+        >
+          Password
+        </label>
+        <div class="mt-1">
+          <input
+            id="password"
+            name="password"
+            type="password"
+            autocomplete="current-password"
+            aria-invalid={errors.password ? "true" : undefined}
+            aria-describedby="password-error"
+            class="w-full border border-input-border bg-input px-2 py-1 text-lg"
+          />
+          {
+            errors.password && (
+              <div class="pt-1 text-text-error" id="password-error">
+                {errors.password}
+              </div>
+            )
+          }
+        </div>
+      </div>
+
+      {
+        (showTotp || extra.totp) && (
+          <div>
+            <label
+              for="totp"
+              class="block text-sm font-medium lowercase text-label"
+            >
+              Authenticator Code
+            </label>
+            <div class="mt-1">
+              <input
+                id="totp"
+                name="totp"
+                type="text"
+                autocomplete="one-time-code"
+                aria-invalid={errors.totp ? "true" : undefined}
+                aria-describedby="totp-error"
+                class="w-full border border-input-border bg-input px-2 py-1 text-lg"
+              />
+              {errors.totp && (
+                <div class="pt-1 text-text-error" id="totp-error">
+                  {errors.totp}
+                </div>
+              )}
+            </div>
+          </div>
+        )
+      }
+
+      <input type="hidden" name="redirectTo" value={redirectTo} />
+      <button
+        type="submit"
+        class="w-full border border-button-border bg-button px-4 py-2 lowercase text-text hover:bg-button-hover active:bg-button-active"
+      >
+        Log in
+      </button>
+      <div class="flex items-center justify-between">
+        <div class="flex items-center">
+          <input
+            id="remember"
+            name="remember"
+            type="checkbox"
+            class="h-4 w-4 border-input-border text-blue-600 focus:ring-blue-500"
+          />
+          <label for="remember" class="ml-2 block text-sm lowercase text-label">
+            Remember me
+          </label>
+        </div>
+      </div>
+    </form>
+  </div>
+</PublicLayout>

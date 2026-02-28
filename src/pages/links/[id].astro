@@ -1,0 +1,25 @@
+---
+import AuthLayout from "~/layouts/AuthLayout.astro";
+import LinkDisplay from "~/components/LinkDisplay";
+import { getSingleLink } from "~/lib/models/link.server";
+
+const userId = Astro.locals.userId!;
+const { id } = Astro.params;
+
+if (!id) return new Response("Not Found", { status: 404 });
+
+const link = await getSingleLink({ id });
+if (!link || link.userId !== userId) {
+  return new Response("Not Found", { status: 404 });
+}
+---
+
+<AuthLayout title="Link">
+  <div class="mx-auto mt-4 w-full max-w-md px-8 md:max-w-lg">
+    <LinkDisplay
+      link={link}
+      canEdit={userId === link.userId}
+      client:load
+    />
+  </div>
+</AuthLayout>

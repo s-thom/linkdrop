@@ -1,0 +1,90 @@
+---
+import AuthLayout from "~/layouts/AuthLayout.astro";
+import UserSidebar from "~/components/UserSidebar.astro";
+import { getUser2faMethods, getUserById } from "~/lib/models/user.server";
+
+const userId = Astro.locals.userId!;
+const user = await getUserById(userId);
+if (!user) return new Response("Not Found", { status: 404 });
+
+const methods = await getUser2faMethods(userId);
+const hasMfa = !!methods?.totp;
+---
+
+<AuthLayout title="Account & Security">
+  <div class="flex flex-col md:flex-row md:justify-center">
+    <UserSidebar isAdmin={user.isAdmin} />
+    <main class="flex-1 p-6 md:max-w-xl lg:max-w-2xl">
+      <div class="flex flex-col gap-4">
+        <h2 class="text-2xl font-normal lowercase">Account settings</h2>
+        <div
+          class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2"
+        >
+          <section
+            class="mb-2 max-w-3xl border border-card-border bg-card px-4 py-2"
+          >
+            <h3
+              class="mb-2 block break-words text-xl font-normal lowercase"
+            >
+              Change password
+            </h3>
+            <p class="mb-2 break-words">Need to change your password?</p>
+            <a
+              href="/user/account/change-password"
+              class="block w-full border border-button-border bg-button px-4 py-2 text-center lowercase text-text hover:bg-button-hover active:bg-button-active"
+            >
+              Change password
+            </a>
+          </section>
+          <section
+            class="mb-2 max-w-3xl border border-card-border bg-card px-4 py-2"
+          >
+            <h3
+              class="mb-2 block break-words text-xl font-normal lowercase"
+            >
+              2 Factor Authentication
+            </h3>
+            {
+              hasMfa ? (
+                <p class="mb-2 break-words">
+                  Want to change your 2FA settings? You will need your current
+                  password to continue.
+                </p>
+              ) : (
+                <p class="mb-2 break-words">
+                  Add 2FA to your account with a mobile authenticator app. You
+                  will need your current password to continue.
+                </p>
+              )
+            }
+            <a
+              href="/user/account/totp"
+              class="block w-full border border-button-border bg-button px-4 py-2 text-center lowercase text-text hover:bg-button-hover active:bg-button-active"
+            >
+              {hasMfa ? "Remove authenticator" : "Set up authenticator"}
+            </a>
+          </section>
+          <section
+            class="col-span-1 mb-2 max-w-3xl border border-card-error-border bg-card-error px-4 py-2 text-text-error"
+          >
+            <h3
+              class="mb-2 block break-words text-xl font-normal lowercase"
+            >
+              Delete account
+            </h3>
+            <p class="mb-2 break-words">
+              Deleting your account is a permanent operation. All of your data
+              will be lost, and can't be recovered at a later date.
+            </p>
+            <a
+              href="/user/account/delete"
+              class="block w-full border border-button-error-border bg-button-error px-4 py-2 text-center lowercase text-text-error hover:bg-button-error-hover active:bg-button-error-active"
+            >
+              Delete account
+            </a>
+          </section>
+        </div>
+      </div>
+    </main>
+  </div>
+</AuthLayout>

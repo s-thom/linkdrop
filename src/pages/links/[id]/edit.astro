@@ -1,0 +1,74 @@
+---
+import AuthLayout from "~/layouts/AuthLayout.astro";
+import LinkForm from "~/components/LinkForm";
+import { deleteLink, editLink, getSingleLink } from "~/lib/models/link.server";
+import { validateFormData } from "~/lib/util/linkFormData.server";
+import type { FormErrors } from "~/components/LinkForm";
+
+const userId = Astro.locals.userId!;
+const { id } = Astro.params;
+
+if (!id) return new Response("Not Found", { status: 404 });
+
+const link = await getSingleLink({ id });
+if (!link || link.userId !== userId) {
+  return new Response("Not Found", { status: 404 });
+}
+
+let errors: FormErrors | undefined;
+
+if (Astro.request.method === "POST") {
+  const formData = await Astro.request.formData();
+
+  // Process deletes
+  if (formData.get("_method") === "delete") {
+    await deleteLink({ id, userId });
+    return Astro.redirect("/links");
+  }
+
+  const result = validateFormData(formData);
+  if (result.status === "error") {
+    errors = result.errors;
+  } else {
+    const { url, description, tags } = result.values;
+    const editedLink = await editLink({ id, userId, url, description, tags });
+    return Astro.redirect(`/links/${editedLink.id}`);
+  }
+}
+---
+
+<AuthLayout title="Edit Link">
+  <div class="flex flex-col md:flex-row md:justify-center">
+    <main class="flex-1 p-6 md:max-w-xl lg:max-w-2xl">
+      <LinkForm
+        i18n={{ submit: "Edit link" }}
+        method="post"
+        errors={errors}
+        initialValues={{
+          url: link.url,
+          description: link.description,
+          tags: link.tags.map((t) => t.name),
+        }}
+        currentLinkId={link.id}
+        client:load
+      />
+      <div class="mt-4 border border-card-error-border bg-card-error p-2">
+        <form method="post">
+          <h2 class="mb-2 text-xl font-normal lowercase text-text-error">
+            Danger zone
+          </h2>
+          <input type="hidden" name="_method" value="delete" />
+          <button
+            type="submit"
+            class="md:1/3 mt-2 w-full border border-button-error-border px-4 py-2 lowercase text-text-error hover:bg-button-error-hover active:bg-button-error-active sm:w-1/2"
+          >
+            Delete link
+          </button>
+          <p class="text-sm font-normal lowercase text-text-error">
+            This action can not be undone
+          </p>
+        </form>
+      </div>
+    </main>
+  </div>
+</AuthLayout>

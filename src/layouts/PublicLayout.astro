@@ -1,0 +1,26 @@
+---
+import BaseLayout from "./BaseLayout.astro";
+import Header from "~/components/Header";
+
+export interface Props {
+  title?: string;
+  allowSignUp?: boolean;
+  userLoggedIn?: boolean;
+}
+
+const { title, allowSignUp = false, userLoggedIn = false } = Astro.props;
+---
+
+<BaseLayout title={title}>
+  <div class="flex min-h-full flex-col justify-center sm:pb-16 sm:pt-8">
+    <Header
+      size="large"
+      mode={userLoggedIn ? "user" : "public"}
+      allowSignUp={allowSignUp}
+      client:load
+    />
+    <main>
+      <slot />
+    </main>
+  </div>
+</BaseLayout>

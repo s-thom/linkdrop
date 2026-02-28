@@ -1,0 +1,128 @@
+---
+import AuthLayout from "~/layouts/AuthLayout.astro";
+import UserSidebar from "~/components/UserSidebar.astro";
+import Demo from "~/components/Demo";
+import Tag from "~/components/Tag";
+import { getUserById } from "~/lib/models/user.server";
+
+const userId = Astro.locals.userId!;
+const user = await getUserById(userId);
+if (!user) return new Response("Not Found", { status: 404 });
+---
+
+<AuthLayout title="Help">
+  <div class="flex flex-col md:flex-row md:justify-center">
+    <UserSidebar isAdmin={user.isAdmin} />
+    <main class="flex-1 p-6 md:max-w-xl lg:max-w-2xl">
+      <div class="flex flex-col gap-4">
+        <h2 class="text-2xl font-normal lowercase">Concepts</h2>
+        <div
+          class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2"
+        >
+          <section
+            class="mb-2 max-w-3xl border border-card-border bg-card px-4 py-2"
+          >
+            <h3
+              class="mb-2 block break-words text-xl font-normal lowercase"
+            >
+              Links
+            </h3>
+            <p class="mb-2 break-words">
+              linkdrop is all about saving links, and tries to make it as fast
+              as possible to both save new ones and find old ones. Do one thing,
+              do it well.
+            </p>
+            <p class="mb-2 break-words">
+              You can also write a quick description of your links when you save
+              or edit them. This might often be the title of the page, or
+              something else to give you more context.
+            </p>
+          </section>
+          <section
+            class="mb-2 max-w-3xl border border-card-border bg-card px-4 py-2"
+          >
+            <h3
+              class="mb-2 block break-words text-xl font-normal lowercase"
+            >
+              Tags
+            </h3>
+            <p class="mb-2 break-words">
+              When adding a new link, you can specify tags to associate with
+              that link. These tags can be as specific or generic as you'd like,
+              and can be thought of as overlapping categories for the links.
+            </p>
+            <p class="mb-2 break-words">
+              I'd recommend shorter and easy to remember words for your tags.
+              linkdrop is meant to save you time, not cost it.
+            </p>
+            <p>
+              <Tag name="example" state="inactive" client:load />
+            </p>
+          </section>
+        </div>
+        <h2 class="text-2xl font-normal lowercase">Searching</h2>
+        <div
+          class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2"
+        >
+          <section
+            class="mb-2 max-w-3xl border border-card-border bg-card px-4 py-2"
+          >
+            <h3
+              class="mb-2 block break-words text-xl font-normal lowercase"
+            >
+              How search works
+            </h3>
+            <p class="mb-2 break-words">
+              When you enter tags to search, linkdrop will find all links that
+              match any of the tags you've specified and return them as a list.
+            </p>
+            <p>
+              <Tag name="matched" state="active" client:load />{" "}
+              <Tag name="not-matched" state="inactive" client:load />
+            </p>
+          </section>
+          <section
+            class="mb-2 max-w-3xl border border-card-border bg-card px-4 py-2"
+          >
+            <h3
+              class="mb-2 block break-words text-xl font-normal lowercase"
+            >
+              Including certain tags
+            </h3>
+            <p class="mb-2 break-words">
+              By prefixing a tag with <code>+</code>, only links with that tag
+              will appear in your search results.
+            </p>
+            <p>
+              <Tag name="+included" state="positive" client:load />
+            </p>
+          </section>
+          <section
+            class="mb-2 max-w-3xl border border-card-border bg-card px-4 py-2"
+          >
+            <h3
+              class="mb-2 block break-words text-xl font-normal lowercase"
+            >
+              Excluding certain tags
+            </h3>
+            <p class="mb-2 break-words">
+              By prefixing a tag with <code>-</code>, only links without that
+              tag will appear in your search results.
+            </p>
+            <p>
+              <Tag name="-excluded" state="negative" client:load />
+            </p>
+          </section>
+        </div>
+        <h3
+          class="mb-2 block break-words text-xl font-normal lowercase"
+        >
+          Searching demo
+        </h3>
+        <div>
+          <Demo direction="column" client:load />
+        </div>
+      </div>
+    </main>
+  </div>
+</AuthLayout>

@@ -1,0 +1,19 @@
+---
+import BaseLayout from "./BaseLayout.astro";
+import Header from "~/components/Header";
+
+export interface Props {
+  title?: string;
+}
+
+const { title } = Astro.props;
+---
+
+<BaseLayout title={title}>
+  <div class="flex h-full min-h-screen flex-col">
+    <Header size="small" mode="user" client:load />
+    <main class="flex-1">
+      <slot />
+    </main>
+  </div>
+</BaseLayout>

@@ -1,0 +1,80 @@
+---
+import "~/styles/custom.css";
+
+export interface Props {
+  title?: string;
+}
+
+const { title = "linkdrop" } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en" class="h-full">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="application-name" content="linkdrop" />
+    <title>{title}</title>
+    <meta
+      name="description"
+      content="An application to drop interesting links from around the internet."
+    />
+    <link rel="manifest" href="/resources/manifest.json" />
+    <link rel="author" type="text/plain" href="/humans.txt" />
+    <link
+      rel="icon"
+      type="image/png"
+      href="/images/icons/icon-512x512.png"
+      sizes="512x512"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      href="/images/icons/icon-192x192.png"
+      sizes="192x192"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      href="/images/icons/icon-128x128.png"
+      sizes="128x128"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      href="/images/icons/icon-96x96.png"
+      sizes="96x96"
+    />
+    <link
+      rel="apple-touch-icon-precomposed"
+      type="image/png"
+      href="/images/icons/icon-152x152.png"
+      sizes="152x152"
+    />
+    <link
+      rel="apple-touch-icon-precomposed"
+      type="image/png"
+      href="/images/icons/icon-144x144.png"
+      sizes="144x144"
+    />
+    <link
+      rel="apple-touch-icon-precomposed"
+      type="image/png"
+      href="/images/icons/icon-72x72.png"
+      sizes="72x72"
+    />
+    <script
+      is:inline
+      async
+      defer
+      data-auto-track="true"
+      data-domains="linkdrop.sthom.kiwi"
+      data-website-id="3301ea45-665c-4140-9a64-ac5a9eae2112"
+      src="https://stats.sthom.kiwi/script.js"
+    ></script>
+  </head>
+  <body class="h-full bg-bg text-text">
+    <script src="/themes.js"></script>
+    <slot />
+  </body>
+</html>

@@ -1,0 +1,62 @@
+---
+import AuthLayout from "~/layouts/AuthLayout.astro";
+import LinkForm from "~/components/LinkForm";
+import { createLink } from "~/lib/models/link.server";
+import { validateFormData } from "~/lib/util/linkFormData.server";
+import { decodeStringArray } from "~/lib/util/stringArray";
+import type { FormErrors } from "~/components/LinkForm";
+
+const userId = Astro.locals.userId!;
+
+let errors: FormErrors | undefined;
+
+if (Astro.request.method === "POST") {
+  const formData = await Astro.request.formData();
+  const result = validateFormData(formData);
+
+  if (result.status === "error") {
+    errors = result.errors;
+  } else {
+    const { url, description, tags } = result.values;
+    await createLink({ userId, url, description, tags });
+    return Astro.redirect("/links");
+  }
+}
+
+// Parse query params for pre-fill (e.g., from browser extension / share target)
+const reqUrl = new URL(Astro.request.url);
+const initialUrl = reqUrl.searchParams.get("url") ?? "";
+const initialTitle = reqUrl.searchParams.get("title") ?? "";
+let initialDescription = reqUrl.searchParams.get("description") ?? "";
+const tagsRaw = reqUrl.searchParams.get("tags") ?? undefined;
+const initialTags = tagsRaw
+  ? Array.from(new Set(decodeStringArray(tagsRaw)))
+  : [];
+
+// Android share: description may contain URL + text
+if (!initialUrl && initialDescription) {
+  const match = initialDescription.match(/^(?:([\S\s]*)\s+)?(https?:\/\/[^\s]+)$/);
+  if (match) {
+    const [, desc, link] = match;
+    // Use link as URL - but since we're server-side, we just pass them through
+  }
+}
+---
+
+<AuthLayout title="New Link">
+  <div class="flex flex-col md:flex-row md:justify-center">
+    <main class="flex-1 p-6 md:max-w-xl lg:max-w-2xl">
+      <LinkForm
+        i18n={{ submit: "Save link" }}
+        method="post"
+        errors={errors}
+        initialValues={{
+          url: initialUrl,
+          description: initialDescription || initialTitle,
+          tags: initialTags,
+        }}
+        client:load
+      />
+    </main>
+  </div>
+</AuthLayout>

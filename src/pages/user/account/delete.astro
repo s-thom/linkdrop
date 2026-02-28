@@ -1,0 +1,117 @@
+---
+import AuthLayout from "~/layouts/AuthLayout.astro";
+import UserSidebar from "~/components/UserSidebar.astro";
+import {
+  deleteUserByEmail,
+  getUser2faMethods,
+  getUserById,
+  verifyLogin,
+} from "~/lib/models/user.server";
+import { logout } from "~/lib/session";
+
+const userId = Astro.locals.userId!;
+const user = await getUserById(userId);
+if (!user) return new Response("Not Found", { status: 404 });
+
+const methods = await getUser2faMethods(userId);
+
+interface ActionErrors {
+  password?: string;
+  totp?: string;
+}
+
+let errors: ActionErrors = {};
+
+if (Astro.request.method === "POST") {
+  const formData = await Astro.request.formData();
+  const password = formData.get("password");
+  const totp = formData.get("totp") ?? "";
+
+  if (typeof password !== "string") {
+    errors.password = "Password is required";
+  } else if (password.length < 8) {
+    errors.password = "Password is too short";
+  } else {
+    const result = await verifyLogin(user.email, password, totp as string);
+    if (!result.success) {
+      errors.password = "Password is incorrect";
+    } else {
+      await deleteUserByEmail(user.email);
+      return logout();
+    }
+  }
+}
+---
+
+<AuthLayout title="Delete Account">
+  <div class="flex flex-col md:flex-row md:justify-center">
+    <UserSidebar isAdmin={user.isAdmin} />
+    <main class="flex-1 p-6 md:max-w-xl lg:max-w-2xl">
+      <div class="mx-auto w-full max-w-md px-8">
+        <form method="post" class="space-y-6" novalidate>
+          <div>
+            <label
+              for="password"
+              class="block text-sm font-medium lowercase text-label"
+            >
+              Password
+            </label>
+            <div class="mt-1">
+              <input
+                id="password"
+                name="password"
+                type="password"
+                autocomplete="current-password"
+                aria-invalid={errors.password ? "true" : undefined}
+                aria-describedby="password-error"
+                class="w-full border border-input-border bg-input px-2 py-1 text-lg"
+              />
+              {
+                errors.password && (
+                  <div class="pt-1 text-text-error" id="password-error">
+                    {errors.password}
+                  </div>
+                )
+              }
+            </div>
+          </div>
+          {
+            methods?.totp && (
+              <div>
+                <label
+                  for="totp"
+                  class="block text-sm font-medium lowercase text-label"
+                >
+                  Authenticator Code
+                </label>
+                <div class="mt-1">
+                  <input
+                    id="totp"
+                    name="totp"
+                    type="text"
+                    autocomplete="one-time-code"
+                    aria-invalid={errors.totp ? "true" : undefined}
+                    aria-describedby="totp-error"
+                    class="w-full border border-input-border bg-input px-2 py-1 text-lg"
+                  />
+                  {errors.totp && (
+                    <div class="pt-1 text-text-error" id="totp-error">
+                      {errors.totp}
+                    </div>
+                  )}
+                </div>
+              </div>
+            )
+          }
+          <input type="hidden" name="_method" value="delete" />
+          <button
+            type="submit"
+            class="w-full border border-button-border bg-button px-4 py-2 lowercase text-text hover:bg-button-hover active:bg-button-active"
+          >
+            Delete account
+          </button>
+        </form>
+      </div>
+    </main>
+  </div>
+</AuthLayout>
