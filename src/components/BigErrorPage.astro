@@ -1,0 +1,45 @@
+---
+import { createLink } from "~/lib/util/mock";
+import type { HeaderProps } from "./Header";
+import Header from "./Header";
+import LinkDisplay from "./LinkDisplay";
+
+interface Props {
+  status: number;
+}
+
+const { status } = Astro.props;
+
+const SPECIAL_TEXT: Record<number, NonNullable<HeaderProps["text"]>> = {
+  404: { link: "40", drop: "4" },
+};
+
+const MOCK_LINK = createLink(
+  "https://linkdrop.sthom.kiwi",
+  "linkdrop's home page",
+  ["linkdrop", "home"],
+);
+---
+
+<div class="flex min-h-full flex-col justify-center sm:pb-16 sm:pt-8">
+  <Header
+    size="large"
+    text={SPECIAL_TEXT[status] ?? { link: "err", drop: "or" }}
+    mode="none"
+  />
+
+  <main>
+    <div class="mx-auto w-full max-w-md px-8">
+      <p
+        class="mx-auto mb-4 max-w-lg text-center text-xl lowercase sm:max-w-3xl"
+      >
+        {
+          status === 404
+            ? "Page not found."
+            : `An unknown error occurred (${status}).`
+        }
+      </p>
+      <LinkDisplay link={MOCK_LINK} />
+    </div>
+  </main>
+</div>

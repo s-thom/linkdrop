@@ -1,0 +1,48 @@
+---
+import LinkDropText from "~/components/LinkDropText.astro";
+import PublicNav from "./PublicNav.astro";
+import UserNav from "./UserNav.astro";
+
+export interface Props {
+  text?: { link: string; drop: string };
+  size: "large" | "small";
+  mode: "user" | "public" | "none";
+  allowSignUp?: boolean;
+}
+
+const {
+  size,
+  mode,
+  allowSignUp = false,
+  text = { link: "link", drop: "drop" },
+} = Astro.props;
+const fontClasses =
+  size === "large" ? "mb-6 text-6xl sm:text-8xl lg:text-9xl" : "text-3xl";
+const containerClasses = size === "large" ? "" : "border-b border-card-border";
+---
+
+<header
+  class:list={[
+    "flex flex-col items-center justify-between p-2",
+    containerClasses,
+  ]}
+>
+  <h1
+    class:list={[
+      "whitespace-nowrap text-center font-normal tracking-tight",
+      fontClasses,
+    ]}
+  >
+    <a href="/">
+      <LinkDropText link={text.link} drop={text.drop} />
+    </a>
+  </h1>
+  {
+    mode !== "none" && (
+      <nav class="flex gap-2">
+        {mode === "public" && <PublicNav allowSignUp={allowSignUp} />}
+        {mode === "user" && <UserNav />}
+      </nav>
+    )
+  }
+</header>

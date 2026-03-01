@@ -97,7 +97,14 @@ if (!user) return new Response("Not Found", { status: 404 });
         </div>
         <p class="text-center text-sm">
           <Goose client:load>
-            <Image src={goose} alt="" width={48} height={48} />
+            <Image
+              src={goose}
+              alt=""
+              width={48}
+              height={48}
+              quality={100}
+              densities={[1, 2, 3]}
+            />
           </Goose>
         </p>
       </div>

@@ -35,7 +35,6 @@ export interface LinkFormProps {
   };
   onSubmit?: React.FormEventHandler<HTMLFormElement>;
   currentLinkId?: string;
-  csrfToken?: string;
 }
 
 export default function LinkForm({
@@ -46,7 +45,6 @@ export default function LinkForm({
   i18n,
   onSubmit,
   currentLinkId,
-  csrfToken,
 }: LinkFormProps) {
   const [tagsData, setTagsData] = useState<TagsLoaderData | null>(null);
   const [duplicateData, setDuplicateData] =
@@ -220,7 +218,6 @@ export default function LinkForm({
           </>
         ) : null}
         <input type="hidden" name="tags" value={encodeStringArray(tagsValue)} />
-        {csrfToken && <input type="hidden" name="__csrf" value={csrfToken} />}
       </div>
 
       <button

@@ -5,11 +5,6 @@ import { safeRedirect, validateEmail } from "~/utils";
 import PublicLayout from "~/layouts/PublicLayout.astro";
 import { ALLOW_EMAIL_JOIN } from "astro:env/server";
 import { checkRateLimit, getClientIp } from "~/lib/util/rateLimit.server";
-import {
-  ensureCsrfToken,
-  csrfCookieHeader,
-  validateCsrf,
-} from "~/lib/util/csrf.server";
 
 // Redirect if already logged in
 const existingUserId = await getUserId(Astro.request);
@@ -33,11 +28,6 @@ let extra: ActionExtra = {};
 let redirectTo = "/links";
 let showTotp = false;
 
-const { token: csrfToken, isNew: csrfIsNew } = ensureCsrfToken(Astro.request);
-if (csrfIsNew) {
-  Astro.response.headers.append("Set-Cookie", csrfCookieHeader(csrfToken));
-}
-
 if (Astro.request.method === "POST") {
   const ip = getClientIp(Astro.request);
   const rateLimit = checkRateLimit(ip, 10, 15 * 60 * 1000);
@@ -49,9 +39,6 @@ if (Astro.request.method === "POST") {
   }
 
   const formData = await Astro.request.formData();
-  if (!validateCsrf(Astro.request, formData)) {
-    return new Response("Forbidden", { status: 403 });
-  }
 
   const email = formData.get("email");
   const password = formData.get("password");
@@ -191,7 +178,6 @@ if (!redirectTo || redirectTo === "/links") redirectTo = searchRedirectTo;
       }
 
       <input type="hidden" name="redirectTo" value={redirectTo} />
-      <input type="hidden" name="__csrf" value={csrfToken} />
       <button
         type="submit"
         class="w-full border border-button-border bg-button px-4 py-2 lowercase text-text hover:bg-button-hover active:bg-button-active"

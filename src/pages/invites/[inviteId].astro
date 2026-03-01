@@ -4,12 +4,7 @@ import { getUserInvite } from "~/lib/models/invites.server";
 import { createUser, getUserByEmail } from "~/lib/models/user.server";
 import { validateEmail } from "~/utils";
 import PublicLayout from "~/layouts/PublicLayout.astro";
-import { LinkDropText } from "~/components/LinkDropText";
-import {
-  ensureCsrfToken,
-  csrfCookieHeader,
-  validateCsrf,
-} from "~/lib/util/csrf.server";
+import LinkDropText from "~/components/LinkDropText.astro";
 
 const { inviteId } = Astro.params;
 
@@ -32,20 +27,12 @@ interface ActionErrors {
 
 let errors: ActionErrors = {};
 
-const { token: csrfToken, isNew: csrfIsNew } = ensureCsrfToken(Astro.request);
-if (csrfIsNew) {
-  Astro.response.headers.append("Set-Cookie", csrfCookieHeader(csrfToken));
-}
-
 if (Astro.request.method === "POST") {
   if (currentUser) {
     errors.submit =
       "You already have an account! Send this link to someone else so they can sign up.";
   } else {
     const formData = await Astro.request.formData();
-    if (!validateCsrf(Astro.request, formData)) {
-      return new Response("Forbidden", { status: 403 });
-    }
 
     const email = formData.get("email");
     const password = formData.get("password");
@@ -148,7 +135,6 @@ if (Astro.request.method === "POST") {
           }
         </div>
       </div>
-      <input type="hidden" name="__csrf" value={csrfToken} />
       <button
         type="submit"
         class="w-full border border-button-border bg-button px-4 py-2 lowercase text-text enabled:hover:bg-button-hover enabled:active:bg-button-active"

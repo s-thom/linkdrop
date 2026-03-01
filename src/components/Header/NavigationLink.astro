@@ -1,0 +1,20 @@
+---
+export interface Props {
+  to: string;
+  end?: boolean;
+}
+
+const { to, end = false } = Astro.props;
+const pathname = Astro.url.pathname;
+const isActive = end ? pathname === to : pathname.startsWith(to);
+---
+
+<a
+  href={to}
+  class:list={[
+    "lowercase text-nav-link underline decoration-1 hover:text-nav-link hover:no-underline active:text-nav-link-active",
+    isActive && "italic text-nav-link-active hover:text-nav-link-active",
+  ]}
+>
+  <slot />
+</a>

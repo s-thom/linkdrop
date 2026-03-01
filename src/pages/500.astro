@@ -1,0 +1,21 @@
+---
+import BigErrorPage from "~/components/BigErrorPage.astro";
+
+interface Props {
+  error: unknown;
+}
+
+const { error } = Astro.props;
+
+let status = 500;
+if (
+  error &&
+  typeof error === "object" &&
+  "status" in error &&
+  typeof error.status === "number"
+) {
+  status = error.status;
+}
+---
+
+<BigErrorPage status={status} />

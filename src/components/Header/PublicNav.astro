@@ -1,0 +1,14 @@
+---
+import NavigationLink from "./NavigationLink.astro";
+
+export interface Props {
+  allowSignUp: boolean;
+}
+
+const { allowSignUp } = Astro.props;
+const isOnLogin = Astro.url.pathname === "/login";
+const showLogin = !isOnLogin || allowSignUp;
+---
+
+{allowSignUp && <NavigationLink to="/join">Sign up</NavigationLink>}
+{showLogin && <NavigationLink to="/login">Log In</NavigationLink>}

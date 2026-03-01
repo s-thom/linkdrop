@@ -4,7 +4,6 @@ import AdminSidebar from "~/components/AdminSidebar.astro";
 import { getAllUnusedInvites } from "~/lib/models/admin.server";
 import { createUserInvite } from "~/lib/models/invites.server";
 import { getUserById } from "~/lib/models/user.server";
-import { ensureCsrfToken } from "~/lib/util/csrf.server";
 
 const userId = Astro.locals.userId!;
 const user = await getUserById(userId);
@@ -12,8 +11,6 @@ const user = await getUserById(userId);
 if (!user || !user.isAdmin) {
   return new Response("Not Found", { status: 404 });
 }
-
-const { token: csrfToken } = ensureCsrfToken(Astro.request);
 
 interface ActionErrors {
   create?: string;
@@ -34,7 +31,6 @@ const invites = await getAllUnusedInvites();
     <main class="flex-1 p-6 md:max-w-xl lg:max-w-2xl flex flex-col gap-4">
       <div>
         <form method="post">
-          <input type="hidden" name="__csrf" value={csrfToken} />
           <button
             type="submit"
             class="w-full border border-button-border px-4 py-2 lowercase text-text hover:bg-button-hover active:bg-button-active"

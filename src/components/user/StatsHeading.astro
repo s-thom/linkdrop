@@ -1,0 +1,65 @@
+---
+import type { User } from "../../../prisma/generated/prisma/client";
+
+interface Props {
+  user: User;
+  numLinks: number;
+}
+
+const { user, numLinks } = Astro.props;
+
+const NUM_LINKS_TEXT: { lessThan: number; text: string; link?: boolean }[] = [
+  { lessThan: -1, text: "I have no idea how you did this." },
+  { lessThan: 0, text: "get started", link: true },
+  { lessThan: 10, text: "Just getting started." },
+  { lessThan: 20, text: "You're getting the hang of this." },
+  { lessThan: 99, text: "Going strong." },
+  { lessThan: 100, text: "100 links saved! This calls for a celebration 🎉" },
+  { lessThan: 200, text: "I hope you've got a good categorisation system." },
+  { lessThan: 999, text: "That's just a few." },
+  { lessThan: 1000, text: "1000!" },
+  { lessThan: 1100, text: "I'm running out of messages to put here." },
+  { lessThan: 1336, text: "That's quite a lot!" },
+  { lessThan: 1337, text: "🕶" },
+  { lessThan: Infinity, text: "That's quite a lot!" },
+];
+
+const numLinksEntry = NUM_LINKS_TEXT.find((f) => f.lessThan >= numLinks)!;
+---
+
+<h2 class="text-2xl font-normal lowercase">
+  Stats for{" "}
+  <a
+    href={`mailto:${user.email}`}
+    target="_blank"
+    rel="noreferrer nofollow"
+    class="text-nav-link underline decoration-1 hover:text-nav-link hover:no-underline active:text-nav-link-active"
+  >
+    {user.email}
+  </a>
+</h2>
+<div>
+  <p>
+    Since starting in{" "}
+    <span>{new Date(user.createdAt).getFullYear()}</span>, you've saved{" "}
+    <span>{numLinks}</span> links in linkdrop.
+  </p>
+  <p>
+    {
+      numLinksEntry.link ? (
+        <span>
+          Let's{" "}
+          <a
+            href="/links/new"
+            class="text-nav-link underline decoration-1 hover:text-nav-link hover:no-underline active:text-nav-link-active"
+          >
+            get started
+          </a>
+          !
+        </span>
+      ) : (
+        numLinksEntry.text
+      )
+    }
+  </p>
+</div>

@@ -4,7 +4,6 @@ import LinkForm from "~/components/LinkForm";
 import { deleteLink, editLink, getSingleLink } from "~/lib/models/link.server";
 import { validateFormData } from "~/lib/util/linkFormData.server";
 import type { FormErrors } from "~/components/LinkForm";
-import { ensureCsrfToken } from "~/lib/util/csrf.server";
 
 const userId = Astro.locals.userId!;
 const { id } = Astro.params;
@@ -17,7 +16,6 @@ if (!link || link.userId !== userId) {
 }
 
 let errors: FormErrors | undefined;
-const { token: csrfToken } = ensureCsrfToken(Astro.request);
 
 if (Astro.request.method === "POST") {
   const formData = await Astro.request.formData();
@@ -52,7 +50,6 @@ if (Astro.request.method === "POST") {
           tags: link.tags.map((t) => t.name),
         }}
         currentLinkId={link.id}
-        csrfToken={csrfToken}
         client:load
       />
       <div class="mt-4 border border-card-error-border bg-card-error p-2">
@@ -61,7 +58,6 @@ if (Astro.request.method === "POST") {
             Danger zone
           </h2>
           <input type="hidden" name="_method" value="delete" />
-          <input type="hidden" name="__csrf" value={csrfToken} />
           <button
             type="submit"
             class="md:1/3 mt-2 w-full border border-button-error-border px-4 py-2 lowercase text-text-error hover:bg-button-error-hover active:bg-button-error-active sm:w-1/2"

@@ -1,9 +1,9 @@
 ---
 import AuthLayout from "~/layouts/AuthLayout.astro";
 import UserSidebar from "~/components/UserSidebar.astro";
-import { CommonLinks } from "~/components/user/CommonLinks";
-import { CommonTags } from "~/components/user/CommonTags";
-import { StatsHeading } from "~/components/user/StatsHeading";
+import CommonLinks from "~/components/user/CommonLinks.astro";
+import CommonTags from "~/components/user/CommonTags.astro";
+import StatsHeading from "~/components/user/StatsHeading.astro";
 import { getUserSummary } from "~/lib/models/user.server";
 import { getUserById } from "~/lib/models/user.server";
 
@@ -20,9 +20,9 @@ const { numLinks, commonTags, commonLinks } = summary;
     <UserSidebar isAdmin={user.isAdmin} />
     <main class="flex-1 p-6 md:max-w-xl lg:max-w-2xl">
       <div class="flex flex-col gap-4">
-        <StatsHeading user={summary.user} numLinks={numLinks} client:load />
-        <CommonTags commonTags={commonTags} client:load />
-        <CommonLinks commonLinks={commonLinks} client:load />
+        <StatsHeading user={summary.user} numLinks={numLinks} />
+        <CommonTags commonTags={commonTags} />
+        <CommonLinks commonLinks={commonLinks} />
         <p class="text-sm">
           More info may come here later. If you have ideas, you can suggest them
           by{" "}

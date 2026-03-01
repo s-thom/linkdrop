@@ -1,0 +1,14 @@
+---
+export interface Props {
+  link?: string;
+  drop?: string;
+}
+
+const { link = "link", drop = "drop" } = Astro.props;
+---
+
+<span class="italic">
+  <span>{link}</span><span
+    class="inline-block translate-y-[0.06em] rotate-heading">{drop}</span
+  >
+</span>

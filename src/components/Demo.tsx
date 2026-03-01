@@ -129,6 +129,7 @@ export default function Demo({ direction = "row" }: DemoProps) {
           <ul className="flex flex-wrap gap-2 py-2">
             {tagsValue.map((tag) => (
               <Tag
+                component="span"
                 key={tag}
                 name={tag}
                 state={inferTagStateFromName(tag) ?? "active"}
@@ -149,6 +150,7 @@ export default function Demo({ direction = "row" }: DemoProps) {
             <ul className="flex flex-wrap gap-2 py-2">
               {remainingCommonTags.map((tag) => (
                 <Tag
+                  component="span"
                   key={tag}
                   name={tag}
                   state="inactive"

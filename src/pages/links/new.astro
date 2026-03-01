@@ -5,12 +5,10 @@ import { createLink } from "~/lib/models/link.server";
 import { validateFormData } from "~/lib/util/linkFormData.server";
 import { decodeStringArray } from "~/lib/util/stringArray";
 import type { FormErrors } from "~/components/LinkForm";
-import { ensureCsrfToken } from "~/lib/util/csrf.server";
 
 const userId = Astro.locals.userId!;
 
 let errors: FormErrors | undefined;
-const { token: csrfToken } = ensureCsrfToken(Astro.request);
 
 if (Astro.request.method === "POST") {
   const formData = await Astro.request.formData();
@@ -61,7 +59,6 @@ if (!initialUrl && initialDescription) {
           description: initialDescription || initialTitle,
           tags: initialTags,
         }}
-        csrfToken={csrfToken}
         client:load
       />
     </main>
