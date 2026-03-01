@@ -3,7 +3,7 @@ kill_signal  = "SIGINT"
 kill_timeout = 5
 
 [env]
-  PORT = "8080"
+  PORT = "4321"
 
 [deploy]
   release_command = "npx prisma migrate deploy"
@@ -13,7 +13,7 @@ kill_timeout = 5
   auto_rollback        = true
 
 [[services]]
-  internal_port        = 8_080
+  internal_port        = 4_321
   processes            = ["app"]
   protocol             = "tcp"
   script_checks        = []
