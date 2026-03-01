@@ -1,8 +1,13 @@
+ARG HOST=0.0.0.0
+ARG PORT=4321
+
 # base node image
 FROM node:24-slim AS base
 
 # set for base and all layer that inherit from it
 ENV NODE_ENV=production
+ENV HOST=${HOST}
+ENV PORT=${PORT}
 
 # Install openssl for Prisma
 RUN apt-get update && apt-get install -y openssl
@@ -49,6 +54,6 @@ COPY --from=build /myapp/dist/server /myapp/dist/server
 COPY --from=build /myapp/dist/client /myapp/dist/client
 ADD . .
 
-EXPOSE 4321
+EXPOSE ${PORT}
 
 CMD ["npm", "start"]
