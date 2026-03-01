@@ -5,3 +5,5 @@
 /.cache
 /public/build
 /build
+/dist
+/coverage
