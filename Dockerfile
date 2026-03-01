@@ -42,11 +42,13 @@ FROM base
 
 WORKDIR /myapp
 
-COPY --from=production-deps /myapp/node_modules /myapp/node_modules
+COPY --from=deps /myapp/node_modules /myapp/node_modules
 
 COPY --from=build /myapp/prisma /myapp/prisma
 COPY --from=build /myapp/dist/server /myapp/dist/server
 COPY --from=build /myapp/dist/client /myapp/dist/client
 ADD . .
+
+EXPOSE 4321
 
 CMD ["npm", "start"]
