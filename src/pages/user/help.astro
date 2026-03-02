@@ -79,6 +79,20 @@ if (!user) return new Response("Not Found", { status: 404 });
             class="mb-2 max-w-3xl border border-card-border bg-card px-4 py-2"
           >
             <h3 class="mb-2 block break-words text-xl font-normal lowercase">
+              Excluding certain tags
+            </h3>
+            <p class="mb-2 break-words">
+              By prefixing a tag with <code>-</code>, only links without that
+              tag will appear in your search results.
+            </p>
+            <p>
+              <Tag component="span" name="-excluded" state="negative" />
+            </p>
+          </section>
+          <section
+            class="mb-2 max-w-3xl border border-card-border bg-card px-4 py-2"
+          >
+            <h3 class="mb-2 block break-words text-xl font-normal lowercase">
               Including certain tags
             </h3>
             <p class="mb-2 break-words">
@@ -93,14 +107,16 @@ if (!user) return new Response("Not Found", { status: 404 });
             class="mb-2 max-w-3xl border border-card-border bg-card px-4 py-2"
           >
             <h3 class="mb-2 block break-words text-xl font-normal lowercase">
-              Excluding certain tags
+              Including vs. normal matching
             </h3>
             <p class="mb-2 break-words">
-              By prefixing a tag with <code>-</code>, only links without that
-              tag will appear in your search results.
+              <code>+</code>-prefixed tags restrict your search to specific
+              groups. You probably won't need to use them often, but they can
+              help when you are searching by multiple overlapping tags.
             </p>
             <p>
-              <Tag component="span" name="-excluded" state="negative" />
+              <Tag component="span" name="+mandatory" state="positive" />
+              <Tag component="span" name="optional" state="active" />
             </p>
           </section>
         </div>
