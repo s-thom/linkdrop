@@ -1,4 +1,5 @@
 ---
+import { ClientRouter } from "astro:transitions";
 import "~/styles/custom.css";
 
 export interface Props {
@@ -71,6 +72,7 @@ const { title = "linkdrop" } = Astro.props;
       data-domains="linkdrop.sthom.kiwi"
       data-website-id="3301ea45-665c-4140-9a64-ac5a9eae2112"
       src="https://stats.sthom.kiwi/script.js"></script>
+    <ClientRouter />
   </head>
   <body class="h-full bg-bg text-text">
     <script src="/themes.js" is:inline></script>

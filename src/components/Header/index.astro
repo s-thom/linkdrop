@@ -8,6 +8,7 @@ export interface Props {
   size: "large" | "small";
   mode: "user" | "public" | "none";
   allowSignUp?: boolean;
+  transitionName?: string;
 }
 
 const {
@@ -15,6 +16,7 @@ const {
   mode,
   allowSignUp = false,
   text = { link: "link", drop: "drop" },
+  transitionName,
 } = Astro.props;
 const fontClasses =
   size === "large" ? "mb-6 text-6xl sm:text-8xl lg:text-9xl" : "text-3xl";
@@ -26,6 +28,7 @@ const containerClasses = size === "large" ? "" : "border-b border-card-border";
     "flex flex-col items-center justify-between p-2",
     containerClasses,
   ]}
+  transition:name={transitionName ?? "header__default"}
 >
   <h1
     class:list={[

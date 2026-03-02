@@ -5,7 +5,7 @@ export interface Props {
 const { isAdmin = false } = Astro.props;
 ---
 
-<aside class="p-6 md:h-full md:w-60 md:pr-0">
+<aside class="p-6 md:h-full md:w-60 md:pr-0" transition:name="user-sidebar">
   <h3 class="text-xl font-normal lowercase">User</h3>
   <nav>
     <ul>

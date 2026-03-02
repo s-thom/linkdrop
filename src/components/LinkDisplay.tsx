@@ -26,12 +26,16 @@ export default function LinkDisplay({
   const shouldShowIcons = canShare || canEdit;
 
   return (
-    <div className="mb-2 max-w-3xl border border-card-border bg-card px-4 py-2">
+    <div
+      className="mb-2 max-w-3xl border border-card-border bg-card px-4 py-2"
+      style={{ viewTransitionName: `link-${link.id}` }}
+    >
       <a
         href={link.url}
         target="_blank"
         rel="noreferrer nofollow"
         className="mb-2 block break-words text-xl font-normal text-link visited:text-link-visited hover:underline active:text-link-active visited:active:text-link-active sm:text-2xl"
+        style={{ viewTransitionName: `link-${link.id}-link` }}
         onClick={onLinkClick}
       >
         {link.url}
@@ -39,13 +43,19 @@ export default function LinkDisplay({
       <div className="flex">
         <div className="w-0 flex-1">
           {link.description && (
-            <p className="mb-2 overflow-hidden text-ellipsis break-words">
+            <p
+              className="mb-2 overflow-hidden text-ellipsis break-words"
+              style={{ viewTransitionName: `link-${link.id}-description` }}
+            >
               {link.description}
             </p>
           )}
           <ul className="flex flex-wrap gap-2">
             {link.tags.map((tag) => (
-              <li key={tag.id}>
+              <li
+                key={tag.id}
+                style={{ viewTransitionName: `link-${link.id}-tag-${tag.id}` }}
+              >
                 <TagComponent
                   component="button"
                   name={tag.name}

@@ -113,23 +113,25 @@ if (!user) return new Response("Not Found", { status: 404 });
 </AuthLayout>
 
 <script>
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  let deferredPrompt: any = null;
-  window.addEventListener("beforeinstallprompt", (e) => {
-    e.preventDefault();
-    deferredPrompt = e;
-    const section = document.getElementById("pwa-install-section");
-    if (section) section.classList.remove("hidden");
-  });
-
-  const btn = document.getElementById("pwa-install-btn");
-  if (btn) {
-    btn.addEventListener("click", async () => {
-      if (deferredPrompt) {
-        deferredPrompt.prompt();
-        await deferredPrompt.userChoice;
-        deferredPrompt = null;
-      }
+  document.addEventListener("astro:page-load", () => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    let deferredPrompt: any = null;
+    window.addEventListener("beforeinstallprompt", (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      const section = document.getElementById("pwa-install-section");
+      if (section) section.classList.remove("hidden");
     });
-  }
+
+    const btn = document.getElementById("pwa-install-btn");
+    if (btn) {
+      btn.addEventListener("click", async () => {
+        if (deferredPrompt) {
+          deferredPrompt.prompt();
+          await deferredPrompt.userChoice;
+          deferredPrompt = null;
+        }
+      });
+    }
+  });
 </script>

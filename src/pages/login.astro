@@ -110,6 +110,7 @@ if (!redirectTo || redirectTo === "/links") redirectTo = searchRedirectTo;
             aria-invalid={errors.email ? "true" : undefined}
             aria-describedby="email-error"
             class="w-full border border-input-border bg-input px-2 py-1 text-lg"
+            transition:persist="login-email"
           />
           {
             errors.email && (
@@ -137,6 +138,7 @@ if (!redirectTo || redirectTo === "/links") redirectTo = searchRedirectTo;
             aria-invalid={errors.password ? "true" : undefined}
             aria-describedby="password-error"
             class="w-full border border-input-border bg-input px-2 py-1 text-lg"
+            transition:persist="login-password"
           />
           {
             errors.password && (

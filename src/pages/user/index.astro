@@ -122,21 +122,23 @@ if (!user) return new Response("Not Found", { status: 404 });
 </AuthLayout>
 
 <script>
-  const THEME_KEY = "linkdrop-theme";
-  const form = document.getElementById("theme-form") as HTMLFormElement;
-  if (form) {
-    const saved = localStorage.getItem(THEME_KEY) ?? "auto";
-    const input = form.querySelector<HTMLInputElement>(
-      `input[value="${saved}"]`,
-    );
-    if (input) input.checked = true;
+  document.addEventListener("astro:page-load", () => {
+    const THEME_KEY = "linkdrop-theme";
+    const form = document.getElementById("theme-form") as HTMLFormElement;
+    if (form) {
+      const saved = localStorage.getItem(THEME_KEY) ?? "auto";
+      const input = form.querySelector<HTMLInputElement>(
+        `input[value="${saved}"]`,
+      );
+      if (input) input.checked = true;
 
-    form.addEventListener("change", (e) => {
-      const target = e.target as HTMLInputElement;
-      if (target.name === "theme") {
-        localStorage.setItem(THEME_KEY, target.value);
-        document.body.dataset.theme = target.value;
-      }
-    });
-  }
+      form.addEventListener("change", (e) => {
+        const target = e.target as HTMLInputElement;
+        if (target.name === "theme") {
+          localStorage.setItem(THEME_KEY, target.value);
+          document.body.dataset.theme = target.value;
+        }
+      });
+    }
+  });
 </script>
