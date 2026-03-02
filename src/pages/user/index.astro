@@ -21,9 +21,8 @@ if (!user) return new Response("Not Found", { status: 404 });
             target="_blank"
             rel="noreferrer nofollow"
             class="text-nav-link underline decoration-1 hover:text-nav-link hover:no-underline active:text-nav-link-active"
-          >
-            {user.email}
-          </a>.
+            >{user.email}</a
+          >.
         </h2>
         <h3 class="text-2xl font-normal lowercase">Settings</h3>
         <div

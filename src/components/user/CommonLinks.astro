@@ -35,18 +35,20 @@ const { commonLinks } = Astro.props;
 </section>
 
 <script>
-  document
-    .querySelectorAll<HTMLAnchorElement>("a.common-link-link")
-    .forEach((link) => {
-      link.addEventListener("click", () => {
-        const linkId = link.dataset.linkId;
-        if (!linkId) {
-          return;
-        }
+  document.addEventListener("astro:page-load", () => {
+    document
+      .querySelectorAll<HTMLAnchorElement>("a.common-link-link")
+      .forEach((link) => {
+        link.addEventListener("click", () => {
+          const linkId = link.dataset.linkId;
+          if (!linkId) {
+            return;
+          }
 
-        const formData = new FormData();
-        formData.append("type", "click");
-        navigator.sendBeacon(`/links/${linkId}/on`, formData);
+          const formData = new FormData();
+          formData.append("type", "click");
+          navigator.sendBeacon(`/links/${linkId}/on`, formData);
+        });
       });
-    });
+  });
 </script>

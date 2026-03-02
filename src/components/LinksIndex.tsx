@@ -1,10 +1,11 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import SearchForm from "./SearchForm";
 import LinkDisplay, { type LinkWithTags } from "./LinkDisplay";
 import {
   useSearchFormState,
   formValuesToSearchParams,
 } from "~/lib/util/useSearchFormState";
+import { useEventCallback } from "~/lib/util/analytics";
 
 interface Props {
   initialLinks: LinkWithTags[];
@@ -21,6 +22,19 @@ export default function LinksIndex({
   const [links, setLinks] = useState<LinkWithTags[]>(initialLinks);
   const [commonTags, setCommonTags] = useState<string[]>(initialCommonTags);
   const hasMounted = useRef(false);
+  const sendLinkClick = useEventCallback({
+    name: "link",
+    data: { type: "click" },
+  });
+  const onLinkClick = useCallback(
+    (linkId: string) => {
+      const formData = new FormData();
+      formData.append("type", "click");
+      navigator.sendBeacon(`/links/${linkId}/on`, formData);
+      sendLinkClick();
+    },
+    [sendLinkClick],
+  );
 
   useEffect(() => {
     // Skip the initial mount — SSR already fetched with the correct params.
@@ -61,6 +75,7 @@ export default function LinksIndex({
                   canShare
                   canEdit={userId === link.userId}
                   onTagClick={addTag}
+                  onLinkClick={() => onLinkClick(link.id)}
                 />
               </li>
             ))}
