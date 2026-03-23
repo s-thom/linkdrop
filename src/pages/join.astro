@@ -1,10 +1,10 @@
 ---
-import { createUserSession, getUserId } from "~/lib/session";
-import { createUser, getUserByEmail } from "~/lib/models/user.server";
-import { safeRedirect, validateEmail } from "~/utils";
+import { ALLOW_EMAIL_JOIN } from "astro:env/server";
 import PublicLayout from "~/layouts/PublicLayout.astro";
-import { ALLOW_EMAIL_JOIN, SUPERUSER_SECRET } from "astro:env/server";
+import { createUser, getUserByEmail } from "~/lib/models/user.server";
+import { createUserSession, getUserId } from "~/lib/session";
 import { checkRateLimit, getClientIp } from "~/lib/util/rateLimit.server";
+import { safeRedirect, validateEmail } from "~/utils";
 
 const userId = await getUserId(Astro.request);
 if (userId) return Astro.redirect("/");
@@ -32,10 +32,9 @@ if (Astro.request.method === "POST") {
 
   const email = formData.get("email");
   const password = formData.get("password");
-  const superuserSecret = formData.get("__");
   const redirectTo = safeRedirect(formData.get("redirectTo"), "/");
 
-  if (!ALLOW_EMAIL_JOIN && superuserSecret !== SUPERUSER_SECRET) {
+  if (!ALLOW_EMAIL_JOIN) {
     errors.email = "Sign up is not enabled";
   } else if (!validateEmail(email)) {
     errors.email = "Email is invalid";
@@ -131,7 +130,6 @@ const searchRedirectTo =
         </div>
       </div>
       <input type="hidden" name="redirectTo" value={searchRedirectTo} />
-      <input type="hidden" name="__" value="" />
       <button
         type="submit"
         class="w-full border border-button-border bg-button px-4 py-2 lowercase text-text hover:bg-button-hover active:bg-button-active"
