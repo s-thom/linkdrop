@@ -25,7 +25,6 @@
     "resolveJsonModule": true,
     "target": "es2023",
     "strict": true,
-    "baseUrl": ".",
     "paths": {
       "~/*": ["./src/*"]
     },
