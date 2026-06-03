@@ -20,7 +20,7 @@ jobs:
         uses: s-thom/create-robots-txt-action@v1
         with:
           output-file: public/robots.txt
-          input-file: app/base-robots.txt
+          input-file: src/base-robots.txt
           append-allow-rule: false
           allowed-bot-names: |
             Chrome-Lighthouse
