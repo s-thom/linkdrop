@@ -18,10 +18,3 @@ updates:
       all:
         patterns:
           - "*"
-  - package-ecosystem: "docker"
-    directory: "/"
-    schedule:
-      interval: "weekly"
-      day: "monday"
-      time: "17:30"
-      timezone: "Pacific/Auckland"
