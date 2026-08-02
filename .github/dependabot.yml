@@ -8,6 +8,12 @@ updates:
       day: "monday"
       time: "17:30"
       timezone: "Pacific/Auckland"
+    groups:
+      all:
+        patterns:
+          - "*"
+    cooldown:
+      default-days: 7
   - package-ecosystem: "npm"
     directory: "/"
     schedule:
@@ -18,3 +24,5 @@ updates:
       all:
         patterns:
           - "*"
+    cooldown:
+      default-days: 7

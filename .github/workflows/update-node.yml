@@ -14,7 +14,9 @@ jobs:
       pull-requests: write
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
 
       - name: Update node
         id: node-version
@@ -26,18 +28,24 @@ jobs:
           echo "major=$major" >> $GITHUB_OUTPUT
 
       - name: Update .node-version
-        run: echo "v${{ steps.node-version.outputs.latest }}" > .node-version
+        run: echo "v${STEPS_NODE_VERSION_OUTPUTS_LATEST}" > .node-version
+        env:
+          STEPS_NODE_VERSION_OUTPUTS_LATEST: ${{ steps.node-version.outputs.latest }}
 
       - name: Update @types/node package
         if: hashFiles('tsconfig.json') != ''
-        run: npm install --save-dev @types/node@${{ steps.node-version.outputs.major }}
+        run: npm install --save-dev @types/node@${STEPS_NODE_VERSION_OUTPUTS_MAJOR}
+        env:
+          STEPS_NODE_VERSION_OUTPUTS_MAJOR: ${{ steps.node-version.outputs.major }}
 
       - name: Update Dockerfile
         if: hashFiles('Dockerfile') != ''
-        run: sed -i "s/FROM node:[0-9]*-/FROM node:${{ steps.node-version.outputs.major }}-/g" Dockerfile
+        run: sed -i "s/FROM node:[0-9]*-/FROM node:${STEPS_NODE_VERSION_OUTPUTS_MAJOR}-/g" Dockerfile
+        env:
+          STEPS_NODE_VERSION_OUTPUTS_MAJOR: ${{ steps.node-version.outputs.major }}
 
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v8
+        uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8.1.1
         with:
           add-paths: |
             .node-version
