@@ -2,7 +2,7 @@ ARG HOST=0.0.0.0
 ARG PORT=4321
 
 # base node image
-FROM node:24-slim AS base
+FROM node:26-slim AS base
 
 # set for base and all layer that inherit from it
 ENV NODE_ENV=production
