@@ -4,6 +4,7 @@ import { createLink, doMockSearch } from "~/lib/util/mock";
 import { inferTagStateFromName, useTagsInput } from "~/lib/util/useTagsInput";
 import type { LinkWithTags } from "./LinkDisplay";
 import LinkDisplay from "./LinkDisplay";
+import styles from "./Demo.module.css";
 import Tag from "./Tag";
 
 const EXAMPLE_TAGS = ["what", "who", "why"];
@@ -117,16 +118,13 @@ export default function Demo({ direction = "row" }: DemoProps) {
   });
 
   return (
-    <div className={`flex flex-col md:flex-${direction} md:justify-center`}>
-      <aside className="p-6 md:h-full md:w-80 md:pr-0">
-        <label
-          htmlFor="_tag_entry"
-          className="block text-sm font-medium lowercase text-label"
-        >
+    <div className={direction === "row" ? "page-layout" : styles.stacked}>
+      <aside className="sidebar wide">
+        <label htmlFor="_tag_entry" className="label">
           Tags
         </label>
         {tagsValue.length ? (
-          <ul className="flex flex-wrap gap-2 py-2">
+          <ul className="tag-list padded">
             {tagsValue.map((tag) => (
               <Tag
                 component="span"
@@ -139,15 +137,15 @@ export default function Demo({ direction = "row" }: DemoProps) {
             ))}
           </ul>
         ) : (
-          <p className="py-2 text-sm text-text-diminished">No tags entered</p>
+          <p className="no-tags">No tags entered</p>
         )}
-        <div className="mt-1">{input}</div>
+        {input}
         {remainingCommonTags.length ? (
           <>
-            <span className="block text-sm font-medium lowercase text-text-diminished">
+            <span className="label diminished">
               Some tags to get you started
             </span>
-            <ul className="flex flex-wrap gap-2 py-2">
+            <ul className="tag-list padded">
               {remainingCommonTags.map((tag) => (
                 <Tag
                   component="span"
@@ -163,7 +161,7 @@ export default function Demo({ direction = "row" }: DemoProps) {
         ) : null}
       </aside>
 
-      <main className="flex-1 p-6 md:max-w-xl lg:max-w-2xl">
+      <main className="page-main">
         <ul>
           {links.map((link) => (
             <li key={link.id}>

@@ -90,16 +90,13 @@ if (!redirectTo || redirectTo === "/links") redirectTo = searchRedirectTo;
 ---
 
 <PublicLayout title="Log In" allowSignUp={allowSignUp}>
-  <div class="mx-auto w-full max-w-md px-8">
-    <form method="post" class="space-y-6" novalidate>
+  <div class="form-container">
+    <form method="post" class="form-stack" novalidate>
       <div>
-        <label
-          for="email"
-          class="block text-sm font-medium lowercase text-label"
-        >
+        <label for="email" class="label">
           Email address
         </label>
-        <div class="mt-1">
+        <div>
           <input
             id="email"
             required
@@ -109,27 +106,22 @@ if (!redirectTo || redirectTo === "/links") redirectTo = searchRedirectTo;
             autocomplete="email"
             aria-invalid={errors.email ? "true" : undefined}
             aria-describedby="email-error"
-            class="w-full border border-input-border bg-input px-2 py-1 text-lg"
+            class="input"
             transition:persist="login-email"
           />
-          {
-            errors.email && (
-              <div class="pt-1 text-text-error" id="email-error">
-                {errors.email}
-              </div>
-            )
-          }
+          {errors.email && (
+            <div class="field-error" id="email-error">
+              {errors.email}
+            </div>
+          )}
         </div>
       </div>
 
       <div>
-        <label
-          for="password"
-          class="block text-sm font-medium lowercase text-label"
-        >
+        <label for="password" class="label">
           Password
         </label>
-        <div class="mt-1">
+        <div>
           <input
             id="password"
             name="password"
@@ -137,69 +129,77 @@ if (!redirectTo || redirectTo === "/links") redirectTo = searchRedirectTo;
             autocomplete="current-password"
             aria-invalid={errors.password ? "true" : undefined}
             aria-describedby="password-error"
-            class="w-full border border-input-border bg-input px-2 py-1 text-lg"
+            class="input"
             transition:persist="login-password"
           />
-          {
-            errors.password && (
-              <div class="pt-1 text-text-error" id="password-error">
-                {errors.password}
-              </div>
-            )
-          }
+          {errors.password && (
+            <div class="field-error" id="password-error">
+              {errors.password}
+            </div>
+          )}
         </div>
       </div>
 
-      {
-        (showTotp || extra.totp) && (
+      {(showTotp || extra.totp) && (
+        <div>
+          <label for="totp" class="label">
+            Authenticator Code
+          </label>
           <div>
-            <label
-              for="totp"
-              class="block text-sm font-medium lowercase text-label"
-            >
-              Authenticator Code
-            </label>
-            <div class="mt-1">
-              <input
-                id="totp"
-                name="totp"
-                type="text"
-                autocomplete="one-time-code"
-                aria-invalid={errors.totp ? "true" : undefined}
-                aria-describedby="totp-error"
-                class="w-full border border-input-border bg-input px-2 py-1 text-lg"
-              />
-              {errors.totp && (
-                <div class="pt-1 text-text-error" id="totp-error">
-                  {errors.totp}
-                </div>
-              )}
-            </div>
+            <input
+              id="totp"
+              name="totp"
+              type="text"
+              autocomplete="one-time-code"
+              aria-invalid={errors.totp ? "true" : undefined}
+              aria-describedby="totp-error"
+              class="input"
+            />
+            {errors.totp && (
+              <div class="field-error" id="totp-error">
+                {errors.totp}
+              </div>
+            )}
           </div>
-        )
-      }
+        </div>
+      )}
 
       <input type="hidden" name="redirectTo" value={redirectTo} />
-      <button
-        type="submit"
-        class="w-full border border-button-border bg-button px-4 py-2 lowercase text-text hover:bg-button-hover active:bg-button-active"
-      >
+      <button type="submit" class="button">
         Log in
       </button>
-      <div class="flex items-center justify-between">
-        <div class="flex items-center">
+      <div>
+        <div class="remember">
           <input
             id="remember"
             name="remember"
             type="checkbox"
-            class="h-4 w-4 border-input-border text-blue-600 focus:ring-blue-500"
             transition:persist="login-remember"
           />
-          <label for="remember" class="ml-2 block text-sm lowercase text-label">
-            Remember me
-          </label>
+          <label for="remember">Remember me</label>
         </div>
       </div>
     </form>
   </div>
 </PublicLayout>
+
+<style>
+  .remember {
+    display: flex;
+    align-items: center;
+  }
+
+  .remember input {
+    width: 1rem;
+    height: 1rem;
+  }
+
+  .remember label {
+    display: block;
+    margin-left: var(--space-2);
+    font-size: var(--font-size-small);
+    line-height: var(--line-height-small);
+    text-transform: lowercase;
+    color: var(--color-label);
+  }
+</style>

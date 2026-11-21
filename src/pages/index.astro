@@ -10,34 +10,31 @@ const allowSignUp = ALLOW_EMAIL_JOIN;
 ---
 
 <BaseLayout title="linkdrop">
-  <div class="flex min-h-full flex-col justify-center px-2 sm:pb-16 sm:pt-8">
-    <div
-      class={`flex flex-col justify-center ${userId ? "min-h-full" : "min-h-[85vh]"}`}
-    >
+  <div class="public-page home">
+    <div class:list={["intro", { "logged-out": !userId }]}>
       <Header
         size="large"
         mode={userId ? "user" : "public"}
         allowSignUp={allowSignUp}
       />
-      <main
-        class="mx-auto flex max-w-7xl flex-col items-center gap-4 sm:px-6 lg:px-8"
-      >
-        <p class="mx-auto max-w-lg text-center text-xl lowercase sm:max-w-3xl">
+      <main>
+        <p class="lead">
           An application to drop interesting links from around the internet.
           <br />a small project by{" "}
           <a
             href="https://sthom.kiwi"
             target="_blank"
             rel="noreferrer nofollow"
-            class="text-nav-link underline decoration-1 hover:text-nav-link hover:no-underline active:text-nav-link-active"
+            class="nav-link"
           >
             Stuart Thomson
-          </a>.{" "}
+          </a>
+          .{" "}
           <a
             href="https://github.com/s-thom/linkdrop"
             target="_blank"
             rel="noreferrer nofollow"
-            class="text-center lowercase text-nav-link underline decoration-1 hover:text-nav-link hover:no-underline active:text-nav-link-active"
+            class="nav-link"
           >
             (Source code)
           </a>
@@ -45,18 +42,74 @@ const allowSignUp = ALLOW_EMAIL_JOIN;
       </main>
     </div>
 
-    {
-      !userId && (
-        <aside class="mx-auto inline-block w-full max-w-lg sm:max-w-4xl">
-          <hr class="my-4" />
-          <p class="text-center lowercase">
-            {allowSignUp
-              ? "Before signing up, you can get the idea with a little demo"
-              : "Signing up is currently disabled, but you can get the idea with a little demo"}
-          </p>
-          <Demo client:load />
-        </aside>
-      )
-    }
+    {!userId && (
+      <aside>
+        <hr />
+        <p class="demo-intro">
+          {allowSignUp
+            ? "Before signing up, you can get the idea with a little demo"
+            : "Signing up is currently disabled, but you can get the idea with a little demo"}
+        </p>
+        <Demo client:load />
+      </aside>
+    )}
   </div>
 </BaseLayout>
+
+<style>
+  .home {
+    padding-inline: var(--space-2);
+  }
+
+  .intro {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 100%;
+  }
+
+  .intro.logged-out {
+    min-height: 85vh;
+  }
+
+  main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-4);
+    max-width: 80rem;
+    margin-inline: auto;
+  }
+
+  aside {
+    display: inline-block;
+    width: 100%;
+    max-width: 32rem;
+    margin-inline: auto;
+  }
+
+  hr {
+    margin-block: var(--space-4);
+  }
+
+  .demo-intro {
+    text-align: center;
+    text-transform: lowercase;
+  }
+
+  @media (min-width: 640px) {
+    main {
+      padding-inline: var(--space-6);
+    }
+
+    aside {
+      max-width: 56rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    main {
+      padding-inline: var(--space-8);
+    }
+  }
+</style>

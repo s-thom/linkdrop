@@ -55,8 +55,8 @@ export default function LinksIndex({
   const activeTags = values.tags.map((t) => t.replace(/^[-+]/, ""));
 
   return (
-    <div className="flex flex-col md:flex-row md:justify-center">
-      <aside className="p-6 md:h-full md:w-80 md:pr-0">
+    <div className="page-layout">
+      <aside className="sidebar wide">
         <SearchForm
           commonTags={commonTags}
           values={values}
@@ -64,7 +64,7 @@ export default function LinksIndex({
           removeTag={removeTag}
         />
       </aside>
-      <main className="flex-1 p-6 md:max-w-xl lg:max-w-2xl">
+      <main className="page-main">
         {links.length ? (
           <ul>
             {links.map((link) => (
@@ -82,15 +82,10 @@ export default function LinksIndex({
           </ul>
         ) : (
           <div>
-            <p className="mx-auto max-w-lg text-center text-xl lowercase sm:max-w-3xl">
-              You haven't added any links yet.
-            </p>
-            <p className="mx-auto max-w-lg text-center text-xl lowercase sm:max-w-3xl">
+            <p className="lead">You haven't added any links yet.</p>
+            <p className="lead">
               Click the{" "}
-              <a
-                href="/links/new"
-                className="text-nav-link underline decoration-1 hover:text-nav-link hover:no-underline active:text-nav-link-active"
-              >
+              <a href="/links/new" className="nav-link">
                 New link
               </a>{" "}
               link above to get started.

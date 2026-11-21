@@ -7,8 +7,19 @@ export interface Props {
 const { link = "link", drop = "drop" } = Astro.props;
 ---
 
-<span class="italic">
-  <span>{link}</span><span
-    class="inline-block translate-y-[0.06em] rotate-heading">{drop}</span
-  >
+<span class="link-drop">
+  <span>{link}</span>
+  <span class="drop">{drop}</span>
 </span>
+
+<style>
+  .link-drop {
+    font-style: italic;
+  }
+
+  .drop {
+    display: inline-block;
+    translate: 0 0.06em;
+    rotate: 5deg;
+  }
+</style>

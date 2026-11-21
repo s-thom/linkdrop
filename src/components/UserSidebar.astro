@@ -5,78 +5,59 @@ export interface Props {
 const { isAdmin = false } = Astro.props;
 ---
 
-<aside class="p-6 md:h-full md:w-60 md:pr-0" transition:name="user-sidebar">
-  <h3 class="text-xl font-normal lowercase">User</h3>
+<aside class="sidebar" transition:name="user-sidebar">
+  <h3 class="section-title">User</h3>
   <nav>
     <ul>
       <li>
-        <a
-          href="/user"
-          class="lowercase text-nav-link underline decoration-1 hover:text-nav-link hover:no-underline active:text-nav-link-active"
-        >
+        <a href="/user" class="nav-link">
           Profile & Settings
         </a>
       </li>
       <li>
-        <a
-          href="/user/account"
-          class="lowercase text-nav-link underline decoration-1 hover:text-nav-link hover:no-underline active:text-nav-link-active"
-        >
+        <a href="/user/account" class="nav-link">
           Account & Security
         </a>
       </li>
       <li>
-        <a
-          href="/user/tags"
-          class="lowercase text-nav-link underline decoration-1 hover:text-nav-link hover:no-underline active:text-nav-link-active"
-        >
+        <a href="/user/tags" class="nav-link">
           Tags
         </a>
       </li>
       <li>
-        <a
-          href="/user/stats"
-          class="lowercase text-nav-link underline decoration-1 hover:text-nav-link hover:no-underline active:text-nav-link-active"
-        >
+        <a href="/user/stats" class="nav-link">
           Stats
         </a>
       </li>
       <li>
-        <a
-          href="/user/help"
-          class="lowercase text-nav-link underline decoration-1 hover:text-nav-link hover:no-underline active:text-nav-link-active"
-        >
+        <a href="/user/help" class="nav-link">
           Help
         </a>
       </li>
       <li>
-        <a
-          href="/user/extras"
-          class="lowercase text-nav-link underline decoration-1 hover:text-nav-link hover:no-underline active:text-nav-link-active"
-        >
+        <a href="/user/extras" class="nav-link">
           Extras
         </a>
       </li>
-      {
-        isAdmin && (
-          <li>
-            <a
-              href="/admin"
-              class="lowercase text-nav-link underline decoration-1 hover:text-nav-link hover:no-underline active:text-nav-link-active"
-            >
-              Admin
-            </a>
-          </li>
-        )
-      }
+      {isAdmin && (
+        <li>
+          <a href="/admin" class="nav-link">
+            Admin
+          </a>
+        </li>
+      )}
     </ul>
-    <form action="/logout" method="post" class="mt-6 inline-block items-center">
-      <button
-        type="submit"
-        class="w-full border border-button-border bg-button px-4 py-2 lowercase text-text hover:bg-button-hover active:bg-button-active"
-      >
+    <form action="/logout" method="post" class="logout">
+      <button type="submit" class="button">
         Log out
       </button>
     </form>
   </nav>
 </aside>
+
+<style>
+  .logout {
+    display: inline-block;
+    margin-top: var(--space-6);
+  }
+</style>

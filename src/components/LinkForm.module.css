@@ -1,0 +1,8 @@
+.duplicate-link {
+  padding: var(--space-1);
+  color: var(--color-nav-link);
+}
+
+.duplicate-link:active {
+  color: var(--color-nav-link-active);
+}

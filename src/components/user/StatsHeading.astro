@@ -27,39 +27,33 @@ const NUM_LINKS_TEXT: { lessThan: number; text: string; link?: boolean }[] = [
 const numLinksEntry = NUM_LINKS_TEXT.find((f) => f.lessThan >= numLinks)!;
 ---
 
-<h2 class="text-2xl font-normal lowercase">
+<h2 class="page-title">
   Stats for{" "}
   <a
     href={`mailto:${user.email}`}
     target="_blank"
     rel="noreferrer nofollow"
-    class="text-nav-link underline decoration-1 hover:text-nav-link hover:no-underline active:text-nav-link-active"
+    class="nav-link"
   >
     {user.email}
   </a>
 </h2>
 <div>
   <p>
-    Since starting in{" "}
-    <span>{new Date(user.createdAt).getFullYear()}</span>, you've saved{" "}
-    <span>{numLinks}</span> links in linkdrop.
+    Since starting in <span>{new Date(user.createdAt).getFullYear()}</span>,
+    you've saved <span>{numLinks}</span> links in linkdrop.
   </p>
   <p>
-    {
-      numLinksEntry.link ? (
-        <span>
-          Let's{" "}
-          <a
-            href="/links/new"
-            class="text-nav-link underline decoration-1 hover:text-nav-link hover:no-underline active:text-nav-link-active"
-          >
-            get started
-          </a>
-          !
-        </span>
-      ) : (
-        numLinksEntry.text
-      )
-    }
+    {numLinksEntry.link ? (
+      <span>
+        Let's{" "}
+        <a href="/links/new" class="nav-link">
+          get started
+        </a>
+        !
+      </span>
+    ) : (
+      numLinksEntry.text
+    )}
   </p>
 </div>

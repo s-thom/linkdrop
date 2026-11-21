@@ -11,43 +11,33 @@ if (!user) return new Response("Not Found", { status: 404 });
 ---
 
 <AuthLayout title="Help">
-  <div class="flex flex-col md:flex-row md:justify-center">
+  <div class="page-layout">
     <UserSidebar isAdmin={user.isAdmin} />
-    <main class="flex-1 p-6 md:max-w-xl lg:max-w-2xl">
-      <div class="flex flex-col gap-4">
-        <h2 class="text-2xl font-normal lowercase">Concepts</h2>
-        <div
-          class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2"
-        >
-          <section
-            class="mb-2 max-w-3xl border border-card-border bg-card px-4 py-2"
-          >
-            <h3 class="mb-2 block break-words text-xl font-normal lowercase">
-              Links
-            </h3>
-            <p class="mb-2 break-words">
+    <main class="page-main">
+      <div class="stack">
+        <h2 class="page-title">Concepts</h2>
+        <div class="card-grid">
+          <section class="card">
+            <h3 class="section-title">Links</h3>
+            <p>
               linkdrop is all about saving links, and tries to make it as fast
               as possible to both save new ones and find old ones. Do one thing,
               do it well.
             </p>
-            <p class="mb-2 break-words">
+            <p>
               You can also write a quick description of your links when you save
               or edit them. This might often be the title of the page, or
               something else to give you more context.
             </p>
           </section>
-          <section
-            class="mb-2 max-w-3xl border border-card-border bg-card px-4 py-2"
-          >
-            <h3 class="mb-2 block break-words text-xl font-normal lowercase">
-              Tags
-            </h3>
-            <p class="mb-2 break-words">
+          <section class="card">
+            <h3 class="section-title">Tags</h3>
+            <p>
               When adding a new link, you can specify tags to associate with
               that link. These tags can be as specific or generic as you'd like,
               and can be thought of as overlapping categories for the links.
             </p>
-            <p class="mb-2 break-words">
+            <p>
               I'd recommend shorter and easy to remember words for your tags.
               linkdrop is meant to save you time, not cost it.
             </p>
@@ -56,17 +46,11 @@ if (!user) return new Response("Not Found", { status: 404 });
             </p>
           </section>
         </div>
-        <h2 class="text-2xl font-normal lowercase">Searching</h2>
-        <div
-          class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2"
-        >
-          <section
-            class="mb-2 max-w-3xl border border-card-border bg-card px-4 py-2"
-          >
-            <h3 class="mb-2 block break-words text-xl font-normal lowercase">
-              How search works
-            </h3>
-            <p class="mb-2 break-words">
+        <h2 class="page-title">Searching</h2>
+        <div class="card-grid">
+          <section class="card">
+            <h3 class="section-title">How search works</h3>
+            <p>
               When you enter tags to search, linkdrop will find all links that
               match any of the tags you've specified and return them as a list.
             </p>
@@ -75,13 +59,9 @@ if (!user) return new Response("Not Found", { status: 404 });
               <Tag component="span" name="not-matched" state="inactive" />
             </p>
           </section>
-          <section
-            class="mb-2 max-w-3xl border border-card-border bg-card px-4 py-2"
-          >
-            <h3 class="mb-2 block break-words text-xl font-normal lowercase">
-              Excluding certain tags
-            </h3>
-            <p class="mb-2 break-words">
+          <section class="card">
+            <h3 class="section-title">Excluding certain tags</h3>
+            <p>
               By prefixing a tag with <code>-</code>, only links without that
               tag will appear in your search results.
             </p>
@@ -89,13 +69,9 @@ if (!user) return new Response("Not Found", { status: 404 });
               <Tag component="span" name="-excluded" state="negative" />
             </p>
           </section>
-          <section
-            class="mb-2 max-w-3xl border border-card-border bg-card px-4 py-2"
-          >
-            <h3 class="mb-2 block break-words text-xl font-normal lowercase">
-              Including certain tags
-            </h3>
-            <p class="mb-2 break-words">
+          <section class="card">
+            <h3 class="section-title">Including certain tags</h3>
+            <p>
               By prefixing a tag with <code>+</code>, only links with that tag
               will appear in your search results.
             </p>
@@ -103,13 +79,9 @@ if (!user) return new Response("Not Found", { status: 404 });
               <Tag component="span" name="+included" state="positive" />
             </p>
           </section>
-          <section
-            class="mb-2 max-w-3xl border border-card-border bg-card px-4 py-2"
-          >
-            <h3 class="mb-2 block break-words text-xl font-normal lowercase">
-              Including vs. normal matching
-            </h3>
-            <p class="mb-2 break-words">
+          <section class="card">
+            <h3 class="section-title">Including vs. normal matching</h3>
+            <p>
               <code>+</code>-prefixed tags restrict your search to specific
               groups. You probably won't need to use them often, but they can
               help when you are searching by multiple overlapping tags.
@@ -120,9 +92,7 @@ if (!user) return new Response("Not Found", { status: 404 });
             </p>
           </section>
         </div>
-        <h3 class="mb-2 block break-words text-xl font-normal lowercase">
-          Searching demo
-        </h3>
+        <h3 class="section-title">Searching demo</h3>
         <div>
           <Demo direction="column" client:load />
         </div>

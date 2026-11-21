@@ -1,0 +1,126 @@
+:root {
+  color-scheme: light dark;
+
+  --color-link: light-dark(#0000ee, #758ffb);
+  --color-link-visited: light-dark(#551a8b, #a580ee);
+  --color-link-active: light-dark(#ff0000, #ea6976);
+  --color-bg: light-dark(#fafafa, #171717);
+  --color-card: light-dark(#ffffff, #262626);
+  --color-card-border: light-dark(#d4d4d4, #525252);
+  --color-card-error: light-dark(#fef2f2, #171717);
+  --color-card-error-border: light-dark(#ff6467, #e7000b);
+  --color-button: light-dark(#ffffff, #171717);
+  --color-button-hover: light-dark(#f5f5f5, #262626);
+  --color-button-active: light-dark(#e5e5e5, #404040);
+  --color-button-border: light-dark(#000000, #525252);
+  --color-button-error: light-dark(#fef2f2, #82181a);
+  --color-button-error-hover: light-dark(#ffe2e2, #9f0712);
+  --color-button-error-active: light-dark(#ffc9c9, #c10007);
+  --color-button-error-border: light-dark(#ff6467, #e7000b);
+  --color-input: light-dark(#ffffff, #171717);
+  --color-input-border: light-dark(#525252, #404040);
+  --color-icon: light-dark(#a1a1a1, #737373);
+  --color-icon-hover: light-dark(#525252, #a1a1a1);
+  --color-label: light-dark(#404040, #737373);
+  --color-text: light-dark(#000000, #f5f5f5);
+  --color-text-error: light-dark(#9f0712, #ffc9c9);
+  --color-text-warning: #a65f00;
+  --color-text-diminished: #a1a1a1;
+  --color-nav-link: light-dark(#525252, #a1a1a1);
+  --color-nav-link-active: light-dark(#262626, #d4d4d4);
+  --color-tag: light-dark(#e5e5e5, #171717);
+  --color-tag-text: light-dark(#525252, #e5e5e5);
+  --color-tag-border: light-dark(#a1a1a1, #404040);
+  --color-tag-hover: light-dark(#d4d4d4, #262626);
+  --color-tag-active: light-dark(#d4d4d4, #404040);
+  --color-tag-active-text: light-dark(#404040, #fafafa);
+  --color-tag-active-border: #737373;
+  --color-tag-active-hover: light-dark(#a1a1a1, #525252);
+  --color-tag-positive: light-dark(#d8f999, #35530e);
+  --color-tag-positive-text: light-dark(#3d6300, #d8f999);
+  --color-tag-positive-border: light-dark(#9ae600, #497d00);
+  --color-tag-positive-hover: light-dark(#bbf451, #3d6300);
+  --color-tag-negative: light-dark(#ffc9c9, #82181a);
+  --color-tag-negative-text: light-dark(#9f0712, #ffc9c9);
+  --color-tag-negative-border: light-dark(#ff6467, #c10007);
+  --color-tag-negative-hover: light-dark(#ffa2a2, #9f0712);
+
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-4: 1rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-16: 4rem;
+
+  --font-size-small: 0.875rem;
+  --line-height-small: 1.25rem;
+  --font-size-input: 1.125rem;
+  --line-height-input: 1.75rem;
+  --font-size-large: 1.25rem;
+  --line-height-large: 1.75rem;
+  --font-size-title: 1.5rem;
+  --line-height-title: 2rem;
+}
+
+/* Custom properties accept light-dark() even where it's unsupported, so a plain duplicate declaration can't act as a fallback. */
+@supports not (color: light-dark(#000, #fff)) {
+  :root {
+    --color-link: #0000ee;
+    --color-link-visited: #551a8b;
+    --color-link-active: #ff0000;
+    --color-bg: #fafafa;
+    --color-card: #ffffff;
+    --color-card-border: #d4d4d4;
+    --color-card-error: #fef2f2;
+    --color-card-error-border: #ff6467;
+    --color-button: #ffffff;
+    --color-button-hover: #f5f5f5;
+    --color-button-active: #e5e5e5;
+    --color-button-border: #000000;
+    --color-button-error: #fef2f2;
+    --color-button-error-hover: #ffe2e2;
+    --color-button-error-active: #ffc9c9;
+    --color-button-error-border: #ff6467;
+    --color-input: #ffffff;
+    --color-input-border: #525252;
+    --color-icon: #a1a1a1;
+    --color-icon-hover: #525252;
+    --color-label: #404040;
+    --color-text: #000000;
+    --color-text-error: #9f0712;
+    --color-nav-link: #525252;
+    --color-nav-link-active: #262626;
+    --color-tag: #e5e5e5;
+    --color-tag-text: #525252;
+    --color-tag-border: #a1a1a1;
+    --color-tag-hover: #d4d4d4;
+    --color-tag-active: #d4d4d4;
+    --color-tag-active-text: #404040;
+    --color-tag-active-hover: #a1a1a1;
+    --color-tag-positive: #d8f999;
+    --color-tag-positive-text: #3d6300;
+    --color-tag-positive-border: #9ae600;
+    --color-tag-positive-hover: #bbf451;
+    --color-tag-negative: #ffc9c9;
+    --color-tag-negative-text: #9f0712;
+    --color-tag-negative-border: #ff6467;
+    --color-tag-negative-hover: #ffa2a2;
+  }
+}
+
+[data-theme="auto"] {
+  color-scheme: light dark;
+}
+
+[data-theme="light"] {
+  color-scheme: light;
+}
+
+[data-theme="dark"] {
+  color-scheme: dark;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+}

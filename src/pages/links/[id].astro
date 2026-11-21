@@ -15,7 +15,19 @@ if (!link || link.userId !== userId) {
 ---
 
 <AuthLayout title="Link">
-  <div class="mx-auto mt-4 w-full max-w-md px-8 md:max-w-lg">
+  <div class="form-container link-page">
     <LinkDisplay link={link} canEdit={userId === link.userId} />
   </div>
 </AuthLayout>
+
+<style>
+  .link-page {
+    margin-top: var(--space-4);
+  }
+
+  @media (min-width: 768px) {
+    .link-page {
+      max-width: 32rem;
+    }
+  }
+</style>

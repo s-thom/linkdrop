@@ -2,6 +2,7 @@
 import { createLink } from "~/lib/util/mock";
 import Header, { type Props as HeaderProps } from "./Header/index.astro";
 import LinkDisplay from "./LinkDisplay";
+import "~/styles/global.css";
 
 interface Props {
   status: number;
@@ -20,7 +21,7 @@ const MOCK_LINK = createLink(
 );
 ---
 
-<div class="flex min-h-full flex-col justify-center sm:pb-16 sm:pt-8">
+<div class="public-page">
   <Header
     size="large"
     text={SPECIAL_TEXT[status] ?? { link: "err", drop: "or" }}
@@ -28,17 +29,19 @@ const MOCK_LINK = createLink(
   />
 
   <main>
-    <div class="mx-auto w-full max-w-md px-8">
-      <p
-        class="mx-auto mb-4 max-w-lg text-center text-xl lowercase sm:max-w-3xl"
-      >
-        {
-          status === 404
-            ? "Page not found."
-            : `An unknown error occurred (${status}).`
-        }
+    <div class="form-container">
+      <p class="lead error-message">
+        {status === 404
+          ? "Page not found."
+          : `An unknown error occurred (${status}).`}
       </p>
       <LinkDisplay link={MOCK_LINK} />
     </div>
   </main>
 </div>
+
+<style>
+  .error-message {
+    margin-bottom: var(--space-4);
+  }
+</style>

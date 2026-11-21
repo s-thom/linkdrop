@@ -16,26 +16,34 @@ const { numLinks, commonTags, commonLinks } = summary;
 ---
 
 <AuthLayout title="Stats">
-  <div class="flex flex-col md:flex-row md:justify-center">
+  <div class="page-layout">
     <UserSidebar isAdmin={user.isAdmin} />
-    <main class="flex-1 p-6 md:max-w-xl lg:max-w-2xl">
-      <div class="flex flex-col gap-4">
+    <main class="page-main">
+      <div class="stack">
         <StatsHeading user={summary.user} numLinks={numLinks} />
         <CommonTags commonTags={commonTags} />
         <CommonLinks commonLinks={commonLinks} />
-        <p class="text-sm">
+        <p class="footnote">
           More info may come here later. If you have ideas, you can suggest them
           by{" "}
           <a
             href="https://github.com/s-thom/linkdrop/issues/new/choose"
             target="_blank"
             rel="noreferrer nofollow"
-            class="text-nav-link underline decoration-1 hover:text-nav-link hover:no-underline active:text-nav-link-active"
+            class="nav-link"
           >
             creating an issue in GitHub
-          </a>.
+          </a>
+          .
         </p>
       </div>
     </main>
   </div>
 </AuthLayout>
+
+<style>
+  .footnote {
+    font-size: var(--font-size-small);
+    line-height: var(--line-height-small);
+  }
+</style>

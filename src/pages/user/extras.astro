@@ -12,25 +12,19 @@ if (!user) return new Response("Not Found", { status: 404 });
 ---
 
 <AuthLayout title="Extras">
-  <div class="flex flex-col md:flex-row md:justify-center">
+  <div class="page-layout">
     <UserSidebar isAdmin={user.isAdmin} />
-    <main class="flex-1 p-6 md:max-w-xl lg:max-w-2xl">
-      <div class="flex flex-col gap-4">
-        <h2 class="text-2xl font-normal lowercase">Extensions</h2>
-        <div
-          class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2"
-        >
-          <section
-            class="mb-2 max-w-3xl border border-card-border bg-card px-4 py-2"
-          >
-            <h3 class="mb-2 block break-words text-xl font-normal lowercase">
-              Firefox Extension
-            </h3>
-            <p class="mb-2 break-words">
+    <main class="page-main">
+      <div class="stack">
+        <h2 class="page-title">Extensions</h2>
+        <div class="card-grid">
+          <section class="card">
+            <h3 class="section-title">Firefox Extension</h3>
+            <p>
               linkdrop has a companion Firefox extension, which adds a button to
               save the current tab in the extensions menu near your search bar.
             </p>
-            <p class="mb-2 break-words">
+            <p>
               Once installed, open the Extensions menu and pin the extension to
               your toolbar for it to be visible at all times.
             </p>
@@ -38,22 +32,18 @@ if (!user) return new Response("Not Found", { status: 404 });
               href="https://addons.mozilla.org/firefox/addon/linkdrop/"
               target="_blank"
               rel="noreferrer nofollow"
-              class="block w-full border border-button-border px-4 py-2 text-center lowercase text-text hover:bg-button-hover active:bg-button-active"
+              class="button"
             >
               Go to Firefox add-ons
             </a>
           </section>
-          <section
-            class="mb-2 max-w-3xl border border-card-border bg-card px-4 py-2"
-          >
-            <h3 class="mb-2 block break-words text-xl font-normal lowercase">
-              Chrome Extension
-            </h3>
-            <p class="mb-2 break-words">
+          <section class="card">
+            <h3 class="section-title">Chrome Extension</h3>
+            <p>
               linkdrop has a companion Chrome extension, which adds a button to
               save the current tab in the extensions menu near your search bar.
             </p>
-            <p class="mb-2 break-words">
+            <p>
               Once installed, open the Extensions menu and pin the extension to
               your toolbar for it to be visible at all times.
             </p>
@@ -61,41 +51,31 @@ if (!user) return new Response("Not Found", { status: 404 });
               href="https://chrome.google.com/webstore/detail/linkdrop/afcdppbpfiecoomopjpcfmmhcackmpef"
               target="_blank"
               rel="noreferrer nofollow"
-              class="block w-full border border-button-border px-4 py-2 text-center lowercase text-text hover:bg-button-hover active:bg-button-active"
+              class="button"
             >
               Go to Chrome Web Store
             </a>
           </section>
         </div>
-        <div id="pwa-install-section" class="hidden">
-          <h2 class="text-2xl font-normal lowercase">Install</h2>
-          <div
-            class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2"
-          >
-            <section
-              class="mb-2 max-w-3xl border border-card-border bg-card px-4 py-2"
-            >
-              <h3 class="mb-2 block break-words text-xl font-normal lowercase">
-                Install
-              </h3>
-              <p class="mb-2 break-words">
+        <div id="pwa-install-section" hidden>
+          <h2 class="page-title">Install</h2>
+          <div class="card-grid">
+            <section class="card">
+              <h3 class="section-title">Install</h3>
+              <p>
                 linkdrop can be installed to your device as if it were an app.
               </p>
-              <p class="mb-2 break-words">
+              <p>
                 This is most effective on mobile, as it allows you to share
                 links directly to linkdrop from any app in order to save them.
               </p>
-              <button
-                id="pwa-install-btn"
-                type="button"
-                class="w-full border border-button-border px-4 py-2 lowercase text-text hover:bg-button-hover active:bg-button-active"
-              >
+              <button id="pwa-install-btn" type="button" class="button">
                 Install
               </button>
             </section>
           </div>
         </div>
-        <p class="text-center text-sm">
+        <p class="goose">
           <Goose client:load>
             <Image
               src={goose}
@@ -112,6 +92,14 @@ if (!user) return new Response("Not Found", { status: 404 });
   </div>
 </AuthLayout>
 
+<style>
+  .goose {
+    font-size: var(--font-size-small);
+    line-height: var(--line-height-small);
+    text-align: center;
+  }
+</style>
+
 <script>
   document.addEventListener("astro:page-load", () => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -120,7 +108,7 @@ if (!user) return new Response("Not Found", { status: 404 });
       e.preventDefault();
       deferredPrompt = e;
       const section = document.getElementById("pwa-install-section");
-      if (section) section.classList.remove("hidden");
+      if (section) section.hidden = false;
     });
 
     const btn = document.getElementById("pwa-install-btn");

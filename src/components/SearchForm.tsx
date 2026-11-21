@@ -26,9 +26,9 @@ export default function SearchForm({
 
   return (
     <div>
-      <h3 className="text-xl font-normal lowercase">Search</h3>
+      <h3 className="section-title">Search</h3>
       {values.tags.length ? (
-        <ul className="flex flex-wrap gap-2 py-2">
+        <ul className="tag-list padded">
           {values.tags.map((tag) => (
             <Tag
               key={tag}
@@ -42,17 +42,17 @@ export default function SearchForm({
           ))}
         </ul>
       ) : (
-        <p className="py-2 text-sm text-text-diminished">No tags selected</p>
+        <p className="no-tags">No tags selected</p>
       )}
 
-      <label className="flex w-full flex-col gap-1">
+      <label>
         <span className="sr-only">Enter tags</span>
         {input}
       </label>
       {commonTags.length ? (
         <>
-          <h3 className="text-xl font-normal lowercase">Common tags</h3>
-          <ul className="flex flex-wrap gap-2 py-2">
+          <h3 className="section-title">Common tags</h3>
+          <ul className="tag-list padded">
             {commonTags
               .filter((tag) => !values.tags.includes(tag))
               .map((tag) => (

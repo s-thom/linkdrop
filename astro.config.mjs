@@ -1,6 +1,5 @@
 import node from "@astrojs/node";
 import react from "@astrojs/react";
-import tailwindcss from "@tailwindcss/vite";
 import { defineConfig, envField } from "astro/config";
 
 export default defineConfig({
@@ -8,6 +7,7 @@ export default defineConfig({
   site: "https://linkdrop.sthom.kiwi",
   adapter: node({ mode: "standalone" }),
   integrations: [react()],
+  scopedStyleStrategy: "class",
   security: {
     checkOrigin: process.env.NODE_ENV === "production",
     allowedDomains: [
@@ -59,7 +59,5 @@ export default defineConfig({
         "~": "/src",
       },
     },
-
-    plugins: [tailwindcss()],
   },
 });

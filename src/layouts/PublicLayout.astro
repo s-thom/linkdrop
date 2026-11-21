@@ -12,7 +12,7 @@ const { title, allowSignUp = false, userLoggedIn = false } = Astro.props;
 ---
 
 <BaseLayout title={title}>
-  <div class="flex min-h-full flex-col justify-center sm:pb-16 sm:pt-8">
+  <div class="public-page">
     <Header
       size="large"
       mode={userLoggedIn ? "user" : "public"}

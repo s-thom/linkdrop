@@ -1,0 +1,51 @@
+.url {
+  display: block;
+  margin-bottom: var(--space-2);
+  font-size: var(--font-size-large);
+  line-height: var(--line-height-large);
+  overflow-wrap: break-word;
+}
+
+@media (min-width: 640px) {
+  .url {
+    font-size: var(--font-size-title);
+    line-height: var(--line-height-title);
+  }
+}
+
+.body {
+  display: flex;
+}
+
+.details {
+  flex: 1;
+  width: 0;
+}
+
+.description {
+  margin-bottom: var(--space-2);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  overflow-wrap: break-word;
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  margin-right: calc(-1 * var(--space-2));
+}
+
+.action {
+  padding: var(--space-1);
+  color: var(--color-icon);
+}
+
+.action:hover {
+  color: var(--color-icon-hover);
+}
+
+.icon {
+  width: 1.25rem;
+  height: 1.25rem;
+}

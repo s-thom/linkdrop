@@ -9,28 +9,23 @@ interface Props {
 const { commonTags } = Astro.props;
 ---
 
-<section class="mb-2 max-w-3xl border border-card-border bg-card px-4 py-2">
-  <h3 class="mb-2 block break-words text-xl font-normal lowercase">
-    Most commonly used tags
-  </h3>
-  <p class="mb-2 break-words">Here's the tags you've used most often:</p>
-  <ul class="flex flex-wrap gap-2">
-    {
-      commonTags.map((tag) => (
-        <li>
-          <a
-            href={`/links?tags=${encodeURIComponent(tag.name)}`}
-            data-umami-event="common-tag"
-          >
-            <Tag
-              component="span"
-              name={`${tag.name} (${tag._count.links})`}
-              className="cursor-pointer"
-              state="inactive"
-            />
-          </a>
-        </li>
-      ))
-    }
+<section class="card">
+  <h3 class="section-title">Most commonly used tags</h3>
+  <p>Here's the tags you've used most often:</p>
+  <ul class="tag-list">
+    {commonTags.map((tag) => (
+      <li>
+        <a
+          href={`/links?tags=${encodeURIComponent(tag.name)}`}
+          data-umami-event="common-tag"
+        >
+          <Tag
+            component="span"
+            name={`${tag.name} (${tag._count.links})`}
+            state="inactive"
+          />
+        </a>
+      </li>
+    ))}
   </ul>
 </section>

@@ -3,6 +3,7 @@ import { encodeStringArray } from "~/lib/util/stringArray";
 import { useDebounce } from "~/lib/util/useDebounce";
 import { formValuesToSearchParams } from "~/lib/util/useSearchFormState";
 import { useTagsInput } from "~/lib/util/useTagsInput";
+import styles from "./LinkForm.module.css";
 import Tag from "./Tag";
 
 export interface FormValues {
@@ -109,14 +110,11 @@ export default function LinkForm({
 
   return (
     <form method={method} action={action} onSubmit={onSubmit}>
-      <div className="my-2">
-        <label
-          htmlFor="url"
-          className="block text-sm font-medium lowercase text-label"
-        >
+      <div className="field">
+        <label htmlFor="url" className="label">
           URL
         </label>
-        <div className="mt-1">
+        <div>
           <input
             ref={urlRef}
             id="url"
@@ -127,7 +125,7 @@ export default function LinkForm({
             autoComplete="url"
             aria-invalid={errors?.url ? true : undefined}
             aria-describedby="url-error"
-            className="w-full border border-input-border bg-input px-2 py-1 text-lg"
+            className="input"
             value={urlValue}
             onChange={useCallback<React.ChangeEventHandler<HTMLInputElement>>(
               (event) => setUrlValue(event.target.value),
@@ -135,15 +133,15 @@ export default function LinkForm({
             )}
           />
           {errors?.url && (
-            <div className="pt-1 text-red-700" id="url-error">
+            <div className="field-error" id="url-error">
               {errors.url}
             </div>
           )}
           {duplicateLinks.length > 0 && !isCurrentLink && (
-            <div className="lowercase text-yellow-700" id="duplicate-warning">
+            <div className="warning" id="duplicate-warning">
               This link has been saved before.{" "}
               <a
-                className="p-1 text-nav-link hover:text-nav-link hover:no-underline active:text-nav-link-active"
+                className={styles["duplicate-link"]}
                 href={`/links/${duplicateLinks[0]}`}
               >
                 View saved link
@@ -153,19 +151,16 @@ export default function LinkForm({
         </div>
       </div>
 
-      <div className="my-2">
-        <label
-          htmlFor="description"
-          className="block text-sm font-medium lowercase text-label"
-        >
+      <div className="field">
+        <label htmlFor="description" className="label">
           Description
         </label>
-        <div className="mt-1">
+        <div>
           <textarea
             id="description"
             name="description"
             rows={3}
-            className="w-full resize-y border border-input-border bg-input px-2 py-1 text-lg"
+            className="input"
             value={descriptionValue}
             onChange={useCallback<
               React.ChangeEventHandler<HTMLTextAreaElement>
@@ -174,15 +169,12 @@ export default function LinkForm({
         </div>
       </div>
 
-      <div className="my-2">
-        <label
-          htmlFor="_tag_entry"
-          className="block text-sm font-medium lowercase text-label"
-        >
+      <div className="field">
+        <label htmlFor="_tag_entry" className="label">
           Tags
         </label>
         {tagsValue.length ? (
-          <ul className="flex flex-wrap gap-2 py-2">
+          <ul className="tag-list padded">
             {tagsValue.map((tag) => (
               <Tag
                 component="button"
@@ -195,15 +187,13 @@ export default function LinkForm({
             ))}
           </ul>
         ) : (
-          <p className="py-2 text-sm text-text-diminished">No tags entered</p>
+          <p className="no-tags">No tags entered</p>
         )}
-        <div className="mt-1">{input}</div>
+        {input}
         {remainingCommonTags.length ? (
           <>
-            <span className="block text-sm font-medium lowercase text-text-diminished">
-              Common tags
-            </span>
-            <ul className="flex flex-wrap gap-2 py-2">
+            <span className="label diminished">Common tags</span>
+            <ul className="tag-list padded">
               {remainingCommonTags.map((tag) => (
                 <Tag
                   component="button"
@@ -220,10 +210,7 @@ export default function LinkForm({
         <input type="hidden" name="tags" value={encodeStringArray(tagsValue)} />
       </div>
 
-      <button
-        type="submit"
-        className="w-full border border-button-border px-4 py-2 lowercase text-text hover:bg-button-hover active:bg-button-active"
-      >
+      <button type="submit" className="button">
         {i18n.submit}
       </button>
     </form>
